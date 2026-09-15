@@ -10,7 +10,6 @@ namespace DS
         public PlayerManager player;
         public PlayerUI playerUI;
         private PlayerControls playerControls;
-        private bool isUIOpen;
 
         [Header("Camera Movement Input")]
         [SerializeField] private Vector2 cameraInput;
@@ -84,18 +83,22 @@ namespace DS
             {
                 playerControls = new PlayerControls();
 
+                // Default
                 playerControls.Player.Move.performed += context => movementInput = context.ReadValue<Vector2>();
                 playerControls.Player.Move.canceled += context => movementInput = Vector2.zero;
                 playerControls.Player.Look.performed += context => cameraInput = context.ReadValue<Vector2>();
                 playerControls.Player.Look.canceled += context => cameraInput = Vector2.zero;
-                playerControls.Player.Jump.performed += context => jumpInput = true;
 
+                // Movement
+                playerControls.Player.Jump.performed += context => jumpInput = true;
                 playerControls.Player.Sprint.performed += context => sprintInput = true;
                 playerControls.Player.Sprint.canceled += context => sprintInput = false;
-                playerControls.Player.Attack.performed += context => attackInput = true;
-                playerControls.Player.Attack.canceled += context => attackInput = false;
                 playerControls.Player.Crouch.performed += context => crouchInput = true;
                 playerControls.Player.Crouch.canceled += context => crouchInput = false;
+                
+                // Combat
+                playerControls.Player.Attack.performed += context => attackInput = true;
+                //playerControls.Player.Attack.canceled += context => attackInput = false;
                 playerControls.Player.Interact.performed += context => interactInput = true;
                 playerControls.Player.Interact.canceled += context => interactInput = false;
 
@@ -129,26 +132,17 @@ namespace DS
             }
         }
 
-        /// <summary>
-        /// Copies the current input state into the player and locomotion systems.
-        /// </summary>
         public void HandleAllInputs()
         {
-            if (player == null)
-            {
-                player = FindAnyObjectByType<PlayerManager>();
-            }
 
+            // Player Controller
             HandleMovementInput();
             HandleCameraInput();
-            HandlePauseInput();
             HandleJumpInput();
-            HandleInteractInput();
 
-            if (player == null)
-            {
-                return;
-            }
+            HandleAttack();
+            
+            if (player == null) { return; }
         }
 
         private void SetInputEnabled(bool shouldEnable)
@@ -170,7 +164,7 @@ namespace DS
 
             if (player != null)
             {
-                player.playerLocomotionManager.HandleSprint(sprintInput && moveAmount > 0.5f);
+                player.isSprinting = sprintInput && moveAmount > 0.5f;
             }
         }
 
@@ -185,20 +179,27 @@ namespace DS
             if (jumpInput)
             {
                 jumpInput = false;
-                player.playerLocomotionManager.HandleJump();
+                player.HandleJump();
+            }
+        }
+
+        private void HandleAttack()
+        {
+            if (attackInput)
+            {
+                attackInput = false;
+                player.HandleCloseAttack();
             }
         }
 
         private void HandlePauseInput()
         {
-
             if (pauseInput)
             {
                 //PlayerUI.Instance.EnableSettingsUI();
                 pauseInput = false;
             }
         }
-
 
         private void HandleInteractInput()
         {

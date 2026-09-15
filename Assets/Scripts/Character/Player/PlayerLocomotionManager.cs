@@ -7,6 +7,7 @@ namespace DS
     {
         [Header("Systems")]
         private PlayerInputManager inputManager;
+        private PlayerManager player;
 
 
         protected override void Awake()
@@ -18,32 +19,17 @@ namespace DS
         {
             // Get Scripts
             inputManager = PlayerInputManager.Instance;
+            player = GetComponent<PlayerManager>();
         }
 
-        protected override void Update()
-        {
-            HandleMovement();
-        }
-
-        internal void HandleSprint(bool isSprinting)
-        {
-            this.isSprinting = isSprinting;
-        }
-
-        protected override void HandleMovement()
+        internal override void HandleMovement()
         {
             moveAmount = new Vector2(inputManager.movementInput.x, inputManager.movementInput.y);
 
-            currentSpeed = isSprinting ? baseSpeed * 1.5f : isCrouching ? baseSpeed * 0.5f : baseSpeed;
+            currentSpeed = player.isSprinting ? baseSpeed * 1.5f : player.isCrouching ? baseSpeed * 0.5f : baseSpeed;
 
             rigidBody.linearVelocityX = moveAmount.x * Time.deltaTime * currentSpeed * 100;
 
         }
-
-        public override void HandleJump()
-        {
-            base.HandleJump();
-        }
-
     }
 }

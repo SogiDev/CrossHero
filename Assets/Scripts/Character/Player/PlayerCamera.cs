@@ -1,0 +1,106 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+namespace DS {
+
+    [RequireComponent(typeof(Camera))]
+    public class PlayerCamera : MonoBehaviour
+    {
+        public static PlayerCamera Instance { get; private set; }
+
+        private PlayerManager player;
+        public Camera camera { get; private set; }
+
+
+        [Header("Mouse Info")]
+        public Vector2 MouseScreenPosition { get; private set; }
+        public Vector2 MouseWorldPosition { get; private set;}
+
+        [SerializeField] private Transform cameraPivotTransform;
+
+
+        [Header("Follow Settings")]
+        [SerializeField] private float cameraSmoothSpeed = 8f;
+        [SerializeField] private Vector3 cameraTargetOffset = new (0f, 0.0f, -1.0f);
+        [SerializeField] private float cameraDistance = 5f;
+        [SerializeField] private float minimumCameraDistance = 0.5f;
+
+
+        private float currentCameraDistance;
+
+        private void Awake()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject.transform.root);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+
+            transform.SetParent(null);
+            camera = GetComponent<Camera>();
+
+            currentCameraDistance = Mathf.Clamp(cameraDistance, minimumCameraDistance, cameraDistance);
+            SetCameraLocalPosition(currentCameraDistance);
+
+        }
+
+        private void Start()
+        {
+            player = PlayerManager.Instance;
+        }
+
+        private void Update()
+        {
+            MouseScreenPosition = Mouse.current.position.ReadValue();
+            MouseWorldPosition = camera.ScreenToWorldPoint(MouseScreenPosition);
+        }
+
+        private void LateUpdate()
+        {
+            HandleFollowTarget();
+        }
+
+        public void HandleAllCameraActions()
+        {
+            if (player == null || camera == null || cameraPivotTransform == null)
+            {
+                return;
+            }
+
+            //HandleFollowTarget();
+            transform.position = player.transform.position + cameraTargetOffset;
+
+        }
+        private void HandleFollowTarget()
+        {
+            var targetPosition = player.transform.position + cameraTargetOffset;
+            var followBlend = 1f - Mathf.Exp(-cameraSmoothSpeed * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, targetPosition, followBlend);
+        }
+
+        private bool IsPlayerCollider(Collider hitCollider)
+        {
+            if (player == null)
+            {
+                return false;
+            }
+
+            var hitTransform = hitCollider.transform;
+            return hitTransform == player.transform || hitTransform.IsChildOf(player.transform);
+        }
+
+        private void SetCameraLocalPosition(float distance)
+        {
+            if (camera == null)
+            {
+                return;
+            }
+
+            camera.transform.localPosition = new Vector3(0f, 0f, -distance);
+        }
+    }
+}

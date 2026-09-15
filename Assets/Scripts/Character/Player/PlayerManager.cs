@@ -4,6 +4,7 @@ namespace DS
 {
     [RequireComponent(typeof(PlayerAnimationManager))]
     [RequireComponent(typeof(PlayerLocomotionManager))]
+    [RequireComponent(typeof(PlayerCombatManager))]
     public class PlayerManager : CharacterManager
     {
         public static PlayerManager Instance;
@@ -12,6 +13,7 @@ namespace DS
         [SerializeField] private PlayerInputManager inputManager;
         internal PlayerLocomotionManager playerLocomotionManager;
         internal PlayerAnimationManager playerAnimationManager;
+        internal PlayerCombatManager playerCombatManager;
 
         protected override void Awake()
         {
@@ -26,6 +28,7 @@ namespace DS
             base.Awake();
             playerLocomotionManager = GetComponent<PlayerLocomotionManager>();
             playerAnimationManager = GetComponent<PlayerAnimationManager>();
+            playerCombatManager = GetComponent<PlayerCombatManager>();
         }
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -39,6 +42,7 @@ namespace DS
         protected override void Update()
         {
             base.Update();
+            inputManager.HandleAllInputs();
         }
     }
 }

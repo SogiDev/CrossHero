@@ -12,21 +12,10 @@ namespace DS
             inputManager = PlayerInputManager.Instance;
         }
 
-        protected override void Update()
+        internal override void HandleMovement()
         {
-            HandleMovement();
-        }
-
-        internal void HandleSprint(bool sprint)
-        {
-            isSprinting = sprint;
-        }
-
-        protected override void HandleMovement()
-        {
-            moveAmount = new Vector2(inputManager.movementInput.x, inputManager.movementInput.y);
-
             base.HandleMovement();
+            moveAmount = new Vector2(inputManager.movementInput.x, inputManager.movementInput.y);
         }
 
     }
