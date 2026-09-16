@@ -30,21 +30,5 @@ namespace DS
             base.Update();
             targetPosition = camera.MouseWorldPosition;
         }
-
-        internal override void CloseAttack()
-        {
-            base.CloseAttack();
-        }
-
-        internal override void ProjectileAttack()
-        {
-            base.ProjectileAttack();
-        }
-
-        internal override void Support()
-        {
-            base.Support();
-        }
-
     }
 }

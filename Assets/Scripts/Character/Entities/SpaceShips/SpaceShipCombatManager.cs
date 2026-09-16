@@ -19,7 +19,7 @@ namespace DS
 
             targetPosition = transform.right + transform.position;
 
-            ProjectileAttack();
+            StartCoroutine(ProjectileAttack());
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

@@ -7,9 +7,17 @@ namespace DS
     [RequireComponent(typeof(CircleCollider2D))]
     public class Projectile : MonoBehaviour
     {
+        private Rigidbody2D rigidbody;
 
         [SerializeField] public float damage;
         public GameObject sender;
+        private Vector2 moveAmount = new (1, 0);
+        public float speed = 5;
+
+        private void Update()
+        {
+            rigidbody.linearVelocity = moveAmount * (Time.deltaTime * speed);
+        }
 
         private void OnCollisionEnter2D(Collision2D collision)
         {

@@ -29,8 +29,7 @@ namespace DS
         {
             if (canSpawn && !isStartingWave) { StartCoroutine(SpawnEntity()); }
 
-            //if (entityCount <= 0 && spawnedEntities.Length <= 0) { StartCoroutine(NewWave()); }
-            if (entityCount <= 0 && !isStartingWave) { StartCoroutine(NewWave()); }
+            if (entityCount <= 0 && spawnedEntities.Length <= 0 && !isStartingWave) { StartCoroutine(NewWave()); }
         }
 
         private readonly WaitForSeconds roundTimer = new(5);
