@@ -29,7 +29,7 @@ namespace DS
         [Header("Attack Info")]
         [SerializeField] protected int baseDamage = 1;
          public float currentDamage = 2;
-        [SerializeField] protected float attackTimer = 3;
+        [SerializeField] protected float attackTimer = 5.0f;
 
         
         protected virtual void Awake()
@@ -74,19 +74,19 @@ namespace DS
         // Projectile Attack
         internal virtual void ProjectileAttack()
         {
+            if (character.isAttacking) return;
             var direction = targetPosition - new Vector2(transform.position.x, transform.position.y);
-
             StartCoroutine(ShootProjectile(forwardPosition, direction, 100));
             
             // Laser Like Raycast
             //var length = Mathf.Sqrt( Mathf.Sqrt(direction.x) + Mathf.Sqrt(direction.y) );
-            //var hit = Physics2D.Raycast(forwardPosition, direction, length);
-            character.isAttacking = false;
+            //var hit = Physics2D.Raycast(forwardPosition, direction, length)
             
         }
 
         private IEnumerator ShootProjectile(Vector2 position, Vector2 direction, float force)
         {
+            character.isAttacking = true;
             var clone = Instantiate(projectile, position, Quaternion.identity, null);
             if (clone.TryGetComponent<Rigidbody2D>(out var rigidbody))
             {
@@ -100,7 +100,10 @@ namespace DS
 
             Destroy(clone, 10.0f);
 
-            character.isAttacking = true;
+            if (clone.TryGetComponent<Projectile>(out var bullet))
+            {
+                bullet.sender = gameObject;
+            }
 
             yield return new WaitForSeconds(attackTimer);
 

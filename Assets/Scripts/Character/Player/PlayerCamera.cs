@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,6 +12,10 @@ namespace DS {
         private PlayerManager player;
         public Camera camera { get; private set; }
 
+        [Header("Camera Flags")]
+        [SerializeField] internal bool lockX = false;
+        [SerializeField] internal bool lockY = false;
+        [SerializeField] internal Vector2 lockPosition = Vector2.zero;
 
         [Header("Mouse Info")]
         public Vector2 MouseScreenPosition { get; private set; }
@@ -62,6 +67,8 @@ namespace DS {
         private void LateUpdate()
         {
             HandleFollowTarget();
+            if (lockX) { transform.position = new Vector3(lockPosition.x, transform.position.y, transform.position.z); };
+            if (lockY) { transform.position = new Vector3(transform.position.x, lockPosition.y, transform.position.z); };
         }
 
         public void HandleAllCameraActions()

@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -17,13 +18,17 @@ namespace DS
         internal bool isWalking, isCrouching, isJumping, isGrounded, isAttacking;
 
         [Header("Status")]
-        [SerializeField] private int maxHealth = 10;
-        [SerializeField] private float health = 10;
-        public float Health => health;
+        [SerializeField] private bool canSetStat  = false;
+        public int maxHealth { get; private set;  } = 10;
+        public float health = 10;
 
-        [SerializeField] private int maxEnergy = 10;
-        [SerializeField] private float energy = 10;
-        public float Energy => energy;
+        public int maxEnergy { get; private set; } = 10;
+        public float energy = 10;
+        public int baseSpeed { get; private set; } = 1;
+        public float currentSpeed = 1;
+
+        public int baseDamage { get; private set; } = 1;
+        public float currentDamage = 1;
 
 
         protected virtual void Awake()
@@ -56,13 +61,32 @@ namespace DS
             }
         }
 
-        private void HandleGrounded()
+        public void SetStat(float hp, float eng, float sp, float dmg)
+        {
+            if (canSetStat)
+            {
+                health = maxHealth = Mathf.RoundToInt(hp);
+                energy = maxEnergy = Mathf.RoundToInt(eng);
+                currentSpeed = baseSpeed = Mathf.RoundToInt(sp);
+                currentDamage = baseDamage = Mathf.RoundToInt(dmg);
+
+                canSetStat = false;
+            }
+            else
+            {
+                Debug.LogWarning("Can't Set Stat", gameObject);
+                return;
+            }
+
+        }
+
+        protected virtual void HandleGrounded()
         {
             characterLocomotionManager.HandleGrounded();
             characterAnimationManager.HandleGrounded(isGrounded);
         }
 
-        private void HandleMovement()
+        protected virtual void HandleMovement()
         {
             characterLocomotionManager.HandleMovement();
             characterAnimationManager.HandleMovement();
@@ -81,6 +105,5 @@ namespace DS
             characterCombatManager.CloseAttack();
             characterAnimationManager.HandleCloseAttack();
         }
-
     }
 }

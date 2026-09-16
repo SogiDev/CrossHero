@@ -11,9 +11,6 @@ namespace DS
         protected Vector2 moveAmount = Vector2.zero;
 
         [Header("Status")]
-        [SerializeField] protected int baseSpeed = 25;
-        protected float currentSpeed = 5;
-        public float CurrentSpeed => currentSpeed;
         [SerializeField] protected float jumpForce = 10f;
 
         [SerializeField] private LayerMask groundLayer;
@@ -35,8 +32,9 @@ namespace DS
 
         internal virtual void HandleMovement()
         {
-            currentSpeed = character.isSprinting ? baseSpeed * 1.5f : character.isCrouching ? baseSpeed * 0.5f : baseSpeed;
-            rigidBody.linearVelocityX = moveAmount.x * Time.deltaTime * currentSpeed * 100;
+            character.currentSpeed = character.isSprinting ? character.baseSpeed * 1.5f : character.isCrouching ? character.baseSpeed * 0.5f : character.baseSpeed;
+            rigidBody.linearVelocityX = moveAmount.x * Time.deltaTime * character.currentSpeed * 100;
+            rigidBody.linearVelocityY = moveAmount.y * Time.deltaTime * character.currentSpeed * 100;
         }
 
 

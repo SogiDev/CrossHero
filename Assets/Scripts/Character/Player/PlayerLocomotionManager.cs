@@ -26,9 +26,9 @@ namespace DS
         {
             moveAmount = new Vector2(inputManager.movementInput.x, inputManager.movementInput.y);
 
-            currentSpeed = player.isSprinting ? baseSpeed * 1.5f : player.isCrouching ? baseSpeed * 0.5f : baseSpeed;
+            player.currentSpeed = player.isSprinting ? player.baseSpeed * 1.5f : player.isCrouching ? player.baseSpeed * 0.5f : player.baseSpeed;
 
-            rigidBody.linearVelocityX = moveAmount.x * Time.deltaTime * currentSpeed * 100;
+            rigidBody.linearVelocityX = moveAmount.x * Time.deltaTime * player.currentSpeed * 100;
 
         }
     }
