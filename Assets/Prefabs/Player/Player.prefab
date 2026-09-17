@@ -97,7 +97,7 @@ SpriteRenderer:
   m_Size: {x: 0.24, y: 0.35}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
 --- !u!70 &4662892218410680698
@@ -190,7 +190,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e173202286758204eb2095eba2ba083e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DS.PlayerLocomotionManager
-  baseSpeed: 5
   jumpForce: 10
   groundLayer:
     serializedVersion: 2
@@ -207,10 +206,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a5ba57852b077488d345aeb0606797, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DS.PlayerManager
-  maxHealth: 10
+  canSetStat: 0
   health: 10
-  maxEnergy: 10
   energy: 10
+  currentSpeed: 1
+  currentDamage: 1
   inputManager: {fileID: 0}
 --- !u!95 &7589513995954219893
 Animator:
@@ -258,12 +258,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5472236fa6f667940a3d1c4fadcac482, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DS.PlayerCombatManager
+  attackOffset: 1.5
+  closeAttackTimer: 1
+  laserAttackTimer: 1
+  projectileAttackTimer: 1
+  supportTimer: 1
   closeCombatRange: 3
   closeAttackRange: 2
-  projectile: {fileID: 0}
-  projectileCombatRange: 8
+  projectile: {fileID: 4376647982787641981, guid: 67c7f3dc33c111a4b97ce9ce6cefde2f, type: 3}
   projectileAttackRange: 8
-  supportRangeCombatRange: 5
+  projectileSpeed: 8
+  supportRange: 5
   baseDamage: 1
   currentDamage: 2
-  attackTimer: 3
+  laserDamageOffset: 0.1

@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 2582073537054051634}
   - component: {fileID: 2146567580435213347}
   - component: {fileID: 3007092116359092616}
+  - component: {fileID: 5821737931134116634}
   - component: {fileID: 3922153186834771856}
   - component: {fileID: 867347137421741552}
   - component: {fileID: 189079425687510544}
   - component: {fileID: 2685070692904326852}
-  - component: {fileID: 5821737931134116634}
   m_Layer: 7
   m_Name: Turret
   m_TagString: Untagged
@@ -172,6 +172,23 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &5821737931134116634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961300003793627865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ebfe47088d870f478900bb6a56e7d07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DS.TurretManager
+  canSetStat: 1
+  health: 10
+  energy: 10
+  currentSpeed: 1
+  currentDamage: 1
 --- !u!114 &3922153186834771856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,17 +202,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DS.TurretCombatManager
   attackOffset: 1.5
+  closeAttackTimer: 1
+  laserAttackTimer: 1
+  projectileAttackTimer: 1
+  supportTimer: 1
   closeCombatRange: 3
   closeAttackRange: 2
-  projectile: {fileID: 0}
+  projectile: {fileID: 4376647982787641981, guid: 67c7f3dc33c111a4b97ce9ce6cefde2f, type: 3}
   projectileCombatRange: 8
   projectileAttackRange: 8
   projectileSpeed: 8
   supportRange: 5
   baseDamage: 1
   currentDamage: 2
-  attackTimer: 5
-  searchRadius: 0
+  laserDamageOffset: 0.1
+  searchRadius: 20
+  attackType: 2
 --- !u!114 &867347137421741552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,20 +268,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fdda155e1dd1bf4eb69771317271ed3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DS.CharacterAnimationManager
---- !u!114 &5821737931134116634
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 961300003793627865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ebfe47088d870f478900bb6a56e7d07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DS.TurretManager
-  canSetStat: 1
-  health: 10
-  energy: 10
-  currentSpeed: 1
-  currentDamage: 1

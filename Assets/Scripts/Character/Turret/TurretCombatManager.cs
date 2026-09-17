@@ -19,17 +19,32 @@ namespace DS
         [Header("Turret")]
         [SerializeField] private float searchRadius = 20;
         [SerializeField] private TurretAttackType attackType;
+        [SerializeField] private GameObject target = null;
 
-        
+
+        protected override void Awake()
+        {
+            base.Awake();
+        }
 
         protected override void Update()
         {
-            
-            if (SearchInRange() is var target && target != null)
+            base.Update();
+
+            if (target != null && !IsTargetInRange(target)) { target = null;}
+
+            if (target == null) { SearchInRange(); }
+
+            if (target)
             {
                 targetPosition = target.transform.position;
                 AttackTarget(target);
             }
+
+            // Attack Radius must always be equal to search radius
+            closeAttackRange = searchRadius;
+            projectileAttackRange = searchRadius;
+            supportRange = searchRadius;
 
         }
 
@@ -37,37 +52,49 @@ namespace DS
         {
             switch (attackType)
             {
-                case (TurretAttackType.TURRET_CLOSE): 
+                case TurretAttackType.TURRET_CLOSE: 
                     StartCoroutine(CloseAttack());
                     break;
-                case (TurretAttackType.TURRET_LASER): 
+                case TurretAttackType.TURRET_LASER: 
                     StartCoroutine(LaserAttack());
                     break;
-                case (TurretAttackType.TURRET_PROJECTILE): 
+                case TurretAttackType.TURRET_PROJECTILE: 
                     StartCoroutine(ProjectileAttack());
                     break;
-                case (TurretAttackType.TURRET_SUPPORT): 
+                case TurretAttackType.TURRET_SUPPORT: 
                     StartCoroutine(Support());
                     break;
-
             }
         }
 
-        private GameObject SearchInRange()
+        private bool IsTargetInRange(GameObject obj)
         {
+            var distance = obj.transform.position - transform.position;
+            return distance.magnitude <= searchRadius;
+        }
 
+        private bool SearchInRange()
+        {
             if (Physics2D.CircleCast(transform.position, searchRadius, forwardPosition) is var hit && hit.collider != null)
             {
-                if (hit.distance <= searchRadius)
+                if (!hit.collider.gameObject.CompareTag("Entity")) { return false;}
+
+                if (IsTargetInRange(hit.collider.gameObject))
                 {
-                    return hit.collider.gameObject;
+                    target = hit.collider.gameObject;
+                    return true;
+                }
+                else
+                {
+                    target = null;
                 }
             }
-            return null;
+            return false;
         }
 
-        private void OnDrawGizmosSelected()
+        protected override void OnDrawGizmosSelected()
         {
+            base.OnDrawGizmosSelected();
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, searchRadius);
         }

@@ -57,18 +57,18 @@ namespace DS
 
 
             var entity = Instantiate(spaceShipPrefab, position, Quaternion.identity, null);
-
             // Add To Objects
             List<GameObject> list = new (spawnedEntities);
             list.Add(entity);
             spawnedEntities = list.ToArray();
 
             // Random Space Ship
+            var random = Random.Range(0, spaceShips.Length);
             if (entity.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
             {
-                var random = Random.Range(0, spaceShips.Length);
                 spriteRenderer.sprite = spaceShips[random];
             }
+            entity.name = "Ship " + random;
 
             // Random Stats Based On Wave
             if (entity.TryGetComponent<CharacterManager>(out var character))

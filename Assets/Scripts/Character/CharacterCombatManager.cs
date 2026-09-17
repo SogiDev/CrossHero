@@ -23,17 +23,20 @@ namespace DS
 
 
         [Header("Close Combat Info")]
+        // Area of Combat Size
         [SerializeField] protected int closeCombatRange = 3;
-        [SerializeField] protected int closeAttackRange = 2;
+        // Range of Combat Size
+        [SerializeField] protected float closeAttackRange = 2;
 
         [Header("Ranged Combat Info")]
         [SerializeField] protected GameObject projectile;
-        [SerializeField] protected int projectileCombatRange = 8;
-        [SerializeField] protected int projectileAttackRange = 8;
+        // Range of Combat Size
+        [SerializeField] protected float projectileAttackRange = 8;
         [SerializeField] protected int projectileSpeed = 8;
 
         [Header("Support Info")]
-        [SerializeField] protected int supportRange = 5;
+        // Area of Support Range
+        [SerializeField] protected float supportRange = 5;
 
         [Header("Attack Info")]
         [SerializeField] protected int baseDamage = 1;
@@ -55,7 +58,8 @@ namespace DS
         protected virtual void Update()
         {
             currentDamage = baseDamage;
-            forwardPosition = spriteRenderer.flipX ? transform.position - transform.right * attackOffset : transform.position + transform.right * attackOffset;
+            forwardPosition = spriteRenderer.flipX ? transform.position - transform.right * attackOffset
+             : transform.position + transform.right * attackOffset;
         }
         
         // Search For Target In Range
@@ -98,7 +102,6 @@ namespace DS
             if (character.isAttacking) yield break;
             var direction = targetPosition - new Vector2(transform.position.x, transform.position.y);
 
-            Debug.Log("Create Projectile", gameObject);
             // Create Projectile
             character.isAttacking = true;
             var clone = Instantiate(projectile, forwardPosition, Quaternion.identity, null);
@@ -124,7 +127,6 @@ namespace DS
             }
 
             yield return new WaitForSeconds(projectileAttackTimer);
-            Debug.Log("Reset");
             character.isAttacking = false;
         }
 
@@ -161,7 +163,7 @@ namespace DS
             yield break;
         }
 
-        private void OnDrawGizmosSelected()
+        protected virtual void OnDrawGizmosSelected()
         {
             // Draw Close Attack
             Gizmos.color = Color.coral;
@@ -169,7 +171,10 @@ namespace DS
 
             // Draw Ranged Attack
             Gizmos.color = Color.darkMagenta;
-            Gizmos.DrawRay(forwardPosition, targetPosition);
+            Gizmos.DrawLine(forwardPosition, targetPosition);
+
+            Gizmos.color = Color.violetRed;
+            Gizmos.DrawWireSphere(forwardPosition, projectileAttackRange);
 
             // Draw Support Attack
             Gizmos.color = Color.floralWhite;

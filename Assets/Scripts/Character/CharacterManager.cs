@@ -19,10 +19,10 @@ namespace DS
 
         [Header("Status")]
         [SerializeField] private bool canSetStat  = false;
-        public int maxHealth { get; private set;  } = 10;
+        [SerializeField] private int maxHealth = 10;
         public float health = 10;
 
-        public int maxEnergy { get; private set; } = 10;
+        [SerializeField] private int maxEnergy = 10;
         public float energy = 10;
         public int baseSpeed { get; private set; } = 1;
         public float currentSpeed = 1;
@@ -51,7 +51,10 @@ namespace DS
         public void TakeDamage(float damage)
         {
             // Make Sound
-            characterAnimationManager.animator.SetTrigger(Animator.StringToHash("OnHit"));
+            if (characterAnimationManager != null && characterAnimationManager.enabled)
+            {
+                characterAnimationManager.animator.SetTrigger(Animator.StringToHash("OnHit"));
+            }
             health -= damage;
             if (health <= 0)
             {
