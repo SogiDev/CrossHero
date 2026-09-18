@@ -59,6 +59,7 @@ namespace DS
             {
                 characterAnimationManager.animator.SetTrigger(Animator.StringToHash("OnHit"));
             }
+            
             health -= damage;
             if (health <= 0)
             {

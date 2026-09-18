@@ -99,7 +99,7 @@ namespace DS
                 var eng = 10 - dmg;
 
                 character.SetStat(
-                    hp * (WaveCount * WaveScale) * 100,
+                    hp * (WaveCount * WaveScale) * 10,
                     eng * (WaveCount * WaveScale) * 100,
                     sp * (WaveCount * WaveScale),
                     dmg * (WaveCount * WaveScale));

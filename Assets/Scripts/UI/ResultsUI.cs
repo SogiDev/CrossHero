@@ -11,7 +11,7 @@ namespace DS {
 
         private void Start()
         {
-
+            playerData = WorldManager.Instance.playerData;
         }
         private void FixedUpdate()
         {

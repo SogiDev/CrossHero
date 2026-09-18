@@ -6,7 +6,7 @@ namespace DS
     public class CharacterLocomotionManager : MonoBehaviour
     {
 
-        private CharacterManager character;
+        protected CharacterManager character;
         protected Rigidbody2D rigidBody;
         protected Vector2 moveAmount = Vector2.zero;
 

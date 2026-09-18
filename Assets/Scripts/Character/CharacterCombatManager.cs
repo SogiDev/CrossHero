@@ -138,6 +138,11 @@ namespace DS
             character.isAttacking = true;
             var clone = Instantiate(projectile, forwardPosition, Quaternion.identity, null);
 
+            if (clone.TryGetComponent<Collider2D>(out var collider))
+            {
+                collider.isTrigger = true;
+            }
+
             // RigidBody Add Force
             if (clone.TryGetComponent<Rigidbody2D>(out var rigidbody))
             {

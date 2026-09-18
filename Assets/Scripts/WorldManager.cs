@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -126,10 +126,29 @@ namespace DS
         }
 
         #region Scene Management
-        public IEnumerator LoadScene()
+        public IEnumerator LoadScene(int sceneIndex)
         {
+            Debug.Log("Load Scene: " + sceneIndex, gameObject);
+            //PlayerUI.Instance.loadingScreen.SetActive(true);
+            var activeScene = SceneManager.GetActiveScene();
 
+            AsyncOperation loadOperation = SceneManager.LoadSceneAsync(sceneIndex, LoadSceneMode.Single);
+            
+            // Loading Bar
+            while (!loadOperation.isDone)
+            {
+                float progressValue = Mathf.Clamp01(loadOperation.progress / 0.9f);
+                //PlayerUI.Instance.loadingBar.Value = progressValue;
+                yield return null;
+            }
+
+            if (loadOperation.isDone)
+            {
+                // Set Up Scene
+            }
+        
         }
+#endregion
 
         #region Save Data
         public void Save() { SaveManager.SaveGame(playerData); }

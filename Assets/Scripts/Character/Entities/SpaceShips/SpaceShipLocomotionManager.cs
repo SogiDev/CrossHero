@@ -22,39 +22,24 @@ namespace DS
         {
             base.Update();
 
-            forwardRay.direction = transform.position + transform.right;
-            forwardRay.direction = transform.position + transform.right * 20;
+            forwardRay.origin = transform.position + transform.right;
+            forwardRay.direction = transform.position + transform.right * 10.0f;
         }
 
         internal override void HandleMovement()
         {
 
             moveAmount.x = 1;
-            moveAmount.y = 0;
-            /*
-            // Check if any object is infront of us
-            if (Physics2D.Raycast(forwardRay.origin, forwardRay.direction, 20, LayerMask.GetMask("Environment")) is var hit)
-            {
-                if (hit.collider == null) return;
-                if (hit.distance <= 5)
-                {
-                    moveAmount.y = 5.0f;
-                }
-            }
-            else
-            {
-                moveAmount.y = 0.0f;
-            }
-            */
             
-            
-            if (Physics2D.Raycast(forwardRay.origin, forwardRay.direction, 20, LayerMask.GetMask("Turret")) is var turret)
+            if (Physics2D.Raycast(forwardRay.origin, forwardRay.direction, 20, LayerMask.GetMask("Turret")) is var turret && turret.collider != null)
             {
                 // Stop and Move at Half Speed
-                moveAmount.x *= 0.5f;
+                moveAmount.x = 0.5f;
             }
-
-            base.HandleMovement();
+            
+            character.currentSpeed = character.isSprinting ? character.BaseSpeed * 1.5f : character.isCrouching ? character.BaseSpeed * 0.5f : character.BaseSpeed;
+            rigidBody.linearVelocityX = moveAmount.x * Time.deltaTime * character.currentSpeed * 100;
+            rigidBody.linearVelocityY = 0;
         }
 
 
