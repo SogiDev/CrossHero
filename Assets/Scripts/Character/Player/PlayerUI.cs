@@ -1,31 +1,44 @@
 using UnityEngine;
 
-public class PlayerUI : MonoBehaviour
+namespace DS
 {
-
-    public static PlayerUI Instance;
-
-    private void Awake()
+    public class PlayerUI : MonoBehaviour
     {
-        if (Instance == null)
+
+        public static PlayerUI Instance;
+
+        [SerializeField] internal RoundUI roundUI;
+        [SerializeField] internal StoreUI storeUI;
+        [SerializeField] internal TurretUI turretUI;
+
+        private void Awake()
         {
-            Instance = this;
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
-        else
+
+        // Start is called once before the first execution of Update after the MonoBehaviour is created
+        void Start()
         {
-            Destroy(gameObject);
+
         }
-    }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+        // Update is called once per frame
+        void Update()
+        {
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        }
+
+        public void ShowStore(TurretSurface turretSurface)
+        {
+            storeUI.gameObject.SetActive(true);
+            storeUI.SetPurchaseButton(turretSurface);
+        }
     }
 }

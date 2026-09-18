@@ -1,14 +1,27 @@
 using System.Collections;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 namespace DS
 {
+    public enum AttackType
+    {
+        NONE,
+        CLOSE,
+        PROJECTILE,
+        LASER,
+        SUPPORT
+    }
+
     public class CharacterCombatManager : MonoBehaviour
     {
+
         protected CharacterManager character;
         protected SpriteRenderer spriteRenderer;
+        protected AttackType attackType;
 
         [Header("Targert Info")]
-        protected Vector2 targetPosition;
+        protected GameObject target;
+        [SerializeField] protected LayerMask targetMask;
         protected Ray2D targetRay;
         protected Vector2 forwardPosition;
         [SerializeField] protected float attackOffset = 1.5f;
@@ -56,6 +69,40 @@ namespace DS
         // Search For Target In Range
         // Assign Target To Entity
 
+        private bool IsTargetInRange(GameObject obj)
+        {
+
+            var searchRange = attackType == AttackType.LASER || attackType == AttackType.PROJECTILE ? projectileAttackRange :
+                attackType == AttackType.CLOSE ? closeAttackRange :
+                supportRange;
+
+            var distance = transform.position - obj.transform.position;
+            var length = distance.magnitude;
+
+            return distance.magnitude <= searchRange;
+
+            
+
+        }
+        /*
+        private GameObject FindTargetInRange(LayerMask mask)
+        {
+            var searchRange = attackType == AttackType.LASER || attackType == AttackType.PROJECTILE ? projectileAttackRange :
+                attackType == AttackType.CLOSE ? closeAttackRange :
+                supportRange;
+
+            if (Physics2D.OverlapCircle(forwardPosition, searchRange, mask) is var hit && hit != null)
+            {
+                if (hit.gameObject == gameObject) { return target = null; }
+
+                target = obj;
+                return (hit.gameObject != gameObject);
+
+            }
+            return false;
+        }
+        */
+
         // Close Combat Attack
         internal virtual IEnumerator CloseAttack()
         {
@@ -91,7 +138,7 @@ namespace DS
         internal virtual IEnumerator ProjectileAttack()
         {
             if (character.isAttacking) yield break;
-            var direction = targetPosition - new Vector2(transform.position.x, transform.position.y);
+            var direction = target.transform.position - new Vector3(transform.position.x, transform.position.y);
 
             // Create Projectile
             character.isAttacking = true;
@@ -106,6 +153,7 @@ namespace DS
             if (clone.TryGetComponent<Projectile>(out var bullet))
             {
                 bullet.sender = gameObject;
+                bullet.damage = currentDamage;
             }
 
             Destroy(clone, 3.0f);
@@ -117,14 +165,17 @@ namespace DS
         internal virtual IEnumerator LaserAttack()
         {
             if (character.isAttacking) yield break;
+            /*
             var direction = targetPosition - new Vector2(transform.position.x, transform.position.y);
 
             var length = Mathf.Sqrt( Mathf.Sqrt(direction.x) + Mathf.Sqrt(direction.y) );
             
             if (Physics2D.Raycast(forwardPosition, direction, length) is var hit && hit.collider != null)
             {
+                if (hit.collider.gameObject == gameObject) { yield break; }
                 if (hit.collider.gameObject.TryGetComponent<CharacterManager>(out var entity))
                 {
+                    targetPosition = hit.collider.transform.position;
                     entity.TakeDamage(baseDamage * laserDamageOffset);
                     character.isAttacking = true;
                     yield return new WaitForSeconds(laserAttackTimer * laserDamageOffset);
@@ -132,7 +183,20 @@ namespace DS
                     yield break;
                 }
             }
-
+            if (Physics2D.Raycast(forwardPosition, direction, length) is var hit && hit.collider != null)
+            {
+                if (hit.collider.gameObject == gameObject) { yield break; }
+                if (hit.collider.gameObject.TryGetComponent<CharacterManager>(out var entity))
+                {
+                    targetPosition = hit.collider.transform.position;
+                    entity.TakeDamage(baseDamage * laserDamageOffset);
+                    character.isAttacking = true;
+                    yield return new WaitForSeconds(laserAttackTimer * laserDamageOffset);
+                    character.isAttacking = false;
+                    yield break;
+                }
+            }
+            */
             character.isAttacking = false;
             yield break;
         }
@@ -148,20 +212,31 @@ namespace DS
 
         protected virtual void OnDrawGizmosSelected()
         {
-            // Draw Close Attack
-            Gizmos.color = Color.coral;
-            Gizmos.DrawWireSphere(forwardPosition, closeAttackRange);
+            if (attackType == AttackType.CLOSE)
+            {
+                // Draw Close Attack
+                Gizmos.color = Color.coral;
+                Gizmos.DrawWireSphere(forwardPosition, closeAttackRange);
+            }
+            
+            if (attackType == AttackType.LASER)
+            {
+                // Draw Ranged Attack
+                Gizmos.color = Color.darkMagenta;
+                Gizmos.DrawLine(forwardPosition, target.transform.position);
+            }
+            
+            if (attackType == AttackType.PROJECTILE){
+                Gizmos.color = Color.violetRed;
+                Gizmos.DrawWireSphere(forwardPosition, projectileAttackRange);
+            }
+            
+            if (attackType == AttackType.SUPPORT){
 
-            // Draw Ranged Attack
-            Gizmos.color = Color.darkMagenta;
-            Gizmos.DrawLine(forwardPosition, targetPosition);
-
-            Gizmos.color = Color.violetRed;
-            Gizmos.DrawWireSphere(forwardPosition, projectileAttackRange);
-
-            // Draw Support Attack
-            Gizmos.color = Color.floralWhite;
-            Gizmos.DrawWireSphere(forwardPosition, supportRange);
+                // Draw Support Attack
+                Gizmos.color = Color.floralWhite;
+                Gizmos.DrawWireSphere(forwardPosition, supportRange);
+            }
 
         }
     }

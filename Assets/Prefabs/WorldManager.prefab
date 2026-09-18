@@ -45,10 +45,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DS.WorldManager
   playerData:
-    currentScore: 0
-    currentWave: 0
-    placedTurrets: 0
+    currentSession: 0
+    currentRound:
+      score: 0
+      wave: 0
+      turretsPlaced: 0
     rounds:
     - score: 0
       wave: 0
       turretsPlaced: 0
+  saveGame: 0
+  loadGame: 0
+  allTurretData:
+  - {fileID: 11400000, guid: 7493c2eebb9c46041bb2234da8565046, type: 2}
+  - {fileID: 11400000, guid: 933407f21dafbcb48921c99bc475fc8e, type: 2}
+  - {fileID: 11400000, guid: 3c27af6512956204589aeeec8e3fd1c7, type: 2}
+  - {fileID: 11400000, guid: 00b0016937e21744b9688fe47cc38ab7, type: 2}
+  - {fileID: 11400000, guid: 6dcb4b0dc72033946ae2a5732982e209, type: 2}
+  - {fileID: 11400000, guid: 5b34f08d2677c784e87350ad64f86db2, type: 2}
+  - {fileID: 11400000, guid: efb46008ea206464e9903a02cba87610, type: 2}
+  - {fileID: 11400000, guid: b4a97b40e8da463478f8508560d8674b, type: 2}
+  - {fileID: 11400000, guid: 86720ade72a85974ca1ad09fdb25817d, type: 2}
+  - {fileID: 11400000, guid: 8e4d1e1c8ee3cee4899749596a48c905, type: 2}

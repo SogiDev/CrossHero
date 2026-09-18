@@ -15,6 +15,7 @@ MonoBehaviour:
   turretName: Eclipse Anti-Matter Shooter
   turretImage: {fileID: -8197366751933992687, guid: cc81eaed06cc943479c82f82cf43a275, type: 3}
   attackType: 2
+  cost: 100
   maxHealth: 100
   maxEnergy: 100
   baseDamage: 5

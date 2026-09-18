@@ -1,16 +1,27 @@
 using UnityEngine;
-
-public class RouindUI : MonoBehaviour
+using TMPro;
+namespace DS
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class RoundUI : MonoBehaviour
     {
-        
-    }
+        [SerializeField] private TMP_Text waveCounter;
+        [SerializeField] private TMP_Text scoreCounter;
+        [SerializeField] private TMP_Text turretCounter;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private GameData data;
+        private void Start()
+        {
+            if (waveCounter == null) { Debug.LogError("Null Wave Counter", gameObject); }
+            if (scoreCounter == null) { Debug.LogError("Null Score Counter", gameObject); }
+            if (turretCounter == null) { Debug.LogError("Null Turret Counter", gameObject); }
+            data = WorldManager.Instance.playerData;
+        }
+        private void FixedUpdate()
+        {
+            waveCounter.text = "Waves: " + data.currentRound.wave.ToString();
+            scoreCounter.text = data.currentRound.score.ToString();
+            turretCounter.text = data.currentRound.turretsPlaced.ToString();
+        }
+
     }
 }

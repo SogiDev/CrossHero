@@ -1,15 +1,12 @@
 using System;
+using System.Collections.Generic;
 
 namespace DS
 {
     [Serializable]
     public class GameData
     {
-
-        public int currentScore = 0;
-        public int currentWave = 0;
-        public int placedTurrets;
-
+        public int currentSession = 0;
         [Serializable]
         public struct RoundData
         {
@@ -18,6 +15,7 @@ namespace DS
             public int turretsPlaced;
         }
 
+        public RoundData currentRound = new ();
         public RoundData[] rounds;
 
         public GameData()
@@ -33,6 +31,22 @@ namespace DS
         {
             this.rounds = data.rounds;
         }
+
+        public void SaveRound(RoundData newRound)
+        {
+            List < RoundData > newData = new List<RoundData>(rounds);
+            newData.Add(newRound);
+            rounds = newData.ToArray();
+        }
+        public void SaveRound()
+        {
+            List < RoundData > newData = new List<RoundData>(rounds);
+            newData.Add(currentRound);
+            rounds = newData.ToArray();
+
+            currentRound = new RoundData();
+        }
+        public RoundData GetRound(int sessionID) { return rounds[sessionID]; }
 
     }
 }

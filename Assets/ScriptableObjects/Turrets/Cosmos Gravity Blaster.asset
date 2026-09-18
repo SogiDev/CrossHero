@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b85072f1464c0be46969bd717084fee8, type: 3}
+  m_Name: Cosmos Gravity Blaster
+  m_EditorClassIdentifier: Assembly-CSharp::DS.TurretData
+  turretName: 'Cosmos Gravity Blaster '
+  turretImage: {fileID: 2241204480943171101, guid: 5b6eafdfa3449f34f8774b475def539a, type: 3}
+  attackType: 3
+  cost: 1000
+  maxHealth: 500
+  maxEnergy: 100
+  baseDamage: 1
+  baseProjectileSpeed: 10
+  searchRadius: 50
+  baseTimer: 1

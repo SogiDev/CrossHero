@@ -5,10 +5,15 @@ namespace DS
     public class WorldManager : MonoBehaviour
     {
         public static WorldManager Instance;
+
+        [Header("GameData")]
         public GameData playerData;
 
         [SerializeField] private bool saveGame = false;
         [SerializeField] private bool loadGame = false;
+
+        [Header("Turrets")]
+        [SerializeField] private TurretData[] allTurretData;
 
         private void Awake()
         {
@@ -31,6 +36,11 @@ namespace DS
             }
         }
 
+        private void Start()
+        {
+            
+        }
+
         private void FixedUpdate()
         {
             if (saveGame)
@@ -47,6 +57,8 @@ namespace DS
 
         public void Save() { SaveManager.SaveGame(playerData); }
         public GameData Load() { return SaveManager.LoadGame(); }
+
+        public TurretData[] GetTurretData() { return allTurretData; }
 
     }
 }

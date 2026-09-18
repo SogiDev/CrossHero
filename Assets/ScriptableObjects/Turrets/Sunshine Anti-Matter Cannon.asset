@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Sunshine Anti-Matter Cannon
   m_EditorClassIdentifier: Assembly-CSharp::DS.TurretData
   turretName: Sunshine Anti-Matter Cannon
-  turretImage: {fileID: -2762221971080922514, guid: 4fae43eaffe4c604fbb054387f7d6cf0, type: 3}
+  turretImage: {fileID: -6205407380133246093, guid: ea5287ed16e35cf4fbc9eb9c17b3cf33, type: 3}
   attackType: 2
-  maxHealth: 100
+  cost: 500
+  maxHealth: 200
   maxEnergy: 100
-  baseDamage: 5
+  baseDamage: 20
   baseProjectileSpeed: 10
   searchRadius: 20
   baseTimer: 1

@@ -1,16 +1,8 @@
+using UnityEditor;
 using UnityEngine;
 
 namespace DS
 {
-
-    public enum TurretAttackType
-    {
-        TURRET_NONE,
-        TURRET_CLOSE,
-        TURRET_PROJECTILE,
-        TURRET_LASER,
-        TURRET_SUPPORT
-    }
 
     [RequireComponent(typeof(Rigidbody2D))]
     public class TurretCombatManager : CharacterCombatManager
@@ -21,6 +13,7 @@ namespace DS
         [SerializeField] private TurretData data;
         [SerializeField] private GameObject target = null;
 
+        public float readSearch = 0;
 
         protected override void Awake()
         {
@@ -33,9 +26,7 @@ namespace DS
 
             if (data == null) return;
 
-            if (target != null && !IsTargetInRange(target)) { target = null;}
-
-            if (target == null) { SearchInRange(); }
+            SearchInRange();
 
             if (target)
             {
@@ -50,28 +41,29 @@ namespace DS
 
             data = turretData;
             projectileSpeed = data.baseProjectileSpeed;
+            attackType = data.attackType;
         }
 
         private void AttackTarget(GameObject target)
         {
             switch (data.attackType)
             {
-                case TurretAttackType.TURRET_CLOSE:
+                case AttackType.CLOSE:
                     closeAttackRange = data.searchRadius;
                     closeAttackTimer = data.baseTimer;
                     StartCoroutine(CloseAttack());
                     break;
-                case TurretAttackType.TURRET_LASER:
+                case AttackType.LASER:
                     projectileAttackRange = data.searchRadius;
                     laserAttackTimer = data.baseTimer;
                     StartCoroutine(LaserAttack());
                     break;
-                case TurretAttackType.TURRET_PROJECTILE: 
+                case AttackType.PROJECTILE: 
                     projectileAttackRange = data.searchRadius;
                     projectileAttackTimer = data.baseTimer;
                     StartCoroutine(ProjectileAttack());
                     break;
-                case TurretAttackType.TURRET_SUPPORT: 
+                case AttackType.SUPPORT: 
                     supportRange = data.searchRadius;
                     supportTimer = data.baseTimer;
                     StartCoroutine(Support());
@@ -85,21 +77,15 @@ namespace DS
             return distance.magnitude <= data.searchRadius;
         }
 
+
         private bool SearchInRange()
         {
-            if (Physics2D.CircleCast(transform.position, data.searchRadius, forwardPosition) is var hit && hit.collider != null)
+            if (Physics2D.CircleCast(transform.position, data.searchRadius, forwardPosition) is var hit)
             {
-                if (!hit.collider.gameObject.CompareTag("Entity")) { return false;}
-
-                if (IsTargetInRange(hit.collider.gameObject))
-                {
-                    target = hit.collider.gameObject;
-                    return true;
-                }
-                else
-                {
-                    target = null;
-                }
+                if (!hit.collider.gameObject.CompareTag("Entity")) { target = null; return false;}
+                
+                target = IsTargetInRange(hit.collider.gameObject) ? hit.collider.gameObject : null;
+                return true;
             }
             return false;
         }

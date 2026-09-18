@@ -55,11 +55,13 @@ namespace DS
 
             // Check For Objects In Area
 
+
+
             if (Physics2D.OverlapCircle(transform.position, interactRange, LayerMask.GetMask("Purchasable")) is var collider && collider != null)
             {
                 if (collider.TryGetComponent<TurretSurface>(out var turretSurface))
                 {
-                    turretSurface.BuyTurret();
+                    PlayerUI.Instance.ShowStore(turretSurface);
                 }
             }
 

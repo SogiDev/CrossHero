@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
 
 namespace DS
 {
@@ -31,7 +30,9 @@ namespace DS
             if (canSpawn && !isStartingWave) { StartCoroutine(SpawnEntity()); }
 
             UpdateEntityList();
-            
+
+            WorldManager.Instance.playerData.currentRound.wave = WaveCount;
+
             if (entityCount <= 0 && spawnedEntities.Length <= 0 && !isStartingWave) { StartCoroutine(NewWave()); }
         }
 
@@ -93,7 +94,7 @@ namespace DS
             if (entity.TryGetComponent<CharacterManager>(out var character))
             {
                 var hp = Random.Range(0, 10);
-                var sp = 10 - hp;
+                var sp = (10 - hp) * 3;
                 var dmg = Random.Range(0, 10);
                 var eng = 10 - dmg;
 

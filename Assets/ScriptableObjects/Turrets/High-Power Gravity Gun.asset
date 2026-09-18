@@ -15,9 +15,10 @@ MonoBehaviour:
   turretName: High-Power Gravity Gun
   turretImage: {fileID: 212703464735712870, guid: 5ee2e44ac3cd3604c86094dd88b2798e, type: 3}
   attackType: 2
+  cost: 250
   maxHealth: 100
   maxEnergy: 100
-  baseDamage: 5
+  baseDamage: 10
   baseProjectileSpeed: 10
   searchRadius: 20
   baseTimer: 1
