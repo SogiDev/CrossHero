@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 using static UnityEngine.GraphicsBuffer;
 namespace DS
 {
@@ -18,6 +19,7 @@ namespace DS
         protected CharacterManager character;
         protected SpriteRenderer spriteRenderer;
         protected AttackType attackType;
+        protected int score = 100;
 
         [Header("Targert Info")]
         protected GameObject target;
@@ -67,11 +69,12 @@ namespace DS
             forwardPosition = spriteRenderer.flipX ? transform.position - transform.right * attackOffset
              : transform.position + transform.right * attackOffset;
 
-            if (target) { targetPosition = target.transform.position; }
+            if (target != null) { targetPosition = target.transform.position; }
         }
-        
+
+        #region Detect Target
         // Search For Target In Range
-        private GameObject FindTargetInRange(LayerMask mask)
+        protected GameObject FindTargetInRange(LayerMask mask)
         {
             var searchRange = attackType == AttackType.LASER || attackType == AttackType.PROJECTILE ? projectileAttackRange :
                 attackType == AttackType.CLOSE ? closeAttackRange :
@@ -87,7 +90,7 @@ namespace DS
             }
             return null;
         }
-        private bool FindTargetInRange(GameObject obj)
+        protected bool FindTargetInRange(GameObject obj)
         {
             var searchRange = attackType == AttackType.LASER || attackType == AttackType.PROJECTILE ? projectileAttackRange :
                 attackType == AttackType.CLOSE ? closeAttackRange :
@@ -98,8 +101,9 @@ namespace DS
             
             return length <= searchRange;
         }
-        
+        #endregion
 
+        #region Attacks
         // Close Combat Attack
         internal virtual IEnumerator CloseAttack()
         {
@@ -125,10 +129,10 @@ namespace DS
         }
 
         // Projectile Attack
-        internal virtual IEnumerator ProjectileAttack()
+        internal virtual IEnumerator ProjectileAttack(Vector3 position)
         {
             if (character.isAttacking) yield break;
-            var direction = target.transform.position - new Vector3(transform.position.x, transform.position.y);
+            var direction = position - new Vector3(transform.position.x, transform.position.y);
 
             // Create Projectile
             character.isAttacking = true;
@@ -152,31 +156,20 @@ namespace DS
         }
 
         [SerializeField] private float laserDamageOffset = 0.1f;
-        internal virtual IEnumerator LaserAttack()
+        internal virtual IEnumerator LaserAttack(GameObject enemy)
         {
             if (character.isAttacking) yield break;
             
-            var direction = target.transform.position - new Vector3(transform.position.x, transform.position.y);
-
+            var direction = enemy.transform.position - new Vector3(transform.position.x, transform.position.y);
             var length = Mathf.Sqrt( Mathf.Sqrt(direction.x) + Mathf.Sqrt(direction.y) );
 
-            RaycastHit2D[] raycastResults = new RaycastHit2D[1];
-            if (Physics2D.RaycastNonAlloc(forwardPosition, direction, raycastResults, length, LayerMask.GetMask("Entity")) != 0)
+            if (FindTargetInRange(enemy))
             {
-                foreach (var result in raycastResults)
-                {
-                    if (!FindTargetInRange(result.collider.gameObject)) { continue; }
-                    
-                    if (result.collider.gameObject.TryGetComponent<CharacterManager>(out var entity))
-                    {
-                        entity.TakeDamage(baseDamage * laserDamageOffset);
-                        character.isAttacking = true;
-                        yield return new WaitForSeconds(laserAttackTimer * laserDamageOffset);
-                        character.isAttacking = false;
-                        yield break;
-                    }
-
-                }
+                enemy.GetComponent<CharacterManager>().TakeDamage(baseDamage * laserDamageOffset);
+                character.isAttacking = true;
+                yield return new WaitForSeconds(laserAttackTimer * laserDamageOffset);
+                character.isAttacking = false;
+                yield break;
             }
             
             character.isAttacking = false;
@@ -190,6 +183,12 @@ namespace DS
             Debug.Log("Support Other Characters");
 
             yield break;
+        }
+        #endregion
+
+        protected virtual void OnDestroy()
+        {
+
         }
 
         protected virtual void OnDrawGizmosSelected()
@@ -205,7 +204,7 @@ namespace DS
             {
                 // Draw Ranged Attack
                 Gizmos.color = Color.darkMagenta;
-                Gizmos.DrawLine(forwardPosition, target.transform.position);
+                Gizmos.DrawLine(forwardPosition, targetPosition);
             }
             
             if (attackType == AttackType.PROJECTILE){

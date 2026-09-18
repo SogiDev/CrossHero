@@ -206,6 +206,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ee0e46c730d19447940dbef7cec1e88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DS.TurretCombatManager
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 256
   attackOffset: 1.5
   closeAttackTimer: 1
   laserAttackTimer: 1
@@ -219,8 +222,8 @@ MonoBehaviour:
   baseDamage: 1
   currentDamage: 2
   laserDamageOffset: 0.1
-  data: {fileID: 0}
-  target: {fileID: 0}
+  data: {fileID: 11400000, guid: 7493c2eebb9c46041bb2234da8565046, type: 2}
+  readSearch: 0
 --- !u!114 &867347137421741552
 MonoBehaviour:
   m_ObjectHideFlags: 0

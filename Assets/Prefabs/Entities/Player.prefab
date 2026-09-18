@@ -222,6 +222,7 @@ MonoBehaviour:
   baseDamage: 1
   currentDamage: 1
   inputManager: {fileID: 0}
+  interactRange: 5
 --- !u!114 &8369150708181400607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,12 +263,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5472236fa6f667940a3d1c4fadcac482, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DS.PlayerCombatManager
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 768
   attackOffset: 1.5
   closeAttackTimer: 1
   laserAttackTimer: 1
   projectileAttackTimer: 1
   supportTimer: 1
-  closeCombatRange: 3
   closeAttackRange: 2
   projectile: {fileID: 4376647982787641981, guid: 67c7f3dc33c111a4b97ce9ce6cefde2f, type: 3}
   projectileAttackRange: 5

@@ -11,7 +11,6 @@ namespace DS
         [Header("Turret")]
 
         [SerializeField] private TurretData data;
-        [SerializeField] private GameObject target = null;
 
         public float readSearch = 0;
 
@@ -23,9 +22,10 @@ namespace DS
         protected override void Update()
         {
             base.Update();
-
+            
             if (data == null) return;
 
+            readSearch = data.searchRadius;
             SearchInRange();
 
             if (target)
@@ -37,9 +37,8 @@ namespace DS
         }
         public void SetTurret(TurretData turretData)
         {
-            if (data != null) { return; }
-
             data = turretData;
+            score = turretData.score;
             projectileSpeed = data.baseProjectileSpeed;
             attackType = data.attackType;
         }
@@ -56,12 +55,12 @@ namespace DS
                 case AttackType.LASER:
                     projectileAttackRange = data.searchRadius;
                     laserAttackTimer = data.baseTimer;
-                    StartCoroutine(LaserAttack());
+                    StartCoroutine(LaserAttack(target));
                     break;
                 case AttackType.PROJECTILE: 
                     projectileAttackRange = data.searchRadius;
                     projectileAttackTimer = data.baseTimer;
-                    StartCoroutine(ProjectileAttack());
+                    StartCoroutine(ProjectileAttack(target.transform.position));
                     break;
                 case AttackType.SUPPORT: 
                     supportRange = data.searchRadius;
@@ -88,6 +87,12 @@ namespace DS
                 return true;
             }
             return false;
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            WorldManager.Instance.playerData.currentRound.score -= score / 2;
         }
 
         protected override void OnDrawGizmosSelected()

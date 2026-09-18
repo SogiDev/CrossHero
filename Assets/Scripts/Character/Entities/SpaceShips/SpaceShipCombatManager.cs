@@ -18,15 +18,7 @@ namespace DS
             base.Update();
 
             targetPosition = (transform.right * projectileAttackRange) + transform.position;
-
-            StartCoroutine(ProjectileAttack());
+            StartCoroutine(ProjectileAttack(targetPosition));
         }
-
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.gameObject.layer != LayerMask.GetMask("Turrets")) { return; }
-            Debug.Log("Destroy Turrets", gameObject);
-        }
-
     }
 }

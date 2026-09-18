@@ -11,6 +11,7 @@ namespace DS
         public GameObject sender;
         private LayerMask senderLayer;
         private string senderTag;
+        private int score = 10;
 
         private void Start()
         {
@@ -44,6 +45,11 @@ namespace DS
             if (collision.gameObject.TryGetComponent<CharacterManager>(out var character))
             {
                 character.TakeDamage(damage);
+
+                if (sender.layer == LayerMask.GetMask("Turret") || sender.layer == LayerMask.GetMask("Player"))
+                {
+                    WorldManager.Instance.playerData.currentRound.score += score;
+                }
             }
             Destroy(gameObject);
         }

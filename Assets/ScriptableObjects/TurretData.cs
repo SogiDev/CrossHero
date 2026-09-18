@@ -1,4 +1,3 @@
-using Unity.Loading;
 using UnityEngine;
 
 namespace DS
@@ -13,6 +12,7 @@ namespace DS
         public Sprite turretImage;
         public AttackType attackType;
         public int cost;
+        public int score;
 
         [Header("Default Stats")]
 
