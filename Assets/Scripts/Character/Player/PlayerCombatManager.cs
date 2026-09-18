@@ -8,6 +8,7 @@ namespace DS
         private PlayerManager player;
         private PlayerInputManager inputManager;
         private PlayerCamera camera;
+        private GameObject empty;
 
         protected override void Awake()
         {

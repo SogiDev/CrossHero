@@ -21,6 +21,7 @@ namespace DS
 
         [Header("Targert Info")]
         protected GameObject target;
+        protected Vector3 targetPosition;
         [SerializeField] protected LayerMask targetMask;
         protected Ray2D targetRay;
         protected Vector2 forwardPosition;
@@ -62,29 +63,14 @@ namespace DS
         protected virtual void Update()
         {
             currentDamage = baseDamage;
+            
             forwardPosition = spriteRenderer.flipX ? transform.position - transform.right * attackOffset
              : transform.position + transform.right * attackOffset;
+
+            if (target) { targetPosition = target.transform.position; }
         }
         
         // Search For Target In Range
-        // Assign Target To Entity
-
-        private bool IsTargetInRange(GameObject obj)
-        {
-
-            var searchRange = attackType == AttackType.LASER || attackType == AttackType.PROJECTILE ? projectileAttackRange :
-                attackType == AttackType.CLOSE ? closeAttackRange :
-                supportRange;
-
-            var distance = transform.position - obj.transform.position;
-            var length = distance.magnitude;
-
-            return distance.magnitude <= searchRange;
-
-            
-
-        }
-        /*
         private GameObject FindTargetInRange(LayerMask mask)
         {
             var searchRange = attackType == AttackType.LASER || attackType == AttackType.PROJECTILE ? projectileAttackRange :
@@ -95,13 +81,24 @@ namespace DS
             {
                 if (hit.gameObject == gameObject) { return target = null; }
 
-                target = obj;
-                return (hit.gameObject != gameObject);
+                target = hit.gameObject;
+                return target;
 
             }
-            return false;
+            return null;
         }
-        */
+        private bool FindTargetInRange(GameObject obj)
+        {
+            var searchRange = attackType == AttackType.LASER || attackType == AttackType.PROJECTILE ? projectileAttackRange :
+                attackType == AttackType.CLOSE ? closeAttackRange :
+                supportRange;
+
+            var distance = obj.transform.position -= transform.position;
+            var length = distance.magnitude;
+            
+            return length <= searchRange;
+        }
+        
 
         // Close Combat Attack
         internal virtual IEnumerator CloseAttack()
@@ -109,16 +106,9 @@ namespace DS
             if (character.isAttacking) yield break;
             Debug.DrawRay(forwardPosition, transform.right, Color.blue);
 
-            if (Physics2D.CircleCast(forwardPosition, closeAttackRange, transform.right) is var hit && hit.collider != null)
+            if (FindTargetInRange(LayerMask.GetMask("Entity")) is var hit && hit != null)
             {
-                if (hit.collider.gameObject == gameObject)
-                {
-                    Debug.Log("Hit Self", gameObject);
-                    character.isAttacking = false;
-                    yield break;
-                }
-                
-                if (hit.collider.gameObject.TryGetComponent<CharacterManager>(out var entity))
+                if (hit.gameObject.TryGetComponent<CharacterManager>(out var entity))
                 {
                     Debug.Log("Hit Entity: " + entity.name, gameObject);
                     entity.TakeDamage(currentDamage);
@@ -165,38 +155,30 @@ namespace DS
         internal virtual IEnumerator LaserAttack()
         {
             if (character.isAttacking) yield break;
-            /*
-            var direction = targetPosition - new Vector2(transform.position.x, transform.position.y);
+            
+            var direction = target.transform.position - new Vector3(transform.position.x, transform.position.y);
 
             var length = Mathf.Sqrt( Mathf.Sqrt(direction.x) + Mathf.Sqrt(direction.y) );
+
+            RaycastHit2D[] raycastResults = new RaycastHit2D[1];
+            if (Physics2D.RaycastNonAlloc(forwardPosition, direction, raycastResults, length, LayerMask.GetMask("Entity")) != 0)
+            {
+                foreach (var result in raycastResults)
+                {
+                    if (!FindTargetInRange(result.collider.gameObject)) { continue; }
+                    
+                    if (result.collider.gameObject.TryGetComponent<CharacterManager>(out var entity))
+                    {
+                        entity.TakeDamage(baseDamage * laserDamageOffset);
+                        character.isAttacking = true;
+                        yield return new WaitForSeconds(laserAttackTimer * laserDamageOffset);
+                        character.isAttacking = false;
+                        yield break;
+                    }
+
+                }
+            }
             
-            if (Physics2D.Raycast(forwardPosition, direction, length) is var hit && hit.collider != null)
-            {
-                if (hit.collider.gameObject == gameObject) { yield break; }
-                if (hit.collider.gameObject.TryGetComponent<CharacterManager>(out var entity))
-                {
-                    targetPosition = hit.collider.transform.position;
-                    entity.TakeDamage(baseDamage * laserDamageOffset);
-                    character.isAttacking = true;
-                    yield return new WaitForSeconds(laserAttackTimer * laserDamageOffset);
-                    character.isAttacking = false;
-                    yield break;
-                }
-            }
-            if (Physics2D.Raycast(forwardPosition, direction, length) is var hit && hit.collider != null)
-            {
-                if (hit.collider.gameObject == gameObject) { yield break; }
-                if (hit.collider.gameObject.TryGetComponent<CharacterManager>(out var entity))
-                {
-                    targetPosition = hit.collider.transform.position;
-                    entity.TakeDamage(baseDamage * laserDamageOffset);
-                    character.isAttacking = true;
-                    yield return new WaitForSeconds(laserAttackTimer * laserDamageOffset);
-                    character.isAttacking = false;
-                    yield break;
-                }
-            }
-            */
             character.isAttacking = false;
             yield break;
         }
