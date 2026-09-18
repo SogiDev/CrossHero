@@ -32,13 +32,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 961300003793627865}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!212 &2582073537054051634
 SpriteRenderer:
   serializedVersion: 3
@@ -185,10 +185,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DS.TurretManager
   canSetStat: 1
+  maxHealth: 10
   health: 10
+  maxEnergy: 10
   energy: 10
+  baseSpeed: 1
   currentSpeed: 1
+  baseDamage: 1
   currentDamage: 1
+  data: {fileID: 0}
 --- !u!114 &3922153186834771856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,18 +211,16 @@ MonoBehaviour:
   laserAttackTimer: 1
   projectileAttackTimer: 1
   supportTimer: 1
-  closeCombatRange: 3
   closeAttackRange: 2
   projectile: {fileID: 4376647982787641981, guid: 67c7f3dc33c111a4b97ce9ce6cefde2f, type: 3}
-  projectileCombatRange: 8
   projectileAttackRange: 8
   projectileSpeed: 8
   supportRange: 5
   baseDamage: 1
   currentDamage: 2
   laserDamageOffset: 0.1
-  searchRadius: 20
-  attackType: 2
+  data: {fileID: 0}
+  target: {fileID: 0}
 --- !u!114 &867347137421741552
 MonoBehaviour:
   m_ObjectHideFlags: 0

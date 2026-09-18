@@ -1,7 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEngine.EventSystems.EventTrigger;
 namespace DS
 {
     public class CharacterCombatManager : MonoBehaviour
@@ -13,29 +11,22 @@ namespace DS
         protected Vector2 targetPosition;
         protected Ray2D targetRay;
         protected Vector2 forwardPosition;
-        [SerializeField] private float attackOffset = 1.5f;
+        [SerializeField] protected float attackOffset = 1.5f;
 
         [Header("Timers")]
-        [SerializeField] private float closeAttackTimer = 1;
-        [SerializeField] private float laserAttackTimer = 1;
-        [SerializeField] private float projectileAttackTimer = 1;
-        [SerializeField] private float supportTimer = 1;
+        [SerializeField] protected float closeAttackTimer = 1;
+        [SerializeField] protected float laserAttackTimer = 1;
+        [SerializeField] protected float projectileAttackTimer = 1;
+        [SerializeField] protected float supportTimer = 1;
 
 
-        [Header("Close Combat Info")]
-        // Area of Combat Size
-        [SerializeField] protected int closeCombatRange = 3;
+        [Header("Combat Info")]
         // Range of Combat Size
         [SerializeField] protected float closeAttackRange = 2;
-
-        [Header("Ranged Combat Info")]
         [SerializeField] protected GameObject projectile;
         // Range of Combat Size
         [SerializeField] protected float projectileAttackRange = 8;
         [SerializeField] protected int projectileSpeed = 8;
-
-        [Header("Support Info")]
-        // Area of Support Range
         [SerializeField] protected float supportRange = 5;
 
         [Header("Attack Info")]
@@ -107,25 +98,17 @@ namespace DS
             var clone = Instantiate(projectile, forwardPosition, Quaternion.identity, null);
 
             // RigidBody Add Force
-            /*
             if (clone.TryGetComponent<Rigidbody2D>(out var rigidbody))
             {
-                rigidbody.AddForce(direction * force, ForceMode2D.Impulse);
+                rigidbody.AddForce(direction * projectileSpeed, ForceMode2D.Impulse);
             }
-            else
-            {
-                var rigidbody2D = clone.AddComponent<Rigidbody2D>();
-                rigidbody2D.AddForce(direction * force, ForceMode2D.Impulse);
-            }
-            */
-            Destroy(clone, 10.0f);
 
             if (clone.TryGetComponent<Projectile>(out var bullet))
             {
                 bullet.sender = gameObject;
-                bullet.speed = projectileSpeed;
             }
 
+            Destroy(clone, 3.0f);
             yield return new WaitForSeconds(projectileAttackTimer);
             character.isAttacking = false;
         }

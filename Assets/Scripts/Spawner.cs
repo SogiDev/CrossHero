@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 namespace DS
 {
@@ -29,8 +30,26 @@ namespace DS
         {
             if (canSpawn && !isStartingWave) { StartCoroutine(SpawnEntity()); }
 
+            UpdateEntityList();
+            
             if (entityCount <= 0 && spawnedEntities.Length <= 0 && !isStartingWave) { StartCoroutine(NewWave()); }
         }
+
+        private void UpdateEntityList()
+        {
+
+            List<GameObject> list = new List<GameObject>();
+
+            for (int i = 0; i < spawnedEntities.Length; i++)
+            {
+                if (spawnedEntities[i] != null)
+                {
+                    list.Add(spawnedEntities[i]);
+                }
+            }
+            spawnedEntities = list.ToArray();
+        }
+
 
         private readonly WaitForSeconds roundTimer = new(5);
         private IEnumerator NewWave()

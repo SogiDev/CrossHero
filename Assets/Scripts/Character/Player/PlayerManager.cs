@@ -14,6 +14,10 @@ namespace DS
         internal PlayerLocomotionManager playerLocomotionManager;
         internal PlayerAnimationManager playerAnimationManager;
         internal PlayerCombatManager playerCombatManager;
+        internal GameData data;
+        private bool isInteracting = false;
+
+        [SerializeField] private float interactRange = 5.0f;
 
         protected override void Awake()
         {
@@ -43,6 +47,28 @@ namespace DS
         {
             base.Update();
             inputManager.HandleAllInputs();
+        }
+
+        internal void Interact()
+        {
+            if (isInteracting) return;
+
+            // Check For Objects In Area
+
+            if (Physics2D.OverlapCircle(transform.position, interactRange, LayerMask.GetMask("Purchasable")) is var collider && collider != null)
+            {
+                if (collider.TryGetComponent<TurretSurface>(out var turretSurface))
+                {
+                    turretSurface.BuyTurret();
+                }
+            }
+
+        }
+
+        protected void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.greenYellow;
+            Gizmos.DrawWireSphere(transform.position, interactRange);
         }
     }
 }

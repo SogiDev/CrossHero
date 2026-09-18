@@ -1,5 +1,3 @@
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace DS
@@ -12,22 +10,27 @@ namespace DS
         protected CharacterLocomotionManager characterLocomotionManager;
         protected CharacterAnimationManager characterAnimationManager;
         protected CharacterCombatManager characterCombatManager;
+        protected SpriteRenderer spriteRenderer;
 
         [Header("States")]
         internal bool isSprinting;
         internal bool isWalking, isCrouching, isJumping, isGrounded, isAttacking;
 
         [Header("Status")]
-        [SerializeField] private bool canSetStat  = false;
-        [SerializeField] private int maxHealth = 10;
+        [SerializeField] protected bool canSetStat  = false;
+        [SerializeField] protected int maxHealth = 10;
+        public float MaxHealth => maxHealth;
         public float health = 10;
 
-        [SerializeField] private int maxEnergy = 10;
+        [SerializeField] protected int maxEnergy = 10;
+        public float MaxEnergy => maxEnergy;
         public float energy = 10;
-        public int baseSpeed { get; private set; } = 1;
+        [SerializeField] protected int baseSpeed = 1;
+        public float BaseSpeed => baseSpeed;
         public float currentSpeed = 1;
 
-        public int baseDamage { get; private set; } = 1;
+        [SerializeField] protected int baseDamage = 1;
+        public float BaseDamage => baseDamage;
         public float currentDamage = 1;
 
 
@@ -36,6 +39,7 @@ namespace DS
             characterLocomotionManager = GetComponent<CharacterLocomotionManager>();
             characterAnimationManager = GetComponent<CharacterAnimationManager>();
             characterCombatManager = GetComponent<CharacterCombatManager>();
+            spriteRenderer = GetComponent<SpriteRenderer>();
         }
         protected virtual void Start()
         {

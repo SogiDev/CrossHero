@@ -17,7 +17,7 @@ namespace DS
         {
             base.Update();
 
-            targetPosition = transform.right + transform.position;
+            targetPosition = (transform.right * projectileAttackRange) + transform.position;
 
             StartCoroutine(ProjectileAttack());
         }

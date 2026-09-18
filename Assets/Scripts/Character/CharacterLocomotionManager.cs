@@ -32,7 +32,7 @@ namespace DS
 
         internal virtual void HandleMovement()
         {
-            character.currentSpeed = character.isSprinting ? character.baseSpeed * 1.5f : character.isCrouching ? character.baseSpeed * 0.5f : character.baseSpeed;
+            character.currentSpeed = character.isSprinting ? character.BaseSpeed * 1.5f : character.isCrouching ? character.BaseSpeed * 0.5f : character.BaseSpeed;
             rigidBody.linearVelocityX = moveAmount.x * Time.deltaTime * character.currentSpeed * 100;
             rigidBody.linearVelocityY = moveAmount.y * Time.deltaTime * character.currentSpeed * 100;
         }

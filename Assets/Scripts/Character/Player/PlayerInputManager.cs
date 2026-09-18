@@ -139,6 +139,7 @@ namespace DS
             HandleMovementInput();
             HandleCameraInput();
             HandleJumpInput();
+            HandleInteractInput();
 
             HandleAttack();
             
@@ -205,7 +206,7 @@ namespace DS
         {
             if (interactInput)
             {
-                //playerUI.dialogueUI.GetComponent<QuestioningUI>().StartConversation();
+                player.Interact();
             }
         }
 

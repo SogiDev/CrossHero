@@ -4,7 +4,6 @@ namespace DS
 {
     public class SpaceShipLocomotionManager : CharacterLocomotionManager
     {
-
         private Ray2D forwardRay;
 
         protected override void Awake()
@@ -62,7 +61,7 @@ namespace DS
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawLine(transform.position, forwardRay.direction);
+            Gizmos.DrawRay(transform.position, forwardRay.direction);
         }
 
     }
