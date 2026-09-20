@@ -5,10 +5,12 @@ namespace DS
     public class SpaceShipLocomotionManager : CharacterLocomotionManager
     {
         private Ray2D forwardRay;
+        [SerializeField] private float slowDownRange = 20;
 
         protected override void Awake()
         {
-            base.Awake();
+            rigidBody = GetComponent<Rigidbody2D>();
+            character = GetComponent<SpaceShipManager>();
         }
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         protected override void Start()
@@ -20,18 +22,15 @@ namespace DS
         // Update is called once per frame
         protected override void Update()
         {
-            base.Update();
-
             forwardRay.origin = transform.position + transform.right;
             forwardRay.direction = transform.position + transform.right * 10.0f;
         }
 
         internal override void HandleMovement()
         {
-
             moveAmount.x = 1;
             
-            if (Physics2D.Raycast(forwardRay.origin, forwardRay.direction, 20, LayerMask.GetMask("Turret")) is var turret && turret.collider != null)
+            if (Physics2D.Raycast(forwardRay.origin, forwardRay.direction, slowDownRange, LayerMask.GetMask("Turret")) is var turret && turret.collider != null)
             {
                 // Stop and Move at Half Speed
                 moveAmount.x = 0.5f;

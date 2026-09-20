@@ -46,9 +46,12 @@ namespace DS
             {
                 character.TakeDamage(damage);
 
-                if (sender.layer == LayerMask.GetMask("Turret") || sender.layer == LayerMask.GetMask("Player"))
+                if (sender != null)
                 {
-                    WorldManager.Instance.playerData.currentRound.score += score;
+                    if (sender.layer == LayerMask.GetMask("Turret") || sender.layer == LayerMask.GetMask("Player"))
+                    {
+                        WorldManager.Instance.playerData.currentRound.score += score;
+                    }
                 }
             }
             Destroy(gameObject);

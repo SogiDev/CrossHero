@@ -1,3 +1,4 @@
+using NUnit.Framework.Interfaces;
 using UnityEngine;
 
 namespace DS
@@ -13,8 +14,12 @@ namespace DS
         protected SpriteRenderer spriteRenderer;
 
         [Header("States")]
-        internal bool isSprinting;
-        internal bool isWalking, isCrouching, isJumping, isGrounded, isAttacking;
+        internal bool isSprinting = false, canSprint = true;
+        internal bool isWalking = false, canMove = true;
+        internal bool isCrouching = false, canCrouch = false;
+        internal bool isJumping = false, canJump = true;
+        internal bool isAttacking = false, canAttack = true;
+        internal bool isGrounded = false;
 
         [Header("Status")]
         [SerializeField] protected bool canSetStat  = false;
@@ -48,18 +53,65 @@ namespace DS
 
         protected virtual void Update()
         {
+            if (health <= 0)
+            {
+                Destroy(gameObject, 1f);
+                canMove = false;
+                canJump = false;
+                canAttack = false;
+            }
+
             HandleMovement();
             HandleGrounded();
         }
+        protected virtual void OnDestroy()
+        {
+            canMove = false;
+            canJump = false;
+            canAttack = false;
+        }
 
+        #region Movement
+        protected virtual void HandleGrounded()
+        {
+            if (!canMove) { return; }
+            characterLocomotionManager.HandleGrounded();
+            characterAnimationManager.HandleGrounded(isGrounded);
+        }
+
+        protected virtual void HandleMovement()
+        {
+            if (!canMove) { return; }
+            characterLocomotionManager.HandleMovement();
+            characterAnimationManager.HandleMovement();
+        }
+
+        internal virtual void HandleJump()
+        {
+            if (!canJump) { return; }
+            characterLocomotionManager.HandleJump();
+            characterAnimationManager.HandleJump();
+        }
+#endregion
+
+        #region Combat
+        internal virtual void HandleCloseAttack()
+        {
+            if (!canAttack) { return; }
+            if (isAttacking) { return; }
+            isAttacking = true;
+            characterCombatManager.CloseAttack();
+            characterAnimationManager.HandleCloseAttack();
+        }
         public void TakeDamage(float damage)
         {
+
             // Make Sound
             if (characterAnimationManager != null && characterAnimationManager.enabled)
             {
                 characterAnimationManager.animator.SetTrigger(Animator.StringToHash("OnHit"));
             }
-            
+
             health -= damage;
             if (health <= 0)
             {
@@ -87,31 +139,6 @@ namespace DS
             }
 
         }
-
-        protected virtual void HandleGrounded()
-        {
-            characterLocomotionManager.HandleGrounded();
-            characterAnimationManager.HandleGrounded(isGrounded);
-        }
-
-        protected virtual void HandleMovement()
-        {
-            characterLocomotionManager.HandleMovement();
-            characterAnimationManager.HandleMovement();
-        }
-
-        internal virtual void HandleJump()
-        {
-            characterLocomotionManager.HandleJump();
-            characterAnimationManager.HandleJump();
-        }
-
-        internal virtual void HandleCloseAttack()
-        {
-            if (isAttacking) { return; }
-            isAttacking = true;
-            characterCombatManager.CloseAttack();
-            characterAnimationManager.HandleCloseAttack();
-        }
+        #endregion
     }
 }

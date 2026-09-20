@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Eclipse Laser Shooter
   m_EditorClassIdentifier: Assembly-CSharp::DS.TurretData
   turretName: Eclipse Laser Shooter
-  turretImage: {fileID: 5673241122778943189, guid: cb8d44ba8a5ac8347bc1ff58123cdec9, type: 3}
+  turretImage: {fileID: -4144904267134398451, guid: 79e2b498efde5144080f498daaded559, type: 3}
   attackType: 3
   cost: 1500
+  score: 0
   maxHealth: 500
   maxEnergy: 500
   baseDamage: 20

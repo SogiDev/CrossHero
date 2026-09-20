@@ -16,6 +16,7 @@ MonoBehaviour:
   turretImage: {fileID: 6298708849880471018, guid: 32f26830643ead14b9ea28e5d115ad76, type: 3}
   attackType: 3
   cost: 10000
+  score: 0
   maxHealth: 2000
   maxEnergy: 5000
   baseDamage: 100

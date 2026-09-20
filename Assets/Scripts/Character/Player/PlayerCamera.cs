@@ -9,7 +9,7 @@ namespace DS {
     {
         public static PlayerCamera Instance { get; private set; }
 
-        private PlayerManager player;
+        internal PlayerManager player;
         public Camera camera { get; private set; }
 
         [Header("Camera Flags")]
@@ -66,6 +66,8 @@ namespace DS {
 
         private void LateUpdate()
         {
+            if (player == null) return;
+
             HandleFollowTarget();
             if (lockX) { transform.position = new Vector3(lockPosition.x, transform.position.y, transform.position.z); };
             if (lockY) { transform.position = new Vector3(transform.position.x, lockPosition.y, transform.position.z); };
@@ -87,17 +89,6 @@ namespace DS {
             var targetPosition = player.transform.position + cameraTargetOffset;
             var followBlend = 1f - Mathf.Exp(-cameraSmoothSpeed * Time.deltaTime);
             transform.position = Vector3.Lerp(transform.position, targetPosition, followBlend);
-        }
-
-        private bool IsPlayerCollider(Collider hitCollider)
-        {
-            if (player == null)
-            {
-                return false;
-            }
-
-            var hitTransform = hitCollider.transform;
-            return hitTransform == player.transform || hitTransform.IsChildOf(player.transform);
         }
 
         private void SetCameraLocalPosition(float distance)

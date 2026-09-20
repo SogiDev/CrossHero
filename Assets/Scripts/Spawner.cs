@@ -10,14 +10,17 @@ namespace DS
         [SerializeField] private Vector2 spawnMin = new(-5, -5);
         [SerializeField] private Vector2 spawnMax = new(5, 5);
         public float timer = 5;
-        private bool isStartingWave = false;
+        private bool isRoundActive = false;
+        public bool IsRoundActive => isRoundActive;
+        public bool autoStart = false;
+        public bool autoRoundActive = false;
 
         [Header("Spawned Entities")]
         [SerializeField] private bool canSpawn = true;
         internal int entityCount = 10;
         [SerializeField] private GameObject[] spawnedEntities;
 
-        public int WaveCount { get; private set; } = 1;
+        public int WaveCount { get; private set; } = 0;
         public float WaveScale { get; private set; } = 1;
 
         [Header("SpaceShips")]
@@ -27,14 +30,41 @@ namespace DS
 
         public void FixedUpdate()
         {
-            if (canSpawn && !isStartingWave) { StartCoroutine(SpawnEntity()); }
+            // Order Matters Here !!! 
+            if (canSpawn && isRoundActive) { StartCoroutine(SpawnEntity()); }
 
             UpdateEntityList();
 
-            WorldManager.Instance.playerData.currentRound.wave = WaveCount;
+            if (entityCount <= 0 && spawnedEntities.Length <= 0) { 
+                isRoundActive = false; 
+                PlayerUI.Instance.ShowRound();
+                autoRoundActive = false;
+            }
 
-            if (entityCount <= 0 && spawnedEntities.Length <= 0 && !isStartingWave) { StartCoroutine(NewWave()); }
+            if (!isRoundActive && autoStart && !autoRoundActive) { StartCoroutine(StartRound()); }
         }
+
+        private readonly WaitForSeconds roundTimer = new(1);
+        public IEnumerator AutoStartRound()        
+        {
+            autoRoundActive = true;
+            isRoundActive = true;
+            yield return roundTimer;
+            WaveCount++;
+            entityCount = Random.Range(1, 10) * WaveCount;
+            StartCoroutine(SpawnEntity());
+            WorldManager.Instance.playerData.currentRound.wave = WaveCount;
+        }
+        public IEnumerator StartRound()        
+        {
+            isRoundActive = true;
+            yield return roundTimer;
+            WaveCount++;
+            entityCount = Random.Range(1, 10) * WaveCount;
+            StartCoroutine(SpawnEntity());
+            WorldManager.Instance.playerData.currentRound.wave = WaveCount;
+        }
+
 
         private void UpdateEntityList()
         {
@@ -49,18 +79,13 @@ namespace DS
                 }
             }
             spawnedEntities = list.ToArray();
-        }
 
-
-        private readonly WaitForSeconds roundTimer = new(5);
-        private IEnumerator NewWave()
-        {
-            isStartingWave = true;
-            yield return roundTimer;
-            WaveCount++;
-            entityCount = Random.Range(1, 10) * WaveCount;
-            isStartingWave = false;
-            Debug.Log("New Wave Started: " + WaveCount, gameObject);
+            if (spawnedEntities.Length <= 0 && entityCount <= 0)
+            {
+                isRoundActive = false;
+                autoRoundActive = false;
+                if (!autoStart) { PlayerUI.Instance.ShowRound(); }
+            }
         }
 
         private IEnumerator SpawnEntity()
@@ -78,7 +103,7 @@ namespace DS
 
             var entity = Instantiate(spaceShipPrefab, position, Quaternion.identity, null);
             // Add To Objects
-            List<GameObject> list = new (spawnedEntities);
+            List<GameObject> list =  new (spawnedEntities);
             list.Add(entity);
             spawnedEntities = list.ToArray();
 
@@ -93,9 +118,9 @@ namespace DS
             // Random Stats Based On Wave
             if (entity.TryGetComponent<CharacterManager>(out var character))
             {
-                var hp = Random.Range(0, 10);
+                var hp = Random.Range(1, 10);
                 var sp = (10 - hp) * 3;
-                var dmg = Random.Range(0, 10);
+                var dmg = Random.Range(1, 10);
                 var eng = 10 - dmg;
 
                 character.SetStat(
@@ -106,6 +131,7 @@ namespace DS
             }
 
             yield return new WaitForSeconds(timer);
+            timer = Random.Range(0.1f, 2);
             canSpawn = true;
         }
 

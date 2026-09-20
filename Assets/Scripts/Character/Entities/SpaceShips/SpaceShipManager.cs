@@ -32,6 +32,7 @@ namespace DS
 
         protected override void HandleMovement()
         {
+            if (!canMove) { return; }
             spaceShipLocomotionManager.HandleMovement();
         }
         protected override void HandleGrounded()

@@ -1,4 +1,3 @@
-using UnityEditor;
 using UnityEngine;
 
 namespace DS
@@ -9,10 +8,7 @@ namespace DS
     {
 
         [Header("Turret")]
-
         [SerializeField] private TurretData data;
-
-        public float readSearch = 0;
 
         protected override void Awake()
         {
@@ -25,11 +21,9 @@ namespace DS
             
             if (data == null) return;
 
-            readSearch = data.searchRadius;
-            SearchInRange();
-
-            if (target)
+            if (FindTargetInRange() is var hit && hit != null)
             {
+                target = hit;
                 targetPosition = target.transform.position;
                 AttackTarget(target);
             }
@@ -68,25 +62,6 @@ namespace DS
                     StartCoroutine(Support());
                     break;
             }
-        }
-
-        private bool IsTargetInRange(GameObject obj)
-        {
-            var distance = obj.transform.position - transform.position;
-            return distance.magnitude <= data.searchRadius;
-        }
-
-
-        private bool SearchInRange()
-        {
-            if (Physics2D.CircleCast(transform.position, data.searchRadius, forwardPosition) is var hit)
-            {
-                if (!hit.collider.gameObject.CompareTag("Entity")) { target = null; return false;}
-                
-                target = IsTargetInRange(hit.collider.gameObject) ? hit.collider.gameObject : null;
-                return true;
-            }
-            return false;
         }
 
         protected override void OnDestroy()

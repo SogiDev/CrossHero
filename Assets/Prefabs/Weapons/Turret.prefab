@@ -222,8 +222,7 @@ MonoBehaviour:
   baseDamage: 1
   currentDamage: 2
   laserDamageOffset: 0.1
-  data: {fileID: 11400000, guid: 7493c2eebb9c46041bb2234da8565046, type: 2}
-  readSearch: 0
+  data: {fileID: 0}
 --- !u!114 &867347137421741552
 MonoBehaviour:
   m_ObjectHideFlags: 0

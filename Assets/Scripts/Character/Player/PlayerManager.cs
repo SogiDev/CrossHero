@@ -14,7 +14,6 @@ namespace DS
         internal PlayerLocomotionManager playerLocomotionManager;
         internal PlayerAnimationManager playerAnimationManager;
         internal PlayerCombatManager playerCombatManager;
-        internal GameData data;
         private bool isInteracting = false;
 
         [SerializeField] private float interactRange = 5.0f;
@@ -40,6 +39,7 @@ namespace DS
         {
             base.Awake();
             inputManager = PlayerInputManager.Instance;
+            PlayerCamera.Instance.player = this;
         }
 
         // Update is called once per frame

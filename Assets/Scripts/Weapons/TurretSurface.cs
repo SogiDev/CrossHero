@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -11,11 +12,17 @@ namespace DS
         [Header("Turret")]
         [SerializeField] private GameObject turretPrefab;
         [SerializeField] private TMP_Text costText;
+        [SerializeField] private GameObject currentTurrent;
 
 
         private void Awake()
         {
 
+        }
+
+        private void FixedUpdate()
+        {
+            isPurchased = currentTurrent != null;
         }
 
         public void BuildTurret(TurretData data)
@@ -33,7 +40,7 @@ namespace DS
             clone.GetComponent<TurretManager>().SetTurret(data);
 
             clone.GetComponent<TurretCombatManager>().SetTurret(data);
-
+            currentTurrent = clone;
             isPurchased = true;
         }
 

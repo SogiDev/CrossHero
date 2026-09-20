@@ -2,15 +2,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System;
-using Unity.Loading;
 
 namespace DS
 {
     public class TurretUI : MonoBehaviour
     {
+        [SerializeField] private StoreUI storeUI;
+        [SerializeField] private TurretDetailsUI detailsUI;
         [SerializeField] private GameObject holderPrefab;
         [SerializeField] private GameObject contentArea;
-        [SerializeField] private TurretData[] availableTurrets;
+        [SerializeField] private Image display;
+        [SerializeField] internal TurretData[] availableTurrets;
 
 
         [Serializable]
@@ -25,6 +27,8 @@ namespace DS
 
         private void Start()
         {
+            if (storeUI == null) { storeUI = GetComponentInParent<StoreUI>(); }
+
             playerData = WorldManager.Instance.playerData;
             availableTurrets = WorldManager.Instance.GetTurretData();
             UpdateHolders();
@@ -50,6 +54,11 @@ namespace DS
                     image.sprite = currentTurret.turretImage;
                 }
 
+                if (newDisplay.display.TryGetComponent<Button>(out var button))
+                {
+                    button.onClick.AddListener( () => UpdateDisplay(newDisplay, true));
+                }
+
                 holderList.Add(newDisplay);
                 UpdateDisplay(newDisplay, playerData.currentRound.score >= currentTurret.cost);
             }
@@ -58,9 +67,19 @@ namespace DS
 
         private void UpdateDisplay(TurretDisplay turretDisplay, bool canPurchase)
         {
+            if (storeUI != null) { storeUI.SetData(turretDisplay.turret); }
+            if (detailsUI != null) { detailsUI.UpdateDetails(turretDisplay.turret); }
+
             if (turretDisplay.display.TryGetComponent<Image>(out var image)) {
                 image.sprite = turretDisplay.turret.turretImage;
             }
+
+            if (display != null)
+            {
+                display.sprite = turretDisplay.turret.turretImage;
+            }
+
+
         }
     }
 }

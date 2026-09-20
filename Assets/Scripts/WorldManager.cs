@@ -16,6 +16,7 @@ namespace DS
 
         [Header("Turrets")]
         [SerializeField] private TurretData[] allTurretData;
+        [SerializeField] private Spawner spawner;
 
         private void Awake()
         {
@@ -39,6 +40,20 @@ namespace DS
             {
                 playerData = new GameData();
                 SaveManager.SaveGame(playerData);
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            if (saveGame)
+            {
+                Save();
+                saveGame = false;
+            }
+            if (loadGame)
+            {
+                Load();
+                loadGame = false;
             }
         }
 
@@ -106,29 +121,9 @@ namespace DS
         }
         #endregion
 
-        private void Start()
-        {
-            
-        }
-
-        private void FixedUpdate()
-        {
-            if (saveGame)
-            {
-                Save();
-                saveGame = false;
-            }
-            if (loadGame)
-            {
-                Load();
-                loadGame = false;
-            }
-        }
-
         #region Scene Management
         public IEnumerator LoadScene(int sceneIndex)
         {
-            Debug.Log("Load Scene: " + sceneIndex, gameObject);
             //PlayerUI.Instance.loadingScreen.SetActive(true);
             var activeScene = SceneManager.GetActiveScene();
 
@@ -154,7 +149,27 @@ namespace DS
         public void Save() { SaveManager.SaveGame(playerData); }
         public GameData Load() { return SaveManager.LoadGame(); }
         #endregion
+
+        #region Round
         public TurretData[] GetTurretData() { return allTurretData; }
 
+        public void StartGame()
+        {
+            playerData.currentRound = new GameData.RoundData();
+            playerData.currentRound.score = 1000;
+        }
+
+        private readonly WaitForSeconds returnTime = new(120);
+        public IEnumerator CompleteGame()
+        {
+            playerData.SaveRound(playerData.currentRound);
+            playerData.CheckTotalScore();
+            Save();
+
+            yield return returnTime;
+
+            StartCoroutine(LoadScene(0));
+        }
+        #endregion
     }
 }
