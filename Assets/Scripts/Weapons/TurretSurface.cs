@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 
@@ -6,18 +5,20 @@ namespace DS
 {
     public class TurretSurface : MonoBehaviour
     {
+        [SerializeField] private Sprite[] designOptions;
+
         [Header("Cost")]
         public bool isPurchased { get; private set; } = false;
 
         [Header("Turret")]
         [SerializeField] private GameObject turretPrefab;
-        [SerializeField] private TMP_Text costText;
         [SerializeField] private GameObject currentTurrent;
-
-
-        private void Awake()
+        private void Start()
         {
-
+            if (transform.parent.TryGetComponent<SpriteRenderer>(out var renderer))
+            {
+                renderer.sprite = designOptions[Random.Range(0, designOptions.Length)];
+            }
         }
 
         private void FixedUpdate()

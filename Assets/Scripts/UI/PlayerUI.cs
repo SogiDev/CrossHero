@@ -54,7 +54,16 @@ namespace DS
         public void ShowStore(TurretSurface turretSurface)
         {
             storeUI.gameObject.SetActive(true);
+            storeUI.crystalStore.SetActive(false);
+            storeUI.turretStore.SetActive(true);
             storeUI.SetPurchaseButton(turretSurface);
+        }
+        public void ShowStore(Crystal crystal)
+        {
+            storeUI.gameObject.SetActive(true);
+            storeUI.turretStore.SetActive(false);
+            storeUI.crystalStore.SetActive(true);
+            storeUI.SetData(crystal);
         }
 
         public void ShowResults()

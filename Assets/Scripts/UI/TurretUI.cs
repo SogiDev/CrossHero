@@ -72,6 +72,7 @@ namespace DS
 
             if (turretDisplay.display.TryGetComponent<Image>(out var image)) {
                 image.sprite = turretDisplay.turret.turretImage;
+                image.color = !canPurchase ? Color.gray2 : Color.white;
             }
 
             if (display != null)

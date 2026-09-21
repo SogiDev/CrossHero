@@ -1,4 +1,3 @@
-using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,6 +17,17 @@ namespace DS
             displayTurretMaxEnergy.text = turretData.maxEnergy.ToString();
             displayTurretBaseDamage.text = turretData.baseDamage.ToString();
             displayTurretBaseProjectileSpeed.text = turretData.baseProjectileSpeed.ToString();
+        }
+        public void UpdateDetails(Crystal crystal)
+        {
+            displayTurretImage.sprite = crystal.gameObject.GetComponent<SpriteRenderer>().sprite;
+            displayTurretName.text = "Crystal";
+
+            var zones = FindObjectsByType<ZoneCreator>();
+
+            displayTurretAttackType.text = "Zones: " + zones.Length.ToString();
+            var cost = 1000 * zones.Length;
+            displayTurretCost.text = cost.ToString();
         }
 
         [SerializeField] private Image displayTurretImage;

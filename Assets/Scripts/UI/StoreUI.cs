@@ -6,33 +6,48 @@ namespace DS
     public class StoreUI : MonoBehaviour
     {
         [Header("UI")]
-        [SerializeField] private TurretDetailsUI detailsUI;
+        [SerializeField] private TurretDetailsUI turretDetailsUI;
         [SerializeField] private TurretUI turretUI;
-        [SerializeField] private Button purchaseButton;
+        [SerializeField] private Button turretPurchaseButton;
+        [SerializeField] internal GameObject turretStore, crystalStore;
 
         [Header("Turret Data")]
         private TurretSurface turretPlacement;
         private TurretData currentData;
 
+        [Header("Crystal Data")]
+        private Crystal crystalData;
+        [SerializeField] private TurretDetailsUI crystalDetailsUI;
+        [SerializeField] private Button zonePurchaseButton;
+        [SerializeField] private int zoneCost = 10000;
+
+
         private void Start()
         {
-            if (detailsUI == null) { detailsUI = GetComponentInChildren<TurretDetailsUI>(); }
+            if (turretDetailsUI == null) { turretDetailsUI = GetComponentInChildren<TurretDetailsUI>(); }
+            if (crystalDetailsUI == null) { crystalDetailsUI = GetComponentInChildren<TurretDetailsUI>(); }
             if (turretUI == null) { turretUI = GetComponentInChildren<TurretUI>(); }
         }
 
         private void OnEnable()
         {
-            purchaseButton.onClick.AddListener(() => BuyTurret());
+            turretPurchaseButton.onClick.AddListener(() => BuyTurret());
+            
             var allTurrets = WorldManager.Instance.GetTurretData();
             turretUI.availableTurrets = allTurrets;
-            detailsUI.UpdateDetails(allTurrets[0]);
+            turretDetailsUI.UpdateDetails(allTurrets[0]);
+
+            zonePurchaseButton.onClick.AddListener(() => BuyZone());
         }
 
         private void OnDisable()
         {
-            purchaseButton.onClick.RemoveListener(() => BuyTurret());
+            turretPurchaseButton.onClick.RemoveListener(() => BuyTurret());
+            zonePurchaseButton.onClick.RemoveListener(() => BuyZone());
         }
 
+
+        #region Turrets Store
         internal void SetPurchaseButton(TurretSurface turretSurface)
         {
             turretPlacement = turretSurface;
@@ -41,7 +56,7 @@ namespace DS
         internal void SetData(TurretData data)
         {
             currentData = data;
-            detailsUI.UpdateDetails(data);
+            turretDetailsUI.UpdateDetails(data);
         }
 
         private bool BuyTurret()
@@ -58,5 +73,38 @@ namespace DS
             }
             return false;
         }
+
+        #endregion
+
+        #region Crystal Store
+
+        internal void SetData(Crystal crystal)
+        {
+            crystalData = crystal;
+            crystalDetailsUI.UpdateDetails(crystal);
+        }
+
+        private void BuyZone()
+        {
+            var zones = FindObjectsByType<ZoneCreator>();
+            var cost = zones.Length * zoneCost;
+
+            PlayerUI.Instance.storeUI.gameObject.SetActive(false);
+
+            var playerData = WorldManager.Instance.playerData;
+
+            if (playerData.currentRound.score >= cost)
+            {
+                playerData.currentRound.score -= cost;
+                crystalData.CreateZone();
+                return;
+            }
+
+            Debug.Log("Not Enough To Buy Zone", gameObject);
+            return;
+        }
+
+        #endregion
+
     }
 }

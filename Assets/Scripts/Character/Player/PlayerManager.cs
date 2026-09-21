@@ -16,7 +16,7 @@ namespace DS
         internal PlayerCombatManager playerCombatManager;
         private bool isInteracting = false;
 
-        [SerializeField] private float interactRange = 5.0f;
+        [SerializeField] private float interactRange = 0.5f;
 
         protected override void Awake()
         {
@@ -55,16 +55,20 @@ namespace DS
 
             // Check For Objects In Area
 
-
-
             if (Physics2D.OverlapCircle(transform.position, interactRange, LayerMask.GetMask("Purchasable")) is var collider && collider != null)
             {
                 if (collider.TryGetComponent<TurretSurface>(out var turretSurface))
                 {
                     PlayerUI.Instance.ShowStore(turretSurface);
+                    return;
+                }
+
+                if (collider.TryGetComponent<Crystal>(out var crystal))
+                {
+                    PlayerUI.Instance.ShowStore(crystal);
+                    return;
                 }
             }
-
         }
 
         protected void OnDrawGizmosSelected()

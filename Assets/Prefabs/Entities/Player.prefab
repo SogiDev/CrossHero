@@ -215,14 +215,14 @@ MonoBehaviour:
   canSetStat: 0
   maxHealth: 100
   health: 100
-  maxEnergy: 0
-  energy: 0
+  maxEnergy: 100
+  energy: 100
   baseSpeed: 5
-  currentSpeed: 1
-  baseDamage: 1
-  currentDamage: 1
+  currentSpeed: 5
+  baseDamage: 5
+  currentDamage: 5
   inputManager: {fileID: 0}
-  interactRange: 5
+  interactRange: 0.5
 --- !u!114 &8369150708181400607
 MonoBehaviour:
   m_ObjectHideFlags: 0
