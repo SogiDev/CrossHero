@@ -1,5 +1,6 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace DS
 {
@@ -10,6 +11,7 @@ namespace DS
         [SerializeField] private Vector2 spawnMax = new(3, 3);
 
         [SerializeField] private GameObject turretSurfacePrefab;
+        [SerializeField] private GameObject station;
         [SerializeField] private int platformsCount = 3;
 
         private GameObject[] platforms ;
@@ -38,6 +40,11 @@ namespace DS
 
             var surface = Instantiate(turretSurfacePrefab, position, Quaternion.identity, transform);
             return surface;
+        }
+
+        public void SpawnStation()
+        {
+            station.SetActive(true);
         }
 
         private void OnDrawGizmosSelected()

@@ -31,6 +31,8 @@ namespace DS
 
         internal void CreateZone()
         {
+
+
             // Calculate Furthest Zone
             float distance = 0;
             List<ZoneCreator> list = new List<ZoneCreator>();
@@ -41,9 +43,21 @@ namespace DS
                 list.Add(zone);
             }
 
+            if (list.Count >= 6)
+            {
+                Debug.LogWarning("Past Spawner Location", gameObject);
+                return;
+            }
+
+            // Create Zone Creator
             Vector3 position = transform.position + new Vector3((-distance) + (zoneOffet * spacing), 0);
             var newZone = Instantiate(zonePrefab, position, Quaternion.identity, null);
             newZone.name = "Zone";
+
+            if (list.Count % 3 == 0)
+            {
+                newZone.GetComponent<ZoneCreator>().SpawnStation();
+            }
 
             list.Add(newZone.GetComponent<ZoneCreator>());
             zones = list.ToArray();
