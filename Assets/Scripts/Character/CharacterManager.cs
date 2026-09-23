@@ -1,16 +1,18 @@
-using NUnit.Framework.Interfaces;
 using UnityEngine;
 
 namespace DS
 {
     [RequireComponent(typeof(CharacterLocomotionManager))]
     [RequireComponent(typeof(CharacterAnimationManager))]
+    [RequireComponent(typeof(CharacterSoundManager))]
+    [RequireComponent(typeof(CharacterCombatManager))]
     public class CharacterManager : MonoBehaviour
     {
         [Header("Systems")]
         protected CharacterLocomotionManager characterLocomotionManager;
         protected CharacterAnimationManager characterAnimationManager;
         protected CharacterCombatManager characterCombatManager;
+        protected CharacterSoundManager characterSoundManager;
         protected SpriteRenderer spriteRenderer;
 
         [Header("States")]
@@ -37,6 +39,8 @@ namespace DS
         [SerializeField] protected int baseDamage = 1;
         public float BaseDamage => baseDamage;
         public float currentDamage = 1;
+        protected int score = 1;
+        public int Score => score;
 
 
         protected virtual void Awake()
@@ -44,6 +48,7 @@ namespace DS
             characterLocomotionManager = GetComponent<CharacterLocomotionManager>();
             characterAnimationManager = GetComponent<CharacterAnimationManager>();
             characterCombatManager = GetComponent<CharacterCombatManager>();
+            characterSoundManager = GetComponent<CharacterSoundManager>();
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
         protected virtual void Start()
@@ -69,6 +74,12 @@ namespace DS
             canMove = false;
             canJump = false;
             canAttack = false;
+
+            if (score >= 0)
+            {
+                WorldManager.Instance.playerData.AddScore(score);
+            }
+
         }
 
         #region Movement
@@ -100,7 +111,7 @@ namespace DS
             if (!canAttack) { return; }
             if (isAttacking) { return; }
             isAttacking = true;
-            characterCombatManager.CloseAttack();
+            StartCoroutine(characterCombatManager.CloseAttack());
             characterAnimationManager.HandleCloseAttack();
         }
         public void TakeDamage(float damage)
@@ -121,7 +132,7 @@ namespace DS
             }
         }
 
-        public void SetStat(float hp, float eng, float sp, float dmg)
+        public void SetStat(float hp, float eng, float sp, float dmg, int scr = 0)
         {
             if (canSetStat)
             {
@@ -129,7 +140,7 @@ namespace DS
                 energy = maxEnergy = Mathf.RoundToInt(eng);
                 currentSpeed = baseSpeed = Mathf.RoundToInt(sp);
                 currentDamage = baseDamage = Mathf.RoundToInt(dmg);
-
+                score = scr;
                 canSetStat = false;
             }
             else

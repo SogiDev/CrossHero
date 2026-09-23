@@ -148,14 +148,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.26415092, g: 0.088465646, b: 0.088465646, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 6449241598676764510, guid: ad7be237221f2934eb43220333f3f449, type: 3}
+  m_Sprite: {fileID: -6556960660972613900, guid: 8675cbeaf8b5f764f803745c63473f76, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -303,7 +303,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -301297114249137547, guid: b2296c0a78bee9a4eb4e5dcb7a183891, type: 3}
+  m_Sprite: {fileID: 566532757857876024, guid: 768b6e5daa3d0cd47b8f410b4ea74d1d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -512,7 +512,7 @@ RectTransform:
   m_AnchorMax: {x: 0.1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 1, y: 0}
+  m_Pivot: {x: 1, y: 1}
 --- !u!222 &6812004028083332670
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -541,7 +541,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1240191456881276419, guid: 05ec7e28adb3aa447a653eddceba07f1, type: 3}
+  m_Sprite: {fileID: 566532757857876024, guid: 768b6e5daa3d0cd47b8f410b4ea74d1d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -593,9 +593,9 @@ MonoBehaviour:
   m_Interactable: 1
   m_TargetGraphic: {fileID: 9173043631658643957}
   m_HandleRect: {fileID: 3110047630575336605}
-  m_Direction: 3
+  m_Direction: 2
   m_Value: 0
-  m_Size: 0.5
+  m_Size: 0.1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -698,7 +698,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2671131576861592909, guid: ed109bd0ce9fa664f873bae153ccce9b, type: 3}
       propertyPath: m_fontSize
-      value: 6
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 3115694879596079422, guid: ed109bd0ce9fa664f873bae153ccce9b, type: 3}
       propertyPath: m_Name
@@ -859,7 +859,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2671131576861592909, guid: ed109bd0ce9fa664f873bae153ccce9b, type: 3}
       propertyPath: m_fontSize
-      value: 6
+      value: 29.7
       objectReference: {fileID: 0}
     - target: {fileID: 3115694879596079422, guid: ed109bd0ce9fa664f873bae153ccce9b, type: 3}
       propertyPath: m_Name
@@ -1020,7 +1020,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2671131576861592909, guid: ed109bd0ce9fa664f873bae153ccce9b, type: 3}
       propertyPath: m_fontSize
-      value: 6
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 3115694879596079422, guid: ed109bd0ce9fa664f873bae153ccce9b, type: 3}
       propertyPath: m_Name
@@ -1169,7 +1169,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2671131576861592909, guid: ed109bd0ce9fa664f873bae153ccce9b, type: 3}
       propertyPath: m_fontSize
-      value: 6
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 3115694879596079422, guid: ed109bd0ce9fa664f873bae153ccce9b, type: 3}
       propertyPath: m_Name
@@ -1358,7 +1358,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2671131576861592909, guid: ed109bd0ce9fa664f873bae153ccce9b, type: 3}
       propertyPath: m_fontSize
-      value: 6
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 3115694879596079422, guid: ed109bd0ce9fa664f873bae153ccce9b, type: 3}
       propertyPath: m_Name
@@ -1491,7 +1491,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2671131576861592909, guid: ed109bd0ce9fa664f873bae153ccce9b, type: 3}
       propertyPath: m_fontSize
-      value: 6
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 3115694879596079422, guid: ed109bd0ce9fa664f873bae153ccce9b, type: 3}
       propertyPath: m_Name
@@ -1660,7 +1660,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2671131576861592909, guid: ed109bd0ce9fa664f873bae153ccce9b, type: 3}
       propertyPath: m_fontSize
-      value: 6
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 3115694879596079422, guid: ed109bd0ce9fa664f873bae153ccce9b, type: 3}
       propertyPath: m_Name

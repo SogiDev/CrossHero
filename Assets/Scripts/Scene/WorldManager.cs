@@ -156,7 +156,7 @@ namespace DS
         public void StartGame()
         {
             playerData.currentRound = new GameData.RoundData();
-            playerData.currentRound.score = 1000;
+            playerData.currentRound.AddScore(1000);
         }
 
         private readonly WaitForSeconds returnTime = new(120);

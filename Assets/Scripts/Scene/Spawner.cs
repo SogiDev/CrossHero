@@ -19,9 +19,10 @@ namespace DS
         [SerializeField] private bool canSpawn = true;
         internal int entityCount = 10;
         [SerializeField] private GameObject[] spawnedEntities;
-
         public int WaveCount { get; private set; } = 0;
         public float WaveScale { get; private set; } = 1;
+
+        [SerializeField] private Vector2 healthClamp, energyClamp, speedClamp, damageClamp;
 
         [Header("SpaceShips")]
         [SerializeField] private GameObject spaceShipPrefab;
@@ -118,16 +119,21 @@ namespace DS
             // Random Stats Based On Wave
             if (entity.TryGetComponent<CharacterManager>(out var character))
             {
-                var hp = Random.Range(1, 10);
-                var sp = (10 - hp) * 3;
-                var dmg = Random.Range(1, 10);
-                var eng = 10 - dmg;
+                var hp = Random.Range(healthClamp.x, healthClamp.y);
+                var sp = Random.Range(energyClamp.x, energyClamp.y);
+                var dmg = Random.Range(speedClamp.x, speedClamp.y);
+                var eng = Random.Range(damageClamp.x, damageClamp.y);
+                int score = Mathf.RoundToInt(hp + sp + dmg + eng);
 
                 character.SetStat(
-                    hp * (WaveCount * WaveScale) * 10,
-                    eng * (WaveCount * WaveScale) * 100,
-                    sp * (WaveCount * WaveScale),
-                    dmg * (WaveCount * WaveScale));
+                    hp * (WaveCount * WaveScale),
+                    eng * (WaveCount * WaveScale),
+                    sp,
+                    dmg * (WaveCount * WaveScale),
+                    score
+                    );
+
+               
             }
 
             yield return new WaitForSeconds(timer);

@@ -42,6 +42,7 @@ namespace DS
             energy = data.maxEnergy;
             baseDamage = data.baseDamage;
             baseSpeed = data.baseProjectileSpeed;
+            score = Mathf.RoundToInt(data.cost * 0.1f);
         }
         public TurretData GetTurret() { return data; }
 

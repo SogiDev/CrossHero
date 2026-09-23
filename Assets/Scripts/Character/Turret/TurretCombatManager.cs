@@ -32,7 +32,7 @@ namespace DS
         public void SetTurret(TurretData turretData)
         {
             data = turretData;
-            score = turretData.score;
+            score = Mathf.RoundToInt(turretData.cost * 0.05f);
             projectileSpeed = data.baseProjectileSpeed;
             attackType = data.attackType;
         }
@@ -67,7 +67,7 @@ namespace DS
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            WorldManager.Instance.playerData.currentRound.score -= score / 2;
+            WorldManager.Instance.playerData.AddScore(score / -2);
         }
 
         protected override void OnDrawGizmosSelected()

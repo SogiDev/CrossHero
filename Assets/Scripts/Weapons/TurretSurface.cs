@@ -31,7 +31,7 @@ namespace DS
             if (isPurchased) return;
 
             var playerData = WorldManager.Instance.playerData;
-            playerData.currentRound.score += data.score;
+            playerData.AddScore(data.score);
 
             //var offsetPosition = transform.position + new Vector3(0, 1.25f + (turretPrefab.transform.localScale.y / 4));
             var offsetPosition = transform.position;

@@ -67,7 +67,7 @@ namespace DS
             
             if (playerData.currentRound.score >= currentData.cost)
             {
-                playerData.currentRound.score -= currentData.cost;
+                playerData.currentRound.AddScore(-currentData.cost);
                 turretPlacement.BuildTurret(currentData);
                 return true;
             }
@@ -81,7 +81,7 @@ namespace DS
         internal void SetData(Crystal crystal)
         {
             crystalData = crystal;
-            crystalDetailsUI.UpdateDetails(crystal);
+            crystalDetailsUI.UpdateDetails(crystal, zoneCost);
         }
 
         private void BuyZone()
@@ -95,7 +95,7 @@ namespace DS
 
             if (playerData.currentRound.score >= cost)
             {
-                playerData.currentRound.score -= cost;
+                playerData.currentRound.AddScore(-cost);
                 crystalData.CreateZone();
                 return;
             }

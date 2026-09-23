@@ -118,7 +118,7 @@ namespace DS
 
             if (FindTargetInRange() is var hit && hit != null)
             {
-                if (hit.gameObject.TryGetComponent<CharacterManager>(out var entity))
+                if (hit.TryGetComponent<CharacterManager>(out var entity))
                 {
                     Debug.Log("Hit Entity: " + entity.name, gameObject);
                     entity.TakeDamage(currentDamage);
@@ -174,12 +174,10 @@ namespace DS
             if (!character.canAttack) yield break;
             target = enemy;
 
-            var direction = targetPosition - new Vector3(transform.position.x, transform.position.y);
-            var length = Mathf.Sqrt( Mathf.Sqrt(direction.x) + Mathf.Sqrt(direction.y) );
-
             if (FindTargetInRange(enemy))
             {
                 enemy.GetComponent<CharacterManager>().TakeDamage(currentDamage * laserDamageOffset);
+                WorldManager.Instance.playerData.AddScore(score * 0.1f, gameObject);
                 character.isAttacking = true;
                 yield return new WaitForSeconds(laserAttackTimer * 0.1f);
                 character.isAttacking = false;

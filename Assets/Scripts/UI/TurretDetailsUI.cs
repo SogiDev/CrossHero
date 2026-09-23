@@ -18,7 +18,7 @@ namespace DS
             displayTurretBaseDamage.text = turretData.baseDamage.ToString();
             displayTurretBaseProjectileSpeed.text = turretData.baseProjectileSpeed.ToString();
         }
-        public void UpdateDetails(Crystal crystal)
+        public void UpdateDetails(Crystal crystal, int value = 10000)
         {
             displayTurretImage.sprite = crystal.gameObject.GetComponent<SpriteRenderer>().sprite;
             displayTurretName.text = "Crystal";
@@ -26,7 +26,7 @@ namespace DS
             var zones = FindObjectsByType<ZoneCreator>();
 
             displayTurretAttackType.text = "Zones: " + zones.Length.ToString();
-            var cost = 1000 * zones.Length;
+            var cost = value * zones.Length;
             displayTurretCost.text = cost.ToString();
         }
 
