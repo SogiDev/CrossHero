@@ -114,8 +114,13 @@ namespace DS
             StartCoroutine(characterCombatManager.CloseAttack());
             characterAnimationManager.HandleCloseAttack();
         }
-        public void TakeDamage(float damage)
+        public void TakeDamage(float damage, GameObject caller = null)
         {
+
+            if (caller != null)
+            {
+                Debug.Log(caller.name + " Did " + damage, caller);
+            }
 
             // Make Sound
             if (characterAnimationManager != null && characterAnimationManager.enabled)
