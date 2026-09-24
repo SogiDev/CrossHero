@@ -10,6 +10,7 @@ namespace DS
         [Header("Turret Info")]
         public string turretName = "Turret";
         public Sprite turretImage;
+        public Sprite projectileImage;
         public AttackType attackType;
         public int cost;
         public int score;
