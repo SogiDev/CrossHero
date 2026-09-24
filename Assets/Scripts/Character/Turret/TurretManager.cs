@@ -40,7 +40,6 @@ namespace DS
             health = data.maxHealth;
             maxEnergy = data.maxEnergy;
             energy = data.maxEnergy;
-            baseDamage = data.baseDamage;
             baseSpeed = data.baseProjectileSpeed;
             score = Mathf.RoundToInt(data.cost * 0.1f);
         }

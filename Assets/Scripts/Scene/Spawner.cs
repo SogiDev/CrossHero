@@ -9,7 +9,8 @@ namespace DS
         [Header("Area Settings")]
         [SerializeField] private Vector2 spawnMin = new(-5, -5);
         [SerializeField] private Vector2 spawnMax = new(5, 5);
-        public float timer = 5;
+        [Range(1, 3)]
+        public float timer;
         private bool isRoundActive = false;
         public bool IsRoundActive => isRoundActive;
         public bool autoStart = false;
@@ -28,6 +29,10 @@ namespace DS
         [SerializeField] private GameObject spaceShipPrefab;
         [SerializeField] private Sprite[] spaceShips;
 
+        private void Start()
+        {
+            WorldManager.Instance.spawner = this;
+        }
 
         public void FixedUpdate()
         {
@@ -120,9 +125,9 @@ namespace DS
             if (entity.TryGetComponent<CharacterManager>(out var character))
             {
                 var hp = Random.Range(healthClamp.x, healthClamp.y);
-                var sp = Random.Range(energyClamp.x, energyClamp.y);
-                var dmg = Random.Range(speedClamp.x, speedClamp.y);
-                var eng = Random.Range(damageClamp.x, damageClamp.y);
+                var eng = Random.Range(energyClamp.x, energyClamp.y);
+                var sp = Random.Range(speedClamp.x, speedClamp.y);
+                var dmg = Random.Range(damageClamp.x, damageClamp.y);
                 int score = Mathf.RoundToInt(hp + sp + dmg + eng);
 
                 character.SetStat(
@@ -132,12 +137,10 @@ namespace DS
                     dmg * (WaveCount * WaveScale),
                     score
                     );
-
-               
             }
 
             yield return new WaitForSeconds(timer);
-            timer = Random.Range(0.1f, 2);
+            timer = Random.Range(1, 3);
             canSpawn = true;
         }
 

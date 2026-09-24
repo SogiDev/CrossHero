@@ -35,10 +35,6 @@ namespace DS
         [SerializeField] protected int baseSpeed = 1;
         public float BaseSpeed => baseSpeed;
         public float currentSpeed = 1;
-
-        [SerializeField] protected int baseDamage = 1;
-        public float BaseDamage => baseDamage;
-        public float currentDamage = 1;
         protected int score = 1;
         public int Score => score;
 
@@ -144,7 +140,7 @@ namespace DS
                 health = maxHealth = Mathf.RoundToInt(hp);
                 energy = maxEnergy = Mathf.RoundToInt(eng);
                 currentSpeed = baseSpeed = Mathf.RoundToInt(sp);
-                currentDamage = baseDamage = Mathf.RoundToInt(dmg);
+                characterCombatManager.UpdateStats(dmg);
                 score = scr;
                 canSetStat = false;
             }

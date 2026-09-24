@@ -13,10 +13,13 @@ namespace DS
 
         [SerializeField] private bool saveGame = false;
         [SerializeField] private bool loadGame = false;
+        public int defaultScore = 1000;
 
         [Header("Turrets")]
+        public Spawner spawner;
         [SerializeField] private TurretData[] allTurretData;
-        [SerializeField] private Spawner spawner;
+
+        public Sprite[] projectiles { get; private set; }
 
         private void Awake()
         {
@@ -156,7 +159,7 @@ namespace DS
         public void StartGame()
         {
             playerData.currentRound = new GameData.RoundData();
-            playerData.currentRound.AddScore(1000);
+            playerData.currentRound.AddScore(defaultScore);
         }
 
         private readonly WaitForSeconds returnTime = new(120);

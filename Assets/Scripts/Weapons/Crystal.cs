@@ -73,7 +73,7 @@ namespace DS
             }
             else if (other.gameObject.TryGetComponent<SpaceShipManager>(out var character))
             {
-                TakeDamage(character.currentDamage);
+                TakeDamage(character.health);
                 Destroy(character.gameObject);
             }
 
@@ -87,7 +87,7 @@ namespace DS
             }
             else if (other.collider.gameObject.TryGetComponent<SpaceShipManager>(out var character))
             {
-                TakeDamage(character.currentDamage);
+                TakeDamage(character.health);
                 Destroy(character.gameObject);
             }
 

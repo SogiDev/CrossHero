@@ -1,3 +1,4 @@
+using Mono.Cecil;
 using System.Collections;
 using UnityEngine;
 namespace DS
@@ -13,7 +14,6 @@ namespace DS
 
     public class CharacterCombatManager : MonoBehaviour
     {
-
         protected CharacterManager character;
         protected SpriteRenderer spriteRenderer;
         protected AttackType attackType;
@@ -38,6 +38,7 @@ namespace DS
         // Range of Combat Size
         [SerializeField] protected float closeAttackRange = 2;
         [SerializeField] protected GameObject projectile;
+        [SerializeField] protected Sprite projectileSprite;
         // Range of Combat Size
         [SerializeField] protected float projectileAttackRange = 8;
         [SerializeField] protected int projectileSpeed = 8;
@@ -56,23 +57,32 @@ namespace DS
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         protected virtual void Start()
         {
-
+            if (projectileSprite == null) { projectileSprite = WorldManager.Instance.projectiles[Random.Range(0, WorldManager.Instance.projectiles.Length)]; }
         }
 
         // Update is called once per frame
         protected virtual void Update()
         {
-            UpdateStats();
             forwardPosition = spriteRenderer.flipX ? transform.position - transform.right * attackOffset
              : transform.position + transform.right * attackOffset;
+
+            if  (FindTargetInRange() is var hit && hit != null)
+            {
+                target = hit;
+                targetPosition = target.transform.position;
+            }
 
             if (target != null) { targetPosition = target.transform.position; }
         }
 
-        private void UpdateStats()
+        protected virtual void OnDestroy()
         {
-            baseDamage = Mathf.RoundToInt(character.BaseDamage);
-            currentDamage = baseDamage;
+
+        }
+
+        internal void UpdateStats(float damage)
+        {
+            baseDamage = Mathf.RoundToInt(damage);
         }
 
         #region Detect Target
@@ -121,6 +131,7 @@ namespace DS
                 if (hit.TryGetComponent<CharacterManager>(out var entity))
                 {
                     Debug.Log("Hit Entity: " + entity.name, gameObject);
+                    currentDamage = baseDamage;
                     entity.TakeDamage(currentDamage);
                     yield return new WaitForSeconds(closeAttackTimer);
                     character.isAttacking = false;
@@ -141,6 +152,8 @@ namespace DS
             if (!character.canAttack) yield break;
             var direction = position - new Vector3(transform.position.x, transform.position.y);
 
+            if (FindTargetInRange() == null) { yield break; }
+
             // Create Projectile
             character.isAttacking = true;
             var clone = Instantiate(projectile, forwardPosition, Quaternion.identity, null);
@@ -153,12 +166,18 @@ namespace DS
             // RigidBody Add Force
             if (clone.TryGetComponent<Rigidbody2D>(out var rigidbody))
             {
-                rigidbody.AddForce(direction * projectileSpeed, ForceMode2D.Impulse);
+                rigidbody.AddForce((direction + transform.right) * projectileSpeed, ForceMode2D.Impulse);
+            }
+
+            if (clone.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
+            {
+                spriteRenderer.sprite = projectileSprite;
             }
 
             if (clone.TryGetComponent<Projectile>(out var bullet))
             {
                 bullet.sender = gameObject;
+                currentDamage = baseDamage;
                 bullet.damage = currentDamage;
             }
 
@@ -176,7 +195,8 @@ namespace DS
 
             if (FindTargetInRange(enemy))
             {
-                enemy.GetComponent<CharacterManager>().TakeDamage(currentDamage * laserDamageOffset);
+                currentDamage = baseDamage * laserDamageOffset;
+                enemy.GetComponent<CharacterManager>().TakeDamage(currentDamage);
                 WorldManager.Instance.playerData.AddScore(score * 0.1f, gameObject);
                 character.isAttacking = true;
                 yield return new WaitForSeconds(laserAttackTimer * 0.1f);
@@ -199,36 +219,35 @@ namespace DS
         }
         #endregion
 
-        protected virtual void OnDestroy()
-        {
-
-        }
-
         protected virtual void OnDrawGizmosSelected()
         {
+            Gizmos.color = Color.white;
+            float searchRange = Mathf.Max(closeAttackRange, projectileAttackRange, supportRange);
+            Gizmos.DrawWireSphere(transform.position, searchRange);
+
             if (attackType == AttackType.CLOSE)
             {
                 // Draw Close Attack
-                Gizmos.color = Color.coral;
+                Gizmos.color = Color.red;
                 Gizmos.DrawWireSphere(forwardPosition, closeAttackRange);
             }
             
             if (attackType == AttackType.LASER)
             {
                 // Draw Ranged Attack
-                Gizmos.color = Color.darkMagenta;
+                Gizmos.color = Color.green;
                 Gizmos.DrawLine(forwardPosition, targetPosition);
             }
             
             if (attackType == AttackType.PROJECTILE){
-                Gizmos.color = Color.violetRed;
+                Gizmos.color = Color.blue;
                 Gizmos.DrawWireSphere(forwardPosition, projectileAttackRange);
             }
             
             if (attackType == AttackType.SUPPORT){
 
                 // Draw Support Attack
-                Gizmos.color = Color.floralWhite;
+                Gizmos.color = Color.purple;
                 Gizmos.DrawWireSphere(forwardPosition, supportRange);
             }
 

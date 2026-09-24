@@ -293,7 +293,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 51.45
+  m_fontSize: 54.6
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -944,7 +944,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 51.45
+  m_fontSize: 54.6
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1081,7 +1081,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 51.45
+  m_fontSize: 54.6
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1309,6 +1309,14 @@ PrefabInstance:
     - target: {fileID: 173227338025327626, guid: d9a604fcb61255e4ba2843e620c5f6a5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2910584091135400410, guid: d9a604fcb61255e4ba2843e620c5f6a5, type: 3}
+      propertyPath: loadGame
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2910584091135400410, guid: d9a604fcb61255e4ba2843e620c5f6a5, type: 3}
+      propertyPath: defaultScore
+      value: 999999999
       objectReference: {fileID: 0}
     - target: {fileID: 7197725309427353307, guid: d9a604fcb61255e4ba2843e620c5f6a5, type: 3}
       propertyPath: m_Name
@@ -3207,7 +3215,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 51.45
+  m_fontSize: 54.6
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

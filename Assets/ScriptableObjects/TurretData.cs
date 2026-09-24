@@ -20,7 +20,8 @@ namespace DS
         public int maxEnergy = 10;
         public int baseDamage = 10;
         public int baseProjectileSpeed = 10;
-        public float searchRadius = 20;
+        [Range(1, 25)]
+        public float searchRadius = 10;
         public float baseTimer = 1f;
 
     }

@@ -16,9 +16,10 @@ MonoBehaviour:
   turretImage: {fileID: 6576422096747121249, guid: f74e739927448434a9f6e307d95b9300, type: 3}
   attackType: 2
   cost: 500
-  maxHealth: 500
-  maxEnergy: 500
-  baseDamage: 25
-  baseProjectileSpeed: 20
-  searchRadius: 20
+  score: 100
+  maxHealth: 200
+  maxEnergy: 100
+  baseDamage: 20
+  baseProjectileSpeed: 10
+  searchRadius: 10
   baseTimer: 0.25
