@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DS.TurretData
   turretName: High-Speed Proton Eraser
   turretImage: {fileID: -2762221971080922514, guid: 4fae43eaffe4c604fbb054387f7d6cf0, type: 3}
-  projectileImage: {fileID: 0}
+  projectileImage: {fileID: 8389134475083476877, guid: 8cbec2c31c8e31c4ab3de3b7d8e13e61, type: 3}
   attackType: 2
   cost: 500
   score: 500

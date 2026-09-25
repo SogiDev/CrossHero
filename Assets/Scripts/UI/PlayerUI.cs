@@ -12,9 +12,10 @@ namespace DS
         [SerializeField] internal StoreUI storeUI;
         [SerializeField] internal TurretUI turretUI;
         [SerializeField] internal ResultsUI resultsUI;
-        //[SerializeField] internal SettingsUI settingsUI;
+        [SerializeField] internal SettingsUI settingsUI;
 
         [SerializeField] internal Button roundButton;
+        public Button settingsButton;
         private Spawner spawner;
 
         private void Awake()
@@ -64,6 +65,11 @@ namespace DS
             storeUI.turretStore.SetActive(false);
             storeUI.crystalStore.SetActive(true);
             storeUI.SetData(crystal);
+        }
+
+        public void ShowSettings()
+        {
+            settingsUI.gameObject.SetActive(!settingsUI.gameObject.activeSelf);
         }
 
         public void ShowResults()

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DS.TurretData
   turretName: Infused Proton Equalizer
   turretImage: {fileID: -839406859308904066, guid: 955eb496f492b90408f3fb2868dd7c63, type: 3}
-  projectileImage: {fileID: 0}
+  projectileImage: {fileID: 7680820834086852892, guid: aaa1c86b68e48de40b4be740d2c6aaf3, type: 3}
   attackType: 2
   cost: 500
   score: 0

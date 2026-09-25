@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DS.TurretData
   turretName: Cosmic Proton Cannon
   turretImage: {fileID: 4941789967258268583, guid: 01a674bf8d8dfc9418e6571f788cbd15, type: 3}
-  projectileImage: {fileID: 0}
+  projectileImage: {fileID: -3356593810811537127, guid: b282509e777381740b3538b2771c8668, type: 3}
   attackType: 2
   cost: 100
   score: 100

@@ -6,21 +6,63 @@ namespace DS
 
     public class SettingsUI : MonoBehaviour
     {
+        [Header("Menus")]
+        [SerializeField] private GameObject[] menus;
+        private int currentMenu;
+        [SerializeField] private Button prevButton, nextButton;
+
+
         [Header("Audio")]
         [SerializeField] private Button masterButton;
         [SerializeField] private Button musicButton, sfxButton;
         [SerializeField] private Slider masterSlider, musicSlider, sfxSlider;
+        
 
         private void OnEnable()
         {
             EnableAudioUI();
+            prevButton.onClick.AddListener(PreviousMenu);
+            nextButton.onClick.AddListener(NextMenu);
         }
 
         private void OnDisable()
         {
             DisableAudioUI();
+            prevButton.onClick.AddListener(PreviousMenu);
+            nextButton.onClick.AddListener(NextMenu);
         }
 
+        private void PreviousMenu()
+        {
+            currentMenu--;
+            if (currentMenu < 0)
+            {
+                currentMenu = menus.Length;
+            }
+            currentMenu = Mathf.Clamp(currentMenu, 0, menus.Length);
+
+            for (int i = 0; i < menus.Length; i++)
+            {
+                var menu = menus[i];
+                menu.SetActive(i == currentMenu);
+            }
+        }
+        private void NextMenu()
+        {
+            currentMenu++;
+            if (currentMenu > menus.Length)
+            {
+                currentMenu = 0;
+            }
+            currentMenu = Mathf.Clamp(currentMenu, 0, menus.Length);
+
+            for (int i = 0; i < menus.Length; i++)
+            {
+                var menu = menus[i];
+                menu.SetActive(i == currentMenu);
+            }
+        }
+        
 
         #region Audio
 

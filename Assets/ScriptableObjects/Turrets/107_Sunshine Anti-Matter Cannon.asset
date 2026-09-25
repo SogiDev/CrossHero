@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DS.TurretData
   turretName: Sunshine Anti-Matter Cannon
   turretImage: {fileID: -6205407380133246093, guid: ea5287ed16e35cf4fbc9eb9c17b3cf33, type: 3}
-  projectileImage: {fileID: 0}
+  projectileImage: {fileID: 7680820834086852892, guid: aaa1c86b68e48de40b4be740d2c6aaf3, type: 3}
   attackType: 2
   cost: 1000
   score: 1000

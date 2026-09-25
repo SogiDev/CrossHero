@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DS.TurretData
   turretName: Chromed Gatling Gun
   turretImage: {fileID: 6576422096747121249, guid: f74e739927448434a9f6e307d95b9300, type: 3}
-  projectileImage: {fileID: 0}
+  projectileImage: {fileID: -3356593810811537127, guid: b282509e777381740b3538b2771c8668, type: 3}
   attackType: 2
   cost: 100
   score: 100

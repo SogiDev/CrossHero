@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DS.TurretData
   turretName: Renewed Pulse Eraser
   turretImage: {fileID: 23181708110319498, guid: 397e164dcca6129459e9bd2663b87463, type: 3}
-  projectileImage: {fileID: 0}
+  projectileImage: {fileID: 4164744761163438241, guid: 99b6a47c2f0dcbf49bc40e4b0ba4b7f8, type: 3}
   attackType: 2
   cost: 1000
   score: 1000

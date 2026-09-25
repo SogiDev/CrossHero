@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DS.TurretData
   turretName: Eclipse Anti-Matter Shooter
   turretImage: {fileID: -8197366751933992687, guid: cc81eaed06cc943479c82f82cf43a275, type: 3}
-  projectileImage: {fileID: 0}
+  projectileImage: {fileID: 141893073332109768, guid: 179cf9b8cc1526248b0e72a6213a89d7, type: 3}
   attackType: 2
   cost: 100
   score: 100

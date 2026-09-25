@@ -1311,8 +1311,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2910584091135400410, guid: d9a604fcb61255e4ba2843e620c5f6a5, type: 3}
+      propertyPath: loadGame
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2910584091135400410, guid: d9a604fcb61255e4ba2843e620c5f6a5, type: 3}
       propertyPath: defaultScore
-      value: 999999
+      value: 999999999
       objectReference: {fileID: 0}
     - target: {fileID: 7197725309427353307, guid: d9a604fcb61255e4ba2843e620c5f6a5, type: 3}
       propertyPath: m_Name

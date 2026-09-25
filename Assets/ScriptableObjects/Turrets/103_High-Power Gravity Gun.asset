@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DS.TurretData
   turretName: High-Power Gravity Gun
   turretImage: {fileID: 212703464735712870, guid: 5ee2e44ac3cd3604c86094dd88b2798e, type: 3}
-  projectileImage: {fileID: 0}
+  projectileImage: {fileID: -247037112251525876, guid: 5261557b15235864bbe9e7176e7e3c26, type: 3}
   attackType: 2
   cost: 500
   score: 500
