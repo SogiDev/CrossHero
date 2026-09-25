@@ -10,15 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b85072f1464c0be46969bd717084fee8, type: 3}
-  m_Name: Sunshine Anti-Matter Cannon
+  m_Name: 201_Eclipse Laser Shooter
   m_EditorClassIdentifier: Assembly-CSharp::DS.TurretData
-  turretName: Sunshine Anti-Matter Cannon
-  turretImage: {fileID: -6205407380133246093, guid: ea5287ed16e35cf4fbc9eb9c17b3cf33, type: 3}
-  attackType: 2
-  cost: 500
-  maxHealth: 200
-  maxEnergy: 100
-  baseDamage: 20
+  turretName: Eclipse Laser Shooter
+  turretImage: {fileID: -4144904267134398451, guid: 79e2b498efde5144080f498daaded559, type: 3}
+  projectileImage: {fileID: 0}
+  attackType: 3
+  cost: 1500
+  score: 1500
+  maxHealth: 500
+  maxEnergy: 500
+  baseDamage: 30
   baseProjectileSpeed: 10
-  searchRadius: 20
+  searchRadius: 10
   baseTimer: 1

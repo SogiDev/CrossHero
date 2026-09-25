@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b85072f1464c0be46969bd717084fee8, type: 3}
+  m_Name: 203_Comet Fusion Shooter
+  m_EditorClassIdentifier: Assembly-CSharp::DS.TurretData
+  turretName: Comet Fusion Shooter
+  turretImage: {fileID: -4162065334322624750, guid: 1bba59f9d8aa3ac42bbf06a0d7d65064, type: 3}
+  projectileImage: {fileID: 0}
+  attackType: 3
+  cost: 2500
+  score: 2500
+  maxHealth: 500
+  maxEnergy: 500
+  baseDamage: 50
+  baseProjectileSpeed: 1
+  searchRadius: 20
+  baseTimer: 1

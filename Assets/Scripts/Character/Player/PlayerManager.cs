@@ -15,6 +15,7 @@ namespace DS
         internal PlayerAnimationManager playerAnimationManager;
         internal PlayerCombatManager playerCombatManager;
         private bool isInteracting = false;
+        private bool infiniteHealth = true;
 
         [SerializeField] private float interactRange = 0.5f;
 
@@ -47,6 +48,7 @@ namespace DS
         {
             base.Update();
             inputManager.HandleAllInputs();
+            if (infiniteHealth) { health = maxHealth;}
         }
 
         internal void Interact()

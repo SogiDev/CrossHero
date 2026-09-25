@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b85072f1464c0be46969bd717084fee8, type: 3}
-  m_Name: Chromed Gatling Gun
+  m_Name: 104_High-Speed Proton Eraser
   m_EditorClassIdentifier: Assembly-CSharp::DS.TurretData
-  turretName: Chromed Gatling Gun
-  turretImage: {fileID: 6576422096747121249, guid: f74e739927448434a9f6e307d95b9300, type: 3}
+  turretName: High-Speed Proton Eraser
+  turretImage: {fileID: -2762221971080922514, guid: 4fae43eaffe4c604fbb054387f7d6cf0, type: 3}
+  projectileImage: {fileID: 0}
   attackType: 2
   cost: 500
-  score: 100
+  score: 500
   maxHealth: 200
-  maxEnergy: 100
+  maxEnergy: 200
   baseDamage: 20
-  baseProjectileSpeed: 10
+  baseProjectileSpeed: 20
   searchRadius: 10
-  baseTimer: 0.25
+  baseTimer: 1

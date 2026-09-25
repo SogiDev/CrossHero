@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace DS
 {
@@ -32,13 +31,13 @@ namespace DS
 
         private GameObject SpawnPlatform()
         {
-            Vector3 position = new Vector2(
-                Random.Range(spawnMin.x, spawnMax.x),
-                Random.Range(spawnMin.y, spawnMax.y)
-            );
-            position += transform.position;
+            Vector3 position = new Vector3(
+                    Random.Range(spawnMin.x, spawnMax.x),
+                    Random.Range(spawnMin.y, spawnMax.y)
+                );
 
-            var surface = Instantiate(turretSurfacePrefab, position, Quaternion.identity, transform);
+            var surface = Instantiate(turretSurfacePrefab, position + transform.position, Quaternion.identity, transform);
+
             return surface;
         }
 

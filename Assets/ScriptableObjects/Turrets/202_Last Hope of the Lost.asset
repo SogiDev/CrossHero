@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b85072f1464c0be46969bd717084fee8, type: 3}
-  m_Name: Eclipse Laser Shooter
+  m_Name: 202_Last Hope of the Lost
   m_EditorClassIdentifier: Assembly-CSharp::DS.TurretData
-  turretName: Eclipse Laser Shooter
-  turretImage: {fileID: -4144904267134398451, guid: 79e2b498efde5144080f498daaded559, type: 3}
+  turretName: 'Last Hope of the Lost '
+  turretImage: {fileID: -7896408454611597858, guid: f3400a845a763a946bf917aec542a179, type: 3}
+  projectileImage: {fileID: 0}
   attackType: 3
-  cost: 1500
-  score: 0
+  cost: 2000
+  score: 2000
   maxHealth: 500
   maxEnergy: 500
-  baseDamage: 20
-  baseProjectileSpeed: 0
-  searchRadius: 30
+  baseDamage: 40
+  baseProjectileSpeed: 1
+  searchRadius: 20
   baseTimer: 1

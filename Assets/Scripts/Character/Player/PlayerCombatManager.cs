@@ -8,7 +8,6 @@ namespace DS
         private PlayerManager player;
         private PlayerInputManager inputManager;
         private PlayerCamera camera;
-        private GameObject empty;
 
         protected override void Awake()
         {
@@ -22,7 +21,15 @@ namespace DS
         protected override void Start()
         {
             base.Start();
+
+            camera = FindAnyObjectByType<PlayerCamera>() is var cam ? cam : PlayerCamera.Instance; 
+            /*
             camera = PlayerCamera.Instance;
+            if (camera == null)
+            {
+                camera = FindAnyObjectByType<PlayerCamera>();
+            }
+            */
         }
 
         // Update is called once per frame

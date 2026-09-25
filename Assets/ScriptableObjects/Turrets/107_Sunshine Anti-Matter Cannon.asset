@@ -10,15 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b85072f1464c0be46969bd717084fee8, type: 3}
-  m_Name: Cosmic Proton Cannon
+  m_Name: 107_Sunshine Anti-Matter Cannon
   m_EditorClassIdentifier: Assembly-CSharp::DS.TurretData
-  turretName: Cosmic Proton Cannon
-  turretImage: {fileID: 4941789967258268583, guid: 01a674bf8d8dfc9418e6571f788cbd15, type: 3}
+  turretName: Sunshine Anti-Matter Cannon
+  turretImage: {fileID: -6205407380133246093, guid: ea5287ed16e35cf4fbc9eb9c17b3cf33, type: 3}
+  projectileImage: {fileID: 0}
   attackType: 2
-  cost: 750
-  maxHealth: 200
+  cost: 1000
+  score: 1000
+  maxHealth: 250
   maxEnergy: 100
-  baseDamage: 30
-  baseProjectileSpeed: 5
+  baseDamage: 40
+  baseProjectileSpeed: 20
   searchRadius: 20
   baseTimer: 1

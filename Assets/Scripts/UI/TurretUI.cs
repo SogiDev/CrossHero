@@ -23,6 +23,7 @@ namespace DS
         }
 
         private TurretDisplay[] turretHolders;
+        private int prevLength = 0, currentLength;
         private GameData playerData;
 
         private void Start()
@@ -30,8 +31,21 @@ namespace DS
             if (storeUI == null) { storeUI = GetComponentInParent<StoreUI>(); }
 
             playerData = WorldManager.Instance.playerData;
+            
             availableTurrets = WorldManager.Instance.GetTurretData();
             UpdateHolders();
+        }
+
+        private void FixedUpdate()
+        {
+            foreach (var holder in turretHolders)
+            {
+                var canPurchase = playerData.currentRound.score >= holder.turret.cost;
+                Color yes = Color.white;
+                Color no = Color.grey;
+
+                holder.display.GetComponent<Image>().color = canPurchase ? yes : no;
+            }
         }
 
         private void UpdateHolders()
@@ -56,13 +70,14 @@ namespace DS
 
                 if (newDisplay.display.TryGetComponent<Button>(out var button))
                 {
-                    button.onClick.AddListener( () => UpdateDisplay(newDisplay, true));
+                    button.onClick.AddListener( () => UpdateDisplay(newDisplay, playerData.currentRound.score >= currentTurret.cost));
                 }
 
                 holderList.Add(newDisplay);
                 UpdateDisplay(newDisplay, playerData.currentRound.score >= currentTurret.cost);
             }
             turretHolders = holderList.ToArray();
+            prevLength = turretHolders.Length;
         }
 
         private void UpdateDisplay(TurretDisplay turretDisplay, bool canPurchase)
@@ -79,8 +94,6 @@ namespace DS
             {
                 display.sprite = turretDisplay.turret.turretImage;
             }
-
-
         }
     }
 }

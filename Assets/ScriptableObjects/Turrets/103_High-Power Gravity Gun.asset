@@ -10,15 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b85072f1464c0be46969bd717084fee8, type: 3}
-  m_Name: Cosmos Gravity Blaster
+  m_Name: 103_High-Power Gravity Gun
   m_EditorClassIdentifier: Assembly-CSharp::DS.TurretData
-  turretName: 'Cosmos Gravity Blaster '
-  turretImage: {fileID: 2241204480943171101, guid: 5b6eafdfa3449f34f8774b475def539a, type: 3}
-  attackType: 3
-  cost: 1000
+  turretName: High-Power Gravity Gun
+  turretImage: {fileID: 212703464735712870, guid: 5ee2e44ac3cd3604c86094dd88b2798e, type: 3}
+  projectileImage: {fileID: 0}
+  attackType: 2
+  cost: 500
+  score: 500
   maxHealth: 500
   maxEnergy: 100
-  baseDamage: 20
-  baseProjectileSpeed: 10
-  searchRadius: 50
-  baseTimer: 1
+  baseDamage: 10
+  baseProjectileSpeed: 15
+  searchRadius: 10
+  baseTimer: 0.25

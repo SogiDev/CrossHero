@@ -31,9 +31,9 @@ namespace DS
             sfxButton.onClick.AddListener(() => EnableSFXVolume());
 
             // Set Value
-            masterSlider.value = WorldManager.Instance.MasterVolume;
-            musicSlider.value = WorldManager.Instance.MusicVolume;
-            sfxSlider.value = WorldManager.Instance.SFXVolume;
+            masterSlider.value = AudioManager.Instance.MasterVolume;
+            musicSlider.value = AudioManager.Instance.MusicVolume;
+            sfxSlider.value = AudioManager.Instance.SFXVolume;
 
             // Set Buttons
             masterSlider.onValueChanged.AddListener((float value) => UpdateMasterVolume(masterSlider.value));
@@ -72,21 +72,21 @@ namespace DS
         private void UpdateMasterVolume(float value)
         {
 
-            WorldManager.Instance.MasterVolume = value;
+            AudioManager.Instance.MasterVolume = value;
             PlayerPrefs.Save();
         }
 
         private void UpdateMusicVolume(float value)
         {
 
-            WorldManager.Instance.MusicVolume = value;
+            AudioManager.Instance.MusicVolume = value;
             PlayerPrefs.Save();
         }
 
         private void UpdateSFXVolume(float value)
         {
 
-            WorldManager.Instance.SFXVolume = value;
+            AudioManager.Instance.SFXVolume = value;
             PlayerPrefs.Save();
         }
 

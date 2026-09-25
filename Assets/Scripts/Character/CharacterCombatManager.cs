@@ -1,4 +1,3 @@
-using Mono.Cecil;
 using System.Collections;
 using UnityEngine;
 namespace DS
@@ -15,6 +14,7 @@ namespace DS
     public class CharacterCombatManager : MonoBehaviour
     {
         protected CharacterManager character;
+        protected CharacterSoundManager characterSoundManager;
         protected SpriteRenderer spriteRenderer;
         protected AttackType attackType;
         protected int score = 100;
@@ -52,12 +52,13 @@ namespace DS
         protected virtual void Awake()
         {
             character = GetComponent<CharacterManager>();
+            characterSoundManager = GetComponent<CharacterSoundManager>();
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         protected virtual void Start()
         {
-            if (projectileSprite == null) { projectileSprite = WorldManager.Instance.projectiles[Random.Range(0, WorldManager.Instance.projectiles.Length)]; }
+            //if (projectileSprite == null) { projectileSprite = WorldManager.Instance.projectiles[Random.Range(0, WorldManager.Instance.projectiles.Length)]; }
         }
 
         // Update is called once per frame

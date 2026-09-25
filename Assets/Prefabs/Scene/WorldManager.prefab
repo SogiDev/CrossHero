@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 173227338025327626}
   - component: {fileID: 2910584091135400410}
+  - component: {fileID: 8851436500021753363}
   m_Layer: 0
   m_Name: WorldManager
   m_TagString: GameController
@@ -46,24 +47,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DS.WorldManager
   playerData:
     currentSession: 0
+    totalScore: 0
+    spentScore: 0
+    remainingScore: 0
     currentRound:
-      score: 0
       wave: 0
       turretsPlaced: 0
     rounds:
-    - score: 0
-      wave: 0
+    - wave: 0
       turretsPlaced: 0
   saveGame: 0
   loadGame: 0
+  defaultScore: 1000
+  spawner: {fileID: 0}
   allTurretData:
+  - {fileID: 11400000, guid: 86720ade72a85974ca1ad09fdb25817d, type: 2}
   - {fileID: 11400000, guid: 7493c2eebb9c46041bb2234da8565046, type: 2}
   - {fileID: 11400000, guid: 933407f21dafbcb48921c99bc475fc8e, type: 2}
-  - {fileID: 11400000, guid: 3c27af6512956204589aeeec8e3fd1c7, type: 2}
   - {fileID: 11400000, guid: 00b0016937e21744b9688fe47cc38ab7, type: 2}
-  - {fileID: 11400000, guid: 6dcb4b0dc72033946ae2a5732982e209, type: 2}
   - {fileID: 11400000, guid: 5b34f08d2677c784e87350ad64f86db2, type: 2}
   - {fileID: 11400000, guid: efb46008ea206464e9903a02cba87610, type: 2}
-  - {fileID: 11400000, guid: b4a97b40e8da463478f8508560d8674b, type: 2}
-  - {fileID: 11400000, guid: 86720ade72a85974ca1ad09fdb25817d, type: 2}
+  - {fileID: 11400000, guid: a4a9b95ec939c614aae127243ae05a59, type: 2}
+  - {fileID: 11400000, guid: a066d986e2c4b6c4f9e7ce119d381cb5, type: 2}
   - {fileID: 11400000, guid: 8e4d1e1c8ee3cee4899749596a48c905, type: 2}
+  - {fileID: 11400000, guid: 3c27af6512956204589aeeec8e3fd1c7, type: 2}
+  - {fileID: 11400000, guid: 6dcb4b0dc72033946ae2a5732982e209, type: 2}
+  - {fileID: 11400000, guid: b4a97b40e8da463478f8508560d8674b, type: 2}
+  - {fileID: 11400000, guid: b4a7496ffd14c5c4a932a94cdf4118e2, type: 2}
+--- !u!114 &8851436500021753363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7197725309427353307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68ebeb6c20a23f5499bdb702fa26f0d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DS.AudioManager

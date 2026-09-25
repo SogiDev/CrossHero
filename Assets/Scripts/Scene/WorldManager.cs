@@ -4,9 +4,11 @@ using UnityEngine.SceneManagement;
 
 namespace DS
 {
+    [RequireComponent(typeof(AudioManager))]
     public class WorldManager : MonoBehaviour
     {
         public static WorldManager Instance;
+        private AudioManager audioManager;
 
         [Header("GameData")]
         public GameData playerData;
@@ -33,9 +35,7 @@ namespace DS
                 Destroy(gameObject);
             }
 
-            masterVolume = PlayerPrefs.GetFloat("MasterVolume");
-            musicVolume = PlayerPrefs.GetFloat("MusicVolume");
-            sfxVolume = PlayerPrefs.GetFloat("SFXVolume");
+            audioManager = GetComponent<AudioManager>();
 
 
             playerData = SaveManager.LoadGame();
@@ -59,70 +59,6 @@ namespace DS
                 loadGame = false;
             }
         }
-
-        #region Audio
-        private float masterVolume;
-        public float MasterVolume
-        {
-            get => masterVolume;
-            set
-            {
-                if (masterVolume != value)
-                {
-                    masterVolume = value;
-                    PlayerPrefs.SetFloat("MasterVolume", masterVolume);
-                    PlayerPrefs.Save();
-                }
-            }
-        }
-        private float musicVolume;
-        public float MusicVolume
-        {
-            get => musicVolume;
-            set
-            {
-                if (musicVolume != value)
-                {
-                    musicVolume = value;
-                    PlayerPrefs.SetFloat("MusicVolume", musicVolume);
-                    PlayerPrefs.Save();
-                }
-            }
-        }
-        private float sfxVolume;
-        public float SFXVolume
-        {
-            get => sfxVolume;
-            set
-            {
-                if (sfxVolume != value)
-                {
-                    sfxVolume = value;
-                    PlayerPrefs.SetFloat("SFXVolume", sfxVolume);
-                    PlayerPrefs.Save();
-                }
-            }
-        }
-
-        public void EnableMasterVolume(bool volume)
-        {
-            int isActive = volume == true ? 1 : 0;
-            PlayerPrefs.SetInt("MasterVolumeEnabled", isActive);
-            PlayerPrefs.Save();
-        }
-        public void EnableMusicVolume(bool volume)
-        {
-            int isActive = volume == true ? 1 : 0;
-            PlayerPrefs.SetInt("MusicVolumeEnabled", isActive);
-            PlayerPrefs.Save();
-        }
-        public void EnableSFXVolume(bool volume)
-        {
-            int isActive = volume == true ? 1 : 0;
-            PlayerPrefs.SetInt("SFXVolumeEnabled", isActive);
-            PlayerPrefs.Save();
-        }
-        #endregion
 
         #region Scene Management
         public IEnumerator LoadScene(int sceneIndex)

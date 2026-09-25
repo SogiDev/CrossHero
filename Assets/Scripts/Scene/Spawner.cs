@@ -70,8 +70,6 @@ namespace DS
             StartCoroutine(SpawnEntity());
             WorldManager.Instance.playerData.currentRound.wave = WaveCount;
         }
-
-
         private void UpdateEntityList()
         {
 
