@@ -9,7 +9,20 @@ namespace DS
     {
         [SerializeField] public float damage;
         public GameObject sender;
+        public GameObject target;
         private int score = 10;
+
+        private void FixedUpdate()
+        {
+            LookAtTarget();
+        }
+        
+        private void LookAtTarget()
+        {
+            if (target == null) { return; }
+            transform.LookAt(target.transform);
+        }
+
 
         private void OnCollisionEnter2D(Collision2D collision)
         {

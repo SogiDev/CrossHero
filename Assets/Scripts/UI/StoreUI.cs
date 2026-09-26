@@ -12,7 +12,7 @@ namespace DS
         [SerializeField] internal GameObject turretStore, crystalStore;
 
         [Header("Turret Data")]
-        private TurretSurface turretPlacement;
+        private TurretSpawner turretPlacement;
         private TurretData currentData;
 
         [Header("Crystal Data")]
@@ -27,15 +27,14 @@ namespace DS
             if (turretDetailsUI == null) { turretDetailsUI = GetComponentInChildren<TurretDetailsUI>(); }
             if (crystalDetailsUI == null) { crystalDetailsUI = GetComponentInChildren<TurretDetailsUI>(); }
             if (turretUI == null) { turretUI = GetComponentInChildren<TurretUI>(); }
+
+            turretUI.availableTurrets = WorldManager.Instance.GetTurretData();
         }
 
         private void OnEnable()
         {
             turretPurchaseButton.onClick.AddListener(() => BuyTurret());
-            
-            var allTurrets = WorldManager.Instance.GetTurretData();
-            turretUI.availableTurrets = allTurrets;
-            turretDetailsUI.UpdateDetails(allTurrets[0]);
+            turretDetailsUI.UpdateDetails(WorldManager.Instance.GetTurretData()[0]);
 
             zonePurchaseButton.onClick.AddListener(() => BuyZone());
         }
@@ -48,7 +47,7 @@ namespace DS
 
 
         #region Turrets Store
-        internal void SetPurchaseButton(TurretSurface turretSurface)
+        internal void SetPurchaseButton(TurretSpawner turretSurface)
         {
             turretPlacement = turretSurface;
         }
@@ -56,18 +55,18 @@ namespace DS
         internal void SetData(TurretData data)
         {
             currentData = data;
-            turretDetailsUI.UpdateDetails(data);
         }
 
-        private bool BuyTurret()
+        public bool BuyTurret(GameObject caller = null)
         {
             PlayerUI.Instance.storeUI.gameObject.SetActive(false);
             if (turretPlacement.isPurchased) { return false; }
             var playerData = WorldManager.Instance.playerData;
-            
+
             if (playerData.currentRound.score >= currentData.cost)
             {
-                playerData.currentRound.AddScore(-currentData.cost);
+                Debug.Log("Purchase: " + currentData.name);
+                playerData.RemoveScore(currentData.cost);
                 turretPlacement.BuildTurret(currentData);
                 return true;
             }
@@ -95,7 +94,7 @@ namespace DS
 
             if (playerData.currentRound.score >= cost)
             {
-                playerData.currentRound.AddScore(-cost);
+                playerData.currentRound.RemoveScore(cost);
                 crystalData.CreateZone();
                 return;
             }

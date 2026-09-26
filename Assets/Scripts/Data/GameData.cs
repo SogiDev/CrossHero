@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
 namespace DS
@@ -36,11 +37,15 @@ namespace DS
             return totalScore;
         }
 
-        public void AddScore(float score, GameObject caller = null)
+        public void AddScore(float score)
         {
-            //Debug.Log("Score Added: " + score, caller);
             currentRound.AddScore(Mathf.RoundToInt(score));
             remainingScore += Mathf.RoundToInt(score);
+        }
+        public void RemoveScore(float score)
+        {
+            currentRound.RemoveScore(Mathf.RoundToInt(score));
+            remainingScore -= Mathf.RoundToInt(score);
         }
 
         #endregion
@@ -51,6 +56,7 @@ namespace DS
         public struct RoundData
         {
             public void AddScore(int sc) { score += sc; }
+            public void RemoveScore(int sc) { score -= sc; }
             public int score { get; private set; }
             public int wave;
             public int turretsPlaced;

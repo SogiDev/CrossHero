@@ -59,8 +59,9 @@ namespace DS
 
             if (Physics2D.OverlapCircle(transform.position, interactRange, LayerMask.GetMask("Purchasable")) is var collider && collider != null)
             {
-                if (collider.TryGetComponent<TurretSurface>(out var turretSurface))
+                if (collider.TryGetComponent<TurretSpawner>(out var turretSurface))
                 {
+                    if (turretSurface.isPurchased) { Debug.Log("Purchased", collider.gameObject); return; }
                     PlayerUI.Instance.ShowStore(turretSurface);
                     return;
                 }

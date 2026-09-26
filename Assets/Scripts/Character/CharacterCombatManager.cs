@@ -16,7 +16,7 @@ namespace DS
         protected CharacterManager character;
         protected CharacterSoundManager characterSoundManager;
         protected SpriteRenderer spriteRenderer;
-        protected AttackType attackType;
+        public AttackType attackType;
         protected int score = 100;
 
         [Header("Targert Info")]
@@ -39,7 +39,7 @@ namespace DS
         [SerializeField] protected float closeAttackRange = 2;
         [SerializeField] protected GameObject projectile;
         [SerializeField] protected LineRenderer laser;
-        [SerializeField] protected Sprite projectileSprite;
+        public Sprite projectileSprite;
         // Range of Combat Size
         [SerializeField] protected float projectileAttackRange = 8;
         [SerializeField] protected int projectileSpeed = 8;
@@ -143,7 +143,6 @@ namespace DS
             {
                 if (hit.TryGetComponent<CharacterManager>(out var entity))
                 {
-                    Debug.Log("Hit Entity: " + entity.name, gameObject);
                     currentDamage = baseDamage;
                     entity.TakeDamage(currentDamage);
                     yield return new WaitForSeconds(closeAttackTimer);
@@ -152,7 +151,6 @@ namespace DS
                 }
             }
 
-            Debug.Log("No Hit", gameObject);
             character.isAttacking = false;
             yield break;
 
@@ -190,6 +188,7 @@ namespace DS
             if (clone.TryGetComponent<Projectile>(out var bullet))
             {
                 bullet.sender = gameObject;
+                bullet.target = target;
                 currentDamage = baseDamage;
                 bullet.damage = currentDamage;
             }
@@ -216,7 +215,7 @@ namespace DS
                 // Enermy Information
                 currentDamage = baseDamage * laserDamageOffset;
                 enemy.GetComponent<CharacterManager>().TakeDamage(currentDamage);
-                WorldManager.Instance.playerData.AddScore(score * 0.1f, gameObject);
+                WorldManager.Instance.playerData.AddScore(score * 0.1f);
                 character.isAttacking = true;
 
                 // Laser Object
@@ -239,7 +238,7 @@ namespace DS
         {
             if (character.isAttacking) yield break;
             if (!character.canAttack) yield break;
-            Debug.Log("Support Other Characters");
+            //Debug.Log("Support Other Characters");
 
             yield break;
         }

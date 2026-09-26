@@ -13,10 +13,7 @@ namespace DS
         [SerializeField] internal TurretUI turretUI;
         [SerializeField] internal ResultsUI resultsUI;
         [SerializeField] internal SettingsUI settingsUI;
-
-        [SerializeField] internal Button roundButton;
         public Button settingsButton;
-        private Spawner spawner;
 
         private void Awake()
         {
@@ -35,26 +32,19 @@ namespace DS
             if (resultsUI == null) resultsUI = GetComponentInChildren<ResultsUI>();
         }
 
-        private void Start()
-        {
-            spawner = FindAnyObjectByType<Spawner>();
-            ShowRound();
-        }
 
         private void OnEnable()
         {
-            roundButton.onClick.AddListener(() => StartCoroutine(spawner.StartRound()));
-            roundButton.onClick.AddListener(() => roundButton.gameObject.SetActive(false));
+            
             settingsButton.onClick.AddListener(ShowSettings);
         }
 
         private void OnDisable()
         {
-            roundButton.onClick.RemoveListener(() => StartCoroutine(spawner.StartRound()));
             settingsButton.onClick.RemoveListener(ShowSettings);
         }
 
-        public void ShowStore(TurretSurface turretSurface)
+        public void ShowStore(TurretSpawner turretSurface)
         {
             storeUI.gameObject.SetActive(true);
             storeUI.crystalStore.SetActive(false);
@@ -77,11 +67,6 @@ namespace DS
         public void ShowResults()
         {
             resultsUI.gameObject.SetActive(!resultsUI.gameObject.activeSelf);
-        }
-
-        public void ShowRound()
-        {
-            roundButton.gameObject.SetActive(true);
         }
 
         internal void CompleteGame(bool isWinner)

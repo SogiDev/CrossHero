@@ -23,11 +23,12 @@ namespace DS
         public int WaveCount { get; private set; } = 0;
         public float WaveScale { get; private set; } = 1;
 
-        [SerializeField] private Vector2 healthClamp, energyClamp, speedClamp, damageClamp;
+        [SerializeField] private Vector2 healthClamp = Vector2.one, energyClamp = Vector2.one, speedClamp = Vector2.one, damageClamp = Vector2.one;
 
         [Header("SpaceShips")]
         [SerializeField] private GameObject spaceShipPrefab;
         [SerializeField] private Sprite[] spaceShips;
+        [SerializeField] private Sprite[] projectiles;
 
         private void Start()
         {
@@ -43,7 +44,6 @@ namespace DS
 
             if (entityCount <= 0 && spawnedEntities.Length <= 0) { 
                 isRoundActive = false; 
-                PlayerUI.Instance.ShowRound();
                 autoRoundActive = false;
             }
 
@@ -88,7 +88,6 @@ namespace DS
             {
                 isRoundActive = false;
                 autoRoundActive = false;
-                if (!autoStart) { PlayerUI.Instance.ShowRound(); }
             }
         }
 
@@ -134,12 +133,34 @@ namespace DS
                     sp,
                     dmg * (WaveCount * WaveScale),
                     score
-                    );
+                );
+            }
+
+            if (entity.TryGetComponent<CharacterCombatManager>(out var characterCombatManager))
+            {
+                characterCombatManager.projectileSprite = projectiles[Random.Range(0, projectiles.Length)];
+                characterCombatManager.attackType = RandomType();
             }
 
             yield return new WaitForSeconds(timer);
             timer = Random.Range(1, 3);
             canSpawn = true;
+        }
+
+        private AttackType RandomType()
+        {
+            int rng = Random.Range(0, 3);
+            switch (rng)
+            {
+                case (1):
+                    return AttackType.CLOSE;
+                case (2):
+                    return AttackType.PROJECTILE;
+                case (3):
+                    return AttackType.LASER;
+                default:
+                    return AttackType.SUPPORT;
+            }
         }
 
         private void OnDrawGizmos()

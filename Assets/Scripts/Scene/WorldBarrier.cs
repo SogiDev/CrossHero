@@ -54,7 +54,7 @@ namespace DS {
             }
         }
 
-        private void OGizmosSelected()
+        private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.wheat;
             Gizmos.DrawSphere(spawner, spawnerSize);
