@@ -38,6 +38,7 @@ namespace DS
         // Range of Combat Size
         [SerializeField] protected float closeAttackRange = 2;
         [SerializeField] protected GameObject projectile;
+        [SerializeField] protected LineRenderer laser;
         [SerializeField] protected Sprite projectileSprite;
         // Range of Combat Size
         [SerializeField] protected float projectileAttackRange = 8;
@@ -74,6 +75,17 @@ namespace DS
             }
 
             if (target != null) { targetPosition = target.transform.position; }
+        }
+
+        protected virtual void LateUpdate()
+        {
+            if (target == null)
+            {
+                if (laser != null)
+                {
+                    laser.gameObject.SetActive(false);
+                }
+            }
         }
 
         protected virtual void OnDestroy()
@@ -192,14 +204,27 @@ namespace DS
         {
             if (character.isAttacking) yield break;
             if (!character.canAttack) yield break;
+            if (laser == null)
+            {
+                Debug.LogError("No Laser Object Detected", gameObject);
+                yield break;
+            }
             target = enemy;
 
             if (FindTargetInRange(enemy))
             {
+                // Enermy Information
                 currentDamage = baseDamage * laserDamageOffset;
                 enemy.GetComponent<CharacterManager>().TakeDamage(currentDamage);
                 WorldManager.Instance.playerData.AddScore(score * 0.1f, gameObject);
                 character.isAttacking = true;
+
+                // Laser Object
+                laser.gameObject.SetActive(true);
+                laser.positionCount = 2;
+                laser.SetPosition(0, transform.position);
+                laser.SetPosition(1, enemy.transform.position);
+
                 yield return new WaitForSeconds(laserAttackTimer * 0.1f);
                 character.isAttacking = false;
                 yield break;

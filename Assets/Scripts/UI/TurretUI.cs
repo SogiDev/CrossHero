@@ -14,7 +14,9 @@ namespace DS
         [SerializeField] private Image display;
         [SerializeField] internal TurretData[] availableTurrets;
 
-
+        private ScrollRect scrollRect;
+        private Vector2 scrollSize = Vector2.one;
+        private float scrollScale = 0.1f;
         [Serializable]
         private struct TurretDisplay
         {
@@ -30,6 +32,7 @@ namespace DS
         {
             if (storeUI == null) { storeUI = GetComponentInParent<StoreUI>(); }
 
+            scrollRect = GetComponent<ScrollRect>();
             playerData = WorldManager.Instance.playerData;
             
             availableTurrets = WorldManager.Instance.GetTurretData();
@@ -62,7 +65,7 @@ namespace DS
                 newDisplay.display = Instantiate(holderPrefab, contentArea.transform);
                 newDisplay.display.name = "Holder for " + currentTurret.turretName;
                 newDisplay.turret = currentTurret;
-
+ 
                 if (newDisplay.display.TryGetComponent<Image>(out var image))
                 {
                     image.sprite = currentTurret.turretImage;
@@ -76,6 +79,7 @@ namespace DS
                 holderList.Add(newDisplay);
                 UpdateDisplay(newDisplay, playerData.currentRound.score >= currentTurret.cost);
             }
+            scrollRect.content.anchorMax = new Vector2(scrollSize.x * scrollScale, scrollSize.y * scrollScale) + Vector2.one;
             turretHolders = holderList.ToArray();
             prevLength = turretHolders.Length;
         }

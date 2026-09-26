@@ -45,11 +45,13 @@ namespace DS
         {
             roundButton.onClick.AddListener(() => StartCoroutine(spawner.StartRound()));
             roundButton.onClick.AddListener(() => roundButton.gameObject.SetActive(false));
+            settingsButton.onClick.AddListener(ShowSettings);
         }
 
         private void OnDisable()
         {
             roundButton.onClick.RemoveListener(() => StartCoroutine(spawner.StartRound()));
+            settingsButton.onClick.RemoveListener(ShowSettings);
         }
 
         public void ShowStore(TurretSurface turretSurface)

@@ -30,6 +30,7 @@ namespace DS
             baseDamage = turretData.baseDamage;
             projectileSpeed = data.baseProjectileSpeed;
             attackType = data.attackType;
+            projectileSprite = data.projectileImage;
 
             switch (data.attackType)
             {
