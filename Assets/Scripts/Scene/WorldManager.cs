@@ -44,6 +44,9 @@ namespace DS
                 playerData = new GameData();
                 SaveManager.SaveGame(playerData);
             }
+
+            defaultScore = PlayerPrefs.GetInt("Default Score", 1000);
+            
         }
 
         private void FixedUpdate()
@@ -95,6 +98,7 @@ namespace DS
         public void StartGame()
         {
             playerData.currentRound = new GameData.RoundData();
+            defaultScore = PlayerPrefs.GetInt("Default Score", 1000);
             playerData.currentRound.AddScore(defaultScore);
         }
 

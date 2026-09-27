@@ -14,7 +14,6 @@ namespace DS
         private bool isRoundActive = false;
         public bool IsRoundActive => isRoundActive;
         public bool autoStart = false;
-        public bool autoRoundActive = false;
 
         [Header("Spawned Entities")]
         [SerializeField] private bool canSpawn = true;
@@ -33,6 +32,8 @@ namespace DS
         private void Start()
         {
             WorldManager.Instance.spawner = this;
+            autoStart = PlayerPrefs.GetInt("Auto Start", 0) == 0 ? false : true;
+            WaveScale = PlayerPrefs.GetFloat("Wave Scale", 1);
         }
 
         public void FixedUpdate()
@@ -42,32 +43,27 @@ namespace DS
 
             UpdateEntityList();
 
-            if (entityCount <= 0 && spawnedEntities.Length <= 0) { 
-                isRoundActive = false; 
-                autoRoundActive = false;
+            if (autoStart && !isRoundActive)
+            {
+                isRoundActive = true;
+                StartCoroutine(StartRound());
             }
 
-            if (!isRoundActive && autoStart && !autoRoundActive) { StartCoroutine(StartRound()); }
+
+            if (spawnedEntities.Length <= 0 && entityCount <= 0)
+            {
+                isRoundActive = false;
+            }
         }
 
         private readonly WaitForSeconds roundTimer = new(1);
-        public IEnumerator AutoStartRound()        
-        {
-            autoRoundActive = true;
-            entityCount = Random.Range(1, 10) * WaveCount;
-            isRoundActive = true;
-            yield return roundTimer;
-            WaveCount++;
-            StartCoroutine(SpawnEntity());
-            WorldManager.Instance.playerData.currentRound.wave = WaveCount;
-        }
         public IEnumerator StartRound()        
         {
-            entityCount = Random.Range(1, 10) * WaveCount;
+            entityCount = Random.Range(5, 10) * WaveCount;
             isRoundActive = true;
+            StartCoroutine(SpawnEntity());
             yield return roundTimer;
             WaveCount++;
-            StartCoroutine(SpawnEntity());
             WorldManager.Instance.playerData.currentRound.wave = WaveCount;
         }
         private void UpdateEntityList()
@@ -84,11 +80,6 @@ namespace DS
             }
             spawnedEntities = list.ToArray();
 
-            if (spawnedEntities.Length <= 0 && entityCount <= 0)
-            {
-                isRoundActive = false;
-                autoRoundActive = false;
-            }
         }
 
         private IEnumerator SpawnEntity()

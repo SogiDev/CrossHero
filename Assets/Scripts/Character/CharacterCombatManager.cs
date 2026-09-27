@@ -129,6 +129,12 @@ namespace DS
             
             return length <= searchRange;
         }
+
+        protected void MoveTowardsTarget(GameObject obj)
+        {
+
+        }
+
         #endregion
 
         #region Attacks
@@ -254,26 +260,26 @@ namespace DS
             {
                 // Draw Close Attack
                 Gizmos.color = Color.red;
-                Gizmos.DrawWireSphere(forwardPosition, closeAttackRange);
+                Gizmos.DrawWireSphere(transform.position, closeAttackRange);
             }
             
             if (attackType == AttackType.LASER)
             {
                 // Draw Ranged Attack
                 Gizmos.color = Color.green;
-                Gizmos.DrawLine(forwardPosition, targetPosition);
+                Gizmos.DrawLine(transform.position, targetPosition);
             }
             
             if (attackType == AttackType.PROJECTILE){
                 Gizmos.color = Color.blue;
-                Gizmos.DrawWireSphere(forwardPosition, projectileAttackRange);
+                Gizmos.DrawWireSphere(transform.position, projectileAttackRange);
             }
             
             if (attackType == AttackType.SUPPORT){
 
                 // Draw Support Attack
                 Gizmos.color = Color.purple;
-                Gizmos.DrawWireSphere(forwardPosition, supportRange);
+                Gizmos.DrawWireSphere(transform.position, supportRange);
             }
 
         }

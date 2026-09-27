@@ -33,6 +33,7 @@ namespace DS
             playerLocomotionManager = GetComponent<PlayerLocomotionManager>();
             playerAnimationManager = GetComponent<PlayerAnimationManager>();
             playerCombatManager = GetComponent<PlayerCombatManager>();
+        
         }
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -48,6 +49,8 @@ namespace DS
         {
             base.Update();
             inputManager.HandleAllInputs();
+            
+            infiniteHealth = PlayerPrefs.GetInt("Infinite Health", 0) == 0 ? false : true;
             if (infiniteHealth) { health = maxHealth;}
         }
 

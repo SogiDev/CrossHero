@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 namespace DS
@@ -21,18 +22,30 @@ namespace DS
             base.Update();
 
 
-
-            if (FindTargetInRange(crystal.gameObject) is var hit && target == null)
+            if (target == null)
             {
-                target = crystal.gameObject;
-                character.canMove = false;
-            }
-            else if (FindTargetInRange() is var turret && turret != null)
-            {
-                character.canMove = true;
+                if (FindTargetInRange(crystal.gameObject))
+                {
+                    target = crystal.gameObject;
+                    character.canMove = false;
+                    character.isCrouching = false;
+                    character.isSprinting = false;
+                }
+                else if (FindTargetInRange() is var turret && turret != null)
+                {
+                    character.canMove = true;
+                    character.isCrouching = true;
+                    character.isSprinting = false;
+                }
+                else
+                {
+                    character.canMove = true;
+                    character.isSprinting = true;
+                    character.isCrouching = false;
+                }
             }
 
-
+            character.canMove = target == crystal.gameObject;
 
             if (target != null && character.canAttack)
             {

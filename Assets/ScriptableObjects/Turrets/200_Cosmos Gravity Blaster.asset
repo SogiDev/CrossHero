@@ -17,7 +17,7 @@ MonoBehaviour:
   projectileImage: {fileID: 0}
   attackType: 3
   cost: 1000
-  score: 0
+  score: 1000
   maxHealth: 500
   maxEnergy: 500
   baseDamage: 20

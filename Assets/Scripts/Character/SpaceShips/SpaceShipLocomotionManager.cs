@@ -28,15 +28,19 @@ namespace DS
 
         internal override void HandleMovement()
         {
+            if (!character.canMove) { return; }
             moveAmount.x = 1;
             
+            /*
             if (Physics2D.Raycast(forwardRay.origin, forwardRay.direction, slowDownRange, LayerMask.GetMask("Turret")) is var turret && turret.collider != null)
             {
                 // Stop and Move at Half Speed
                 moveAmount.x = 0.5f;
             }
-            
+            */
+
             character.currentSpeed = character.isSprinting ? character.BaseSpeed * 1.5f : character.isCrouching ? character.BaseSpeed * 0.5f : character.BaseSpeed;
+
             rigidBody.linearVelocityX = moveAmount.x * Time.deltaTime * character.currentSpeed * 100;
             rigidBody.linearVelocityY = 0;
         }

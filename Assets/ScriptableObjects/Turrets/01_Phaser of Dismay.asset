@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DS.TurretData
   turretName: Phaser of Dismay
   turretImage: {fileID: 5673241122778943189, guid: cb8d44ba8a5ac8347bc1ff58123cdec9, type: 3}
+  projectileImage: {fileID: 0}
   attackType: 1
   cost: 1000
+  score: 1000
   maxHealth: 500
   maxEnergy: 500
   baseDamage: 50
