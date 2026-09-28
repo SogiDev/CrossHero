@@ -49,7 +49,7 @@ namespace DS
             }
         }
 
-        private void AttackTarget(GameObject target)
+        private void AttackTarget(GameObject target = null)
         {
             switch (data.attackType)
             {

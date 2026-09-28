@@ -52,7 +52,7 @@ namespace DS
 
         }
 
-        protected virtual void Update()
+        protected virtual void FixedUpdate()
         {
             if (health <= 0)
             {

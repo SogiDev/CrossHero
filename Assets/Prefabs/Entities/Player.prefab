@@ -12,15 +12,14 @@ GameObject:
   - component: {fileID: 3241352037239663356}
   - component: {fileID: 4662892218410680698}
   - component: {fileID: 8107321976451450308}
-  - component: {fileID: 8763836686413316048}
   - component: {fileID: 7589513995954219893}
   - component: {fileID: 4249703888526646939}
   - component: {fileID: 8369150708181400607}
   - component: {fileID: 5179560322096918026}
   - component: {fileID: 5772948251911587820}
-  - component: {fileID: 6626522986497600905}
   - component: {fileID: 1551545691372721484}
-  m_Layer: 0
+  - component: {fileID: 6626522986497600905}
+  m_Layer: 9
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -166,20 +165,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &8763836686413316048
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6556059336093737865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrary
-  m_Library: []
-  m_SpriteLibraryAsset: {fileID: 0}
 --- !u!95 &7589513995954219893
 Animator:
   serializedVersion: 7
@@ -219,8 +204,8 @@ MonoBehaviour:
   health: 100
   maxEnergy: 100
   energy: 100
-  baseSpeed: 5
-  currentSpeed: 5
+  baseSpeed: 2
+  currentSpeed: 2
   inputManager: {fileID: 0}
   interactRange: 0.5
 --- !u!114 &8369150708181400607
@@ -235,6 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e173202286758204eb2095eba2ba083e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DS.PlayerLocomotionManager
+  moveAmount: {x: 0, y: 0}
   jumpForce: 5
   groundLayer:
     serializedVersion: 2
@@ -263,6 +249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5472236fa6f667940a3d1c4fadcac482, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DS.PlayerCombatManager
+  attackType: 1
   targetMask:
     serializedVersion: 2
     m_Bits: 768
@@ -281,6 +268,21 @@ MonoBehaviour:
   baseDamage: 1
   currentDamage: 2
   laserDamageOffset: 0.1
+--- !u!114 &1551545691372721484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6556059336093737865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7ad3790e8d198e4e9152bb12ec240f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DS.CharacterSoundManager
+  closeAttackSound: {fileID: 0}
+  projectileAttackSound: {fileID: 0}
+  laserAttackSound: {fileID: 0}
 --- !u!82 &6626522986497600905
 AudioSource:
   m_ObjectHideFlags: 0
@@ -378,18 +380,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1551545691372721484
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6556059336093737865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7ad3790e8d198e4e9152bb12ec240f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DS.CharacterSoundManager
-  closeAttackSound: {fileID: 0}
-  projectileAttackSound: {fileID: 0}
-  laserAttackSound: {fileID: 0}

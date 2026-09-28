@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1065702772946123924}
   - component: {fileID: -9049151681406368133}
   - component: {fileID: 8370250931945880083}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,7 +86,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: -5225540622116197949, guid: a5f8ef1d30c6c584b92bb8a9f22c3b37, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2475,3 +2475,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DS.Projectile
   damage: 1
   sender: {fileID: 0}
+  target: {fileID: 0}

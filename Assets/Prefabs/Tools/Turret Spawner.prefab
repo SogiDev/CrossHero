@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2140478027137987199}
   - component: {fileID: 8709681931324164106}
   - component: {fileID: 7275412480964691690}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: Turret Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DS.TurretSurface
   turretPrefab: {fileID: 961300003793627865, guid: 7c9c3e3212cf0874699443aa894b7bd9, type: 3}
   currentTurrent: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &8709681931324164106
 SpriteRenderer:
   serializedVersion: 3

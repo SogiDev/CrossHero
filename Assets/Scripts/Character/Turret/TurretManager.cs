@@ -21,7 +21,7 @@ namespace DS
             base.Start();
         }
 
-        protected override void Update()
+        protected override void FixedUpdate()
         {
             
         }

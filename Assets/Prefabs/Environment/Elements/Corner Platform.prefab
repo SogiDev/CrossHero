@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7596359383120121797}
   - component: {fileID: 5020694061187710196}
   - component: {fileID: 6768733826048316333}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Corner Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}

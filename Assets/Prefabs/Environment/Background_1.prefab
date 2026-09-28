@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7399805647082372058}
   - component: {fileID: 7098537356972950888}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: 3_Industrial_Tileset_1_FarBackground_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4935642818191810895}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Background_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -144,7 +144,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7529493422557274678}
   - component: {fileID: 7147548258361320024}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: 3_Industrial_Tileset_1_FarBackground_6 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -236,7 +236,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5490971521642469546}
   - component: {fileID: 5187354489404069488}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: 3_Industrial_Tileset_1_FarBackground_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -328,7 +328,7 @@ GameObject:
   m_Component:
   - component: {fileID: 442644232757088400}
   - component: {fileID: 100186678441135635}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: 3_Industrial_Tileset_1_FarBackground_7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -420,7 +420,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1277079975110844313}
   - component: {fileID: 8835192906616929136}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: 3_Industrial_Tileset_1_FarBackground_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -512,7 +512,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5003120814547069160}
   - component: {fileID: 2744632456161022278}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: 3_Industrial_Tileset_1_FarBackground_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -604,7 +604,7 @@ GameObject:
   m_Component:
   - component: {fileID: 591424556153558135}
   - component: {fileID: 6967921549391201169}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: 3_Industrial_Tileset_1_FarBackground_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -696,7 +696,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9045890168116084152}
   - component: {fileID: 5618766741642201014}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: 3_Industrial_Tileset_1_FarBackground_6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -788,7 +788,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1487115409195518532}
   - component: {fileID: 2522170425399055345}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: 3_Industrial_Tileset_1_FarBackground_8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -880,7 +880,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4584450643897477767}
   - component: {fileID: 349883977424094429}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: 3_Industrial_Tileset_1_FarBackground_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -972,7 +972,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8813449536453396440}
   - component: {fileID: 181158084850295290}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: 3_Industrial_Tileset_1_FarBackground_6 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

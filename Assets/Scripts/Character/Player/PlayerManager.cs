@@ -45,9 +45,9 @@ namespace DS
         }
 
         // Update is called once per frame
-        protected override void Update()
+        protected override void FixedUpdate()
         {
-            base.Update();
+            base.FixedUpdate();
             inputManager.HandleAllInputs();
             
             infiniteHealth = PlayerPrefs.GetInt("Infinite Health", 0) == 0 ? false : true;

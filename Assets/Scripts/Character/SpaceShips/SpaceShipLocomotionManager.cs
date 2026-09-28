@@ -6,6 +6,7 @@ namespace DS
     {
         private Ray2D forwardRay;
         [SerializeField] private float slowDownRange = 20;
+        public float searchRadius = 10.0f;
 
         protected override void Awake()
         {
@@ -28,18 +29,18 @@ namespace DS
 
         internal override void HandleMovement()
         {
-            if (!character.canMove) { return; }
             moveAmount.x = 1;
             
-            /*
-            if (Physics2D.Raycast(forwardRay.origin, forwardRay.direction, slowDownRange, LayerMask.GetMask("Turret")) is var turret && turret.collider != null)
+            if (Physics2D.OverlapCircle(transform.position, searchRadius, LayerMask.GetMask("Entity")) is var hit)
             {
-                // Stop and Move at Half Speed
-                moveAmount.x = 0.5f;
+                moveAmount.x = hit.gameObject.CompareTag("Crystal") ? 0f :
+                    hit.gameObject.CompareTag("Turret") ? 0.5f :
+                    1.0f;
             }
-            */
 
-            character.currentSpeed = character.isSprinting ? character.BaseSpeed * 1.5f : character.isCrouching ? character.BaseSpeed * 0.5f : character.BaseSpeed;
+            character.currentSpeed = character.isSprinting ? character.BaseSpeed * 1.5f :
+                character.isCrouching ? character.BaseSpeed * 0.5f :
+                character.BaseSpeed;
 
             rigidBody.linearVelocityX = moveAmount.x * Time.deltaTime * character.currentSpeed * 100;
             rigidBody.linearVelocityY = 0;

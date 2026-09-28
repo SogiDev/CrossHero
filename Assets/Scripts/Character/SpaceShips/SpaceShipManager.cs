@@ -25,14 +25,13 @@ namespace DS
             characterAnimationManager.animator.enabled = false;
         }
 
-        protected override void Update()
+        protected override void FixedUpdate()
         {
-            base.Update();
+            base.FixedUpdate();
         }
 
         protected override void HandleMovement()
         {
-            if (!canMove) { return; }
             spaceShipLocomotionManager.HandleMovement();
         }
         protected override void HandleGrounded()

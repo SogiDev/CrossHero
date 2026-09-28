@@ -8,7 +8,7 @@ namespace DS
 
         protected CharacterManager character;
         protected Rigidbody2D rigidBody;
-        protected Vector2 moveAmount = Vector2.zero;
+        [SerializeField] protected Vector2 moveAmount = Vector2.zero;
 
         [Header("Status")]
         [SerializeField] protected float jumpForce = 10f;

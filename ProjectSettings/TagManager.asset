@@ -4,8 +4,11 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Entity
   - SpawnPoint
+  - Turret
+  - Crystal
+  - SpaceShip
+  - Entity
   layers:
   - Default
   - TransparentFX
@@ -14,10 +17,10 @@ TagManager:
   - Water
   - UI
   - Environment
-  - Turret
-  - Ships
-  - Projectiles
+  - Projectile
   - Purchasable
+  - Entity
+  - 
   - 
   - 
   - 

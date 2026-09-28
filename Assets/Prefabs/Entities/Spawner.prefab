@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4507900683410514860}
   m_Layer: 0
   m_Name: Spawner
-  m_TagString: GameController
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -46,9 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Spawner
   spawnMin: {x: -5, y: -15}
   spawnMax: {x: 5, y: 15}
-  timer: 5
+  timer: 3
   autoStart: 0
-  autoRoundActive: 0
   canSpawn: 1
   spawnedEntities: []
   healthClamp: {x: 5, y: 10}
@@ -177,3 +176,4 @@ MonoBehaviour:
   - {fileID: -8473847232221006070, guid: ca3bbd418f1644849a30a2303aa79454, type: 3}
   - {fileID: 8589762642906168021, guid: fec09b4f52e7c8442b48d777a8b8f8e1, type: 3}
   - {fileID: 7879670278846142041, guid: 9e5ef147805917c4a8c4ee6a13b2b549, type: 3}
+  projectiles: []
