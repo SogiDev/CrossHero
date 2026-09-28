@@ -1,5 +1,3 @@
-using System;
-using System.Security.Authentication.ExtendedProtection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,8 +19,8 @@ namespace DS
 
         [Header("Audio")]
         [SerializeField] private Button masterButton;
-        [SerializeField] private Button musicButton, sfxButton;
-        [SerializeField] private Slider masterSlider, musicSlider, sfxSlider;
+        [SerializeField] private Button musicButton, gameplayButton, menuButton;
+        [SerializeField] private Slider masterSlider, musicSlider, gameplaySlider, menuSlider;
 
         [Header("Game")]
         [SerializeField] private bool IsAutoActive = false;
@@ -159,17 +157,20 @@ namespace DS
         {
             masterButton.onClick.AddListener(() => EnableMasterVolume());
             musicButton.onClick.AddListener(() => EnableMusicVolume());
-            sfxButton.onClick.AddListener(() => EnableSFXVolume());
+            gameplayButton.onClick.AddListener(() => EnableGameplayVolume());
+            menuButton.onClick.AddListener(() => EnableMenuVolume());
 
             // Set Value
             masterSlider.value = AudioManager.Instance.MasterVolume;
             musicSlider.value = AudioManager.Instance.MusicVolume;
-            sfxSlider.value = AudioManager.Instance.SFXVolume;
+            gameplaySlider.value = AudioManager.Instance.GameplayVolume;
+            menuSlider.value = AudioManager.Instance.MenuVolume;
 
             // Set Buttons
             masterSlider.onValueChanged.AddListener(value => UpdateMasterVolume(masterSlider.value));
             musicSlider.onValueChanged.AddListener(value => UpdateMusicVolume(musicSlider.value));
-            sfxSlider.onValueChanged.AddListener((value) => UpdateSFXVolume(sfxSlider.value));
+            gameplaySlider.onValueChanged.AddListener(value => UpdateGameplayVolume(gameplaySlider.value));
+            menuSlider.onValueChanged.AddListener(value => UpdateMenuVolume(menuSlider.value));
 
         }
 
@@ -177,11 +178,13 @@ namespace DS
         {
             masterButton.onClick.RemoveListener(() => EnableMasterVolume());
             musicButton.onClick.RemoveListener(() => EnableMusicVolume());
-            sfxButton.onClick.RemoveListener(() => EnableSFXVolume());
+            gameplayButton.onClick.RemoveListener(() => EnableGameplayVolume());
+            menuButton.onClick.RemoveListener(() => EnableMenuVolume());
 
             masterSlider.onValueChanged.RemoveListener(value => UpdateMasterVolume(masterSlider.value));
             musicSlider.onValueChanged.RemoveListener(value => UpdateMusicVolume(musicSlider.value));
-            sfxSlider.onValueChanged.RemoveListener(value => UpdateSFXVolume(sfxSlider.value));
+            gameplaySlider.onValueChanged.RemoveListener(value => UpdateGameplayVolume(gameplaySlider.value));
+            menuSlider.onValueChanged.RemoveListener(value => UpdateMenuVolume(menuSlider.value));
 
         }
 
@@ -195,9 +198,16 @@ namespace DS
             PlayerPrefs.SetInt("MusicVolumeEnabled", PlayerPrefs.GetInt("MusicVolumeEnabled") != 0 ? PlayerPrefs.GetInt("MusicVolumeEnabled") : 1);
             PlayerPrefs.Save();
         }
-        private void EnableSFXVolume() 
+        private void EnableGameplayVolume() 
         { 
-            PlayerPrefs.SetInt("SFXVolumeEnabled", PlayerPrefs.GetInt("SFXVolumeEnabled") != 0 ? PlayerPrefs.GetInt("SFXVolumeEnabled") : 1);
+            PlayerPrefs.SetInt("GameplayVolumeEnabled", PlayerPrefs.GetInt("GameplayVolumeEnabled") != 0 ? PlayerPrefs.GetInt("GameplayVolumeEnabled") : 1);
+            PlayerPrefs.Save();
+            PlayerPrefs.Save();
+        }
+        private void EnableMenuVolume() 
+        { 
+            PlayerPrefs.SetInt("MenuVolumeEnabled", PlayerPrefs.GetInt("MenuVolumeEnabled") != 0 ? PlayerPrefs.GetInt("MenuVolumeEnabled") : 1);
+            PlayerPrefs.Save();
             PlayerPrefs.Save();
         }
         private void UpdateMasterVolume(float value)
@@ -214,10 +224,16 @@ namespace DS
             PlayerPrefs.Save();
         }
 
-        private void UpdateSFXVolume(float value)
+        private void UpdateGameplayVolume(float value)
         {
 
-            AudioManager.Instance.SFXVolume = value;
+            AudioManager.Instance.GameplayVolume = value;
+            PlayerPrefs.Save();
+        }
+        private void UpdateMenuVolume(float value)
+        {
+
+            AudioManager.Instance.MenuVolume = value;
             PlayerPrefs.Save();
         }
 

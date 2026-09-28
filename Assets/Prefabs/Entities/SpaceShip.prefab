@@ -202,9 +202,6 @@ MonoBehaviour:
     m_Bits: 64
   slowDownRange: 20
   searchRadius: 10
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 512
 --- !u!114 &1778736735896354197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,10 +214,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd3d71df3bbd803468ae8df9380e5207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DS.SpaceShipCombatManager
-  attackType: 0
+  attackType: 2
   targetMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 512
   attackOffset: 1.5
   closeAttackTimer: 1
   laserAttackTimer: 1

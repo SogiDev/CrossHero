@@ -38,37 +38,42 @@ namespace DS
 
         public void FixedUpdate()
         {
-            // Order Matters Here !!! 
-            if (canSpawn && isRoundActive) { StartCoroutine(SpawnEntity()); }
+            
+            if (isRoundActive)
+            {
+                if (canSpawn)
+                {
+                    StartCoroutine(SpawnEntity());
+                }
 
+                if (spawnedEntities.Length <= 0 && entityCount <= 0)
+                {
+                    isRoundActive = false;
+                }
+
+            }
+            else
+            {
+                if (autoStart)
+                {
+                    StartRound();
+                }
+            }
+            
             UpdateEntityList();
 
-            if (autoStart && !isRoundActive)
-            {
-                isRoundActive = true;
-                StartCoroutine(StartRound());
-            }
-
-
-            if (spawnedEntities.Length <= 0 && entityCount <= 0)
-            {
-                isRoundActive = false;
-            }
         }
 
-        private readonly WaitForSeconds roundTimer = new(1);
-        public IEnumerator StartRound()        
+        public void StartRound()        
         {
-            entityCount = Random.Range(5, 10) * WaveCount;
+            if (isRoundActive) { return; }
             isRoundActive = true;
-            StartCoroutine(SpawnEntity());
-            yield return roundTimer;
+            entityCount = Random.Range(5, 10) * WaveCount;
             WaveCount++;
             WorldManager.Instance.playerData.currentRound.wave = WaveCount;
         }
         private void UpdateEntityList()
         {
-
             List<GameObject> list = new List<GameObject>();
 
             for (int i = 0; i < spawnedEntities.Length; i++)
@@ -84,7 +89,10 @@ namespace DS
 
         private IEnumerator SpawnEntity()
         {
-            if (entityCount <= 0) yield break;
+            if (entityCount <= 0) {
+                yield break;
+            }
+
             canSpawn = false;
             entityCount -= 1;
 
@@ -134,7 +142,7 @@ namespace DS
             }
 
             yield return new WaitForSeconds(timer);
-            timer = Random.Range(1, 3);
+            timer = Random.Range(0.5f, 3.0f);
             canSpawn = true;
         }
 

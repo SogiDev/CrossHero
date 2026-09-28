@@ -20,8 +20,9 @@ namespace DS
             base.Update();
             
             if (data == null) return;
-            if (target != null) { AttackTarget(target); }
+            if (target != null) { AttackTarget("SpaceShip"); }
         }
+
         public void SetTurret(TurretData turretData)
         {
             data = turretData;
@@ -36,38 +37,19 @@ namespace DS
             {
                 case AttackType.CLOSE:
                     closeAttackRange = data.searchRadius;;
+                    closeAttackTimer = data.baseTimer;
                     break;
                 case AttackType.LASER:
                     projectileAttackRange = data.searchRadius;
+                    laserAttackTimer = data.baseTimer;
                     break;
                 case AttackType.PROJECTILE:
                     projectileAttackRange = data.searchRadius;
+                    projectileAttackTimer = data.baseTimer;
                     break;
                 case AttackType.SUPPORT:
                     supportRange = data.searchRadius;
-                    break;
-            }
-        }
-
-        private void AttackTarget(GameObject target = null)
-        {
-            switch (data.attackType)
-            {
-                case AttackType.CLOSE:
-                    closeAttackTimer = data.baseTimer;
-                    StartCoroutine(CloseAttack());
-                    break;
-                case AttackType.LASER:
-                    laserAttackTimer = data.baseTimer;
-                    StartCoroutine(LaserAttack(target));
-                    break;
-                case AttackType.PROJECTILE: 
-                    projectileAttackTimer = data.baseTimer;
-                    StartCoroutine(ProjectileAttack(target.transform.position));
-                    break;
-                case AttackType.SUPPORT: 
                     supportTimer = data.baseTimer;
-                    StartCoroutine(Support());
                     break;
             }
         }

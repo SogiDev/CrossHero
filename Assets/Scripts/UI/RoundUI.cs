@@ -23,13 +23,13 @@ namespace DS
 
         private void OnEnable()
         {
-            roundButton.onClick.AddListener(() => StartCoroutine(spawner.StartRound()));
+            roundButton.onClick.AddListener(() => spawner.StartRound());
             roundButton.onClick.AddListener(() => roundButton.gameObject.SetActive(false));
         }
 
         private void OnDisable()
         {
-            roundButton.onClick.RemoveListener(() => StartCoroutine(spawner.StartRound()));
+            roundButton.onClick.RemoveListener(() => spawner.StartRound());
         }
 
 

@@ -27,7 +27,7 @@ namespace DS
 
         public void PlayAttack(AttackType type)
         {
-            source.volume = AudioManager.Instance.GetVolume(AudioManager.AudioType.SFX);
+            source.volume = AudioManager.Instance.GetVolume(AudioManager.AudioType.GAMEPLAY_SFX);
             switch (type)
             {
                 case AttackType.CLOSE:

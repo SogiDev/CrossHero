@@ -6,17 +6,13 @@ namespace DS
     public class MainMenu : MonoBehaviour
     {
         public static MainMenu Instance;
-
-        private SettingsUI settingsUI;
+        
         [Header("Buttons")]
         [SerializeField] private Button playButton;
         [SerializeField] private Button optionsButton, exitButton;
 
-
-        private void Awake()
-        {
-            
-        }
+        [Header("Audio")]
+        public AudioClip menuClick;
 
         private void Start()
         {
@@ -41,6 +37,9 @@ namespace DS
             exitButton.onClick.RemoveListener(Exit);
 
         }
+        
+
+        #region Scenes
 
         private void LoadGamePlay()
         {
@@ -57,5 +56,6 @@ namespace DS
         Application.Quit();
 #endif
         }
+        #endregion
     }
 }

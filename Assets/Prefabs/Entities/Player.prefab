@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 5772948251911587820}
   - component: {fileID: 1551545691372721484}
   - component: {fileID: 6626522986497600905}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -252,7 +252,7 @@ MonoBehaviour:
   attackType: 1
   targetMask:
     serializedVersion: 2
-    m_Bits: 768
+    m_Bits: 256
   attackOffset: 1.5
   closeAttackTimer: 1
   laserAttackTimer: 1

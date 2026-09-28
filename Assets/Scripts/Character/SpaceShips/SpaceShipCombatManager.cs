@@ -1,4 +1,3 @@
-using UnityEditor;
 using UnityEngine;
 
 namespace DS
@@ -24,9 +23,8 @@ namespace DS
 
             if (target == null)
             {
-                if (FindTargetInRange(crystal.gameObject))
+                if (FindTargetInRange())
                 {
-                    target = crystal.gameObject;
                     character.canMove = false;
                     character.isCrouching = false;
                     character.isSprinting = false;
@@ -45,30 +43,9 @@ namespace DS
                 }
             }
 
-            character.canMove = target == crystal.gameObject;
-
             if (target != null && character.canAttack)
             {
-                AttackTarget(target);
-            }
-        }
-
-        private void AttackTarget(GameObject target)
-        {
-            switch (attackType)
-            {
-                case AttackType.CLOSE:
-                    StartCoroutine(CloseAttack());
-                    break;
-                case AttackType.LASER:
-                    StartCoroutine(LaserAttack(target));
-                    break;
-                case AttackType.PROJECTILE:
-                    StartCoroutine(ProjectileAttack(target.transform.position));
-                    break;
-                case AttackType.SUPPORT:
-                    StartCoroutine(Support());
-                    break;
+                AttackTarget("Turret");
             }
         }
     }

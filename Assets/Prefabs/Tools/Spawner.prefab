@@ -48,12 +48,11 @@ MonoBehaviour:
   spawnMax: {x: 5, y: 5}
   timer: 1
   autoStart: 0
-  autoRoundActive: 0
   canSpawn: 1
   spawnedEntities: []
   healthClamp: {x: 1, y: 10}
   energyClamp: {x: 1, y: 10}
-  speedClamp: {x: 1, y: 5}
+  speedClamp: {x: 1, y: 3}
   damageClamp: {x: 5, y: 10}
   spaceShipPrefab: {fileID: 6090767343409722009, guid: 2098283e5a9f5c947a827989137aaf07, type: 3}
   spaceShips:

@@ -1,24 +1,24 @@
-using System.Collections;
-using System.Reflection.Metadata.Ecma335;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
-
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace DS
 {
-    
+    [RequireComponent(typeof(WorldManager))]
     public class AudioManager : MonoBehaviour
     {
         public static AudioManager Instance;
 
         private GameData playerData;
+        private AudioSource camera;
 
         public enum AudioType
         {
             MASTER,
             MUSIC,
-            SFX
+            MENU_SFX,
+            GAMEPLAY_SFX,
+
         }
 
 #region Audio
@@ -50,16 +50,30 @@ namespace DS
                 }
             }
         }
-        private float sfxVolume;
-        public float SFXVolume
+        private float gameplayVolume;
+        public float GameplayVolume
         {
-            get => sfxVolume;
+            get => gameplayVolume;
             set
             {
-                if (sfxVolume != value)
+                if (gameplayVolume != value)
                 {
-                    sfxVolume = value;
-                    PlayerPrefs.SetFloat("SFXVolume", sfxVolume);
+                    gameplayVolume = value;
+                    PlayerPrefs.SetFloat("GameplayVolume", gameplayVolume);
+                    PlayerPrefs.Save();
+                }
+            }
+        }
+        private float menuVolume;
+        public float MenuVolume
+        {
+            get => menuVolume;
+            set
+            {
+                if (menuVolume != value)
+                {
+                    menuVolume = value;
+                    PlayerPrefs.SetFloat("MenuVolume", menuVolume);
                     PlayerPrefs.Save();
                 }
             }
@@ -77,13 +91,18 @@ namespace DS
             PlayerPrefs.SetInt("MusicVolumeEnabled", isActive);
             PlayerPrefs.Save();
         }
-        public void EnableSFXVolume(bool volume)
+        public void EnableGameplayVolume(bool volume)
         {
             int isActive = volume == true ? 1 : 0;
-            PlayerPrefs.SetInt("SFXVolumeEnabled", isActive);
+            PlayerPrefs.SetInt("GamePlayVolumeEnabled", isActive);
             PlayerPrefs.Save();
         }
-        #endregion
+        public void EnableMenuVolume(bool volume)
+        {
+            int isActive = volume == true ? 1 : 0;
+            PlayerPrefs.SetInt("MenuVolumeEnabled", isActive);
+            PlayerPrefs.Save();
+        }
 
         public float GetVolume(AudioType type)
         {
@@ -91,12 +110,22 @@ namespace DS
             {
                 case AudioType.MUSIC:
                     return masterVolume * musicVolume;
-                case AudioType.SFX:
-                    return masterVolume * sfxVolume;
+                case AudioType.GAMEPLAY_SFX:
+                    return masterVolume * gameplayVolume;
+                case AudioType.MENU_SFX:
+                    return masterVolume * menuVolume;
                 default:
                     return masterVolume;
             }
         }
+        #endregion
+
+        #region Sounds
+
+        // Global Sounds
+        public AudioClip menuClick;
+
+        #endregion
 
         private void Awake()
         {
@@ -113,15 +142,45 @@ namespace DS
 
             masterVolume = PlayerPrefs.GetFloat("MasterVolume");
             musicVolume = PlayerPrefs.GetFloat("MusicVolume");
-            sfxVolume = PlayerPrefs.GetFloat("SFXVolume");
+            gameplayVolume = PlayerPrefs.GetFloat("GameplayVolume");
+            menuVolume = PlayerPrefs.GetFloat("MenuVolume");
         }
 
         private void Start()
         {
             playerData = GetComponent<WorldManager>().playerData;
+            camera = PlayerCamera.Instance.GetComponent<AudioSource>();
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            AddMenuClick();
         }
 
-        
+
+        private void OnSceneLoaded(Scene oldScene, LoadSceneMode mode)
+        {
+            AddMenuClick();
+        }
+
+        public void PlayAudio(AudioType type, AudioClip clip)
+        {
+            camera.clip = clip;
+            camera.volume = GetVolume(type);
+
+            // Play Sound
+            camera.Play();
+        }
+
+        public void AddMenuClick()
+        {
+            Button[] allButtons = FindObjectsByType<Button>(
+                FindObjectsInactive.Include
+                );
+            foreach (Button button in allButtons)
+            {
+                //Debug.Log(button.gameObject.name + " added Menu Click", button.gameObject);
+                button.onClick.AddListener(() => PlayAudio(AudioType.MENU_SFX, menuClick));
+            }
+        }
+
     }
         
 }

@@ -5,12 +5,26 @@ namespace DS
     [RequireComponent(typeof(ParticleSystem))]
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(CircleCollider2D))]
+    [RequireComponent(typeof(AudioSource))]
     public class Projectile : MonoBehaviour
     {
+        [Header("Data")]
         [SerializeField] public float damage;
         public GameObject sender;
         public GameObject target;
         private int score = 10;
+
+        [Header("Clips")]
+        public AudioClip[] sounds;
+        [SerializeField] private AudioSource source;
+
+        private void Start()
+        {
+            source = GetComponent<AudioSource>();
+            source.clip = sounds[Random.Range(0, sounds.Length)];
+            source.volume = AudioManager.Instance.GetVolume(AudioManager.AudioType.GAMEPLAY_SFX);
+            source.Play();
+        }
 
         private void FixedUpdate()
         {

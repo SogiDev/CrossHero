@@ -86,3 +86,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68ebeb6c20a23f5499bdb702fa26f0d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DS.AudioManager
+  menuClick: {fileID: 8300000, guid: 5d044b6caf1668d4e94e2bed7c8f6e3f, type: 3}

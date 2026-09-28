@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 namespace DS
 {
@@ -56,13 +57,12 @@ namespace DS
             characterSoundManager = GetComponent<CharacterSoundManager>();
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
+
         protected virtual void Start()
         {
-            //if (projectileSprite == null) { projectileSprite = WorldManager.Instance.projectiles[Random.Range(0, WorldManager.Instance.projectiles.Length)]; }
+
         }
 
-        // Update is called once per frame
         protected virtual void Update()
         {
             forwardPosition = spriteRenderer.flipX ? transform.position - transform.right * attackOffset
@@ -99,18 +99,41 @@ namespace DS
         }
 
         #region Detect Target
-        // Search For Target In Range
-        protected GameObject FindTargetInRange()
-        {
-            var searchRange = attackType == AttackType.LASER || attackType == AttackType.PROJECTILE ? projectileAttackRange :
-                attackType == AttackType.CLOSE ? closeAttackRange :
-                supportRange;
 
-            if (Physics2D.OverlapCircle(transform.position, searchRange, targetMask) is var hit)
+        public float GetSearchRadius()
+        {
+            switch (attackType)
+            {
+                case AttackType.CLOSE:
+                    return closeAttackRange;
+                case AttackType.PROJECTILE:
+                    return projectileAttackRange;
+                case AttackType.LASER:
+                    return projectileAttackRange;
+                default:
+                    return supportRange;
+            }
+
+        }
+        // Search For Target In Range
+        protected virtual GameObject FindTargetInRange(string targetTag = null)
+        {
+            if (target != null)
+            {
+                // Check if Target is In distance
+                var distance = transform.position - target.transform.position;
+                var length = distance.magnitude;
+
+                return length > GetSearchRadius() ? null : target;
+            }
+
+            if (Physics2D.OverlapCircle(transform.position, GetSearchRadius(), targetMask) is var hit)
             {
                 if (hit == null) { return null; }
-                if (hit.gameObject == null) { target = null; return null; }
-
+                if (hit.gameObject == null) { return null; }
+                if (hit.gameObject == gameObject) { return null; }
+                if (targetTag != null && !hit.gameObject.CompareTag(targetTag)) { return null; }
+                
                 target = hit.gameObject;
                 return target;
 
@@ -118,34 +141,38 @@ namespace DS
 
             return null;
         }
-        protected bool FindTargetInRange(GameObject obj)
-        {
-            var searchRange = attackType == AttackType.LASER || attackType == AttackType.PROJECTILE ? projectileAttackRange :
-                attackType == AttackType.CLOSE ? closeAttackRange :
-                supportRange;
-
-            var distance = obj.transform.position - transform.position;
-            var length = distance.magnitude;
-            
-            return length <= searchRange;
-        }
-
-        protected void MoveTowardsTarget(GameObject obj)
-        {
-
-        }
 
         #endregion
 
         #region Attacks
+
+        protected void AttackTarget(string targetTag = null)
+        {
+            switch (attackType)
+            {
+                case AttackType.CLOSE:
+                    StartCoroutine(CloseAttack(targetTag));
+                    break;
+                case AttackType.LASER:
+                    StartCoroutine(LaserAttack(targetTag));
+                    break;
+                case AttackType.PROJECTILE:
+                    StartCoroutine(ProjectileAttack(targetTag));
+                    break;
+                case AttackType.SUPPORT:
+                    StartCoroutine(Support());
+                    break;
+            }
+        }
+
         // Close Combat Attack
-        internal virtual IEnumerator CloseAttack()
+        internal virtual IEnumerator CloseAttack(string targetTag = null)
         {
             if (character.isAttacking) yield break;
             if (!character.canAttack) yield break;
             Debug.DrawRay(forwardPosition, transform.right, Color.blue);
 
-            if (FindTargetInRange() is var hit && hit != null)
+            if (FindTargetInRange(targetTag) is var hit && hit != null)
             {
                 if (hit.TryGetComponent<CharacterManager>(out var entity))
                 {
@@ -163,13 +190,13 @@ namespace DS
         }
 
         // Projectile Attack
-        internal virtual IEnumerator ProjectileAttack(Vector3 position)
+        internal virtual IEnumerator ProjectileAttack(string targetTag = null)
         {
             if (character.isAttacking) yield break;
             if (!character.canAttack) yield break;
-            var direction = position - new Vector3(transform.position.x, transform.position.y);
+            var direction = target.transform.position - new Vector3(transform.position.x, transform.position.y);
 
-            if (FindTargetInRange() == null) { yield break; }
+            if (FindTargetInRange(targetTag) == null) { yield break; }
 
             // Create Projectile
             character.isAttacking = true;
@@ -205,7 +232,7 @@ namespace DS
         }
 
         [SerializeField] private float laserDamageOffset = 0.5f;
-        internal virtual IEnumerator LaserAttack(GameObject enemy)
+        internal virtual IEnumerator LaserAttack(string targetTag = null)
         {
             if (character.isAttacking) yield break;
             if (!character.canAttack) yield break;
@@ -214,13 +241,12 @@ namespace DS
                 Debug.LogError("No Laser Object Detected", gameObject);
                 yield break;
             }
-            target = enemy;
 
-            if (FindTargetInRange(enemy))
+            if (FindTargetInRange(targetTag))
             {
                 // Enermy Information
                 currentDamage = baseDamage * laserDamageOffset;
-                enemy.GetComponent<CharacterManager>().TakeDamage(currentDamage);
+                target.GetComponent<CharacterManager>().TakeDamage(currentDamage);
                 WorldManager.Instance.playerData.AddScore(score * 0.1f);
                 character.isAttacking = true;
 
@@ -228,7 +254,7 @@ namespace DS
                 laser.gameObject.SetActive(true);
                 laser.positionCount = 2;
                 laser.SetPosition(0, transform.position);
-                laser.SetPosition(1, enemy.transform.position);
+                laser.SetPosition(1, target.transform.position);
 
                 yield return new WaitForSeconds(laserAttackTimer * 0.1f);
                 character.isAttacking = false;
@@ -256,20 +282,17 @@ namespace DS
             float searchRange = Mathf.Max(closeAttackRange, projectileAttackRange, supportRange);
             Gizmos.DrawWireSphere(transform.position, searchRange);
 
+            // Draw Ranged Attack
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(transform.position, targetPosition);
+            
             if (attackType == AttackType.CLOSE)
             {
                 // Draw Close Attack
                 Gizmos.color = Color.red;
                 Gizmos.DrawWireSphere(transform.position, closeAttackRange);
             }
-            
-            if (attackType == AttackType.LASER)
-            {
-                // Draw Ranged Attack
-                Gizmos.color = Color.green;
-                Gizmos.DrawLine(transform.position, targetPosition);
-            }
-            
+
             if (attackType == AttackType.PROJECTILE){
                 Gizmos.color = Color.blue;
                 Gizmos.DrawWireSphere(transform.position, projectileAttackRange);

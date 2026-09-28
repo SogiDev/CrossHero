@@ -65,7 +65,6 @@ namespace DS
 
             if (playerData.currentRound.score >= currentData.cost)
             {
-                Debug.Log("Purchase: " + currentData.name);
                 playerData.RemoveScore(currentData.cost);
                 turretPlacement.BuildTurret(currentData);
                 return true;
