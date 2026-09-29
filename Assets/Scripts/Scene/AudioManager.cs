@@ -5,12 +5,14 @@ using UnityEngine.UI;
 namespace DS
 {
     [RequireComponent(typeof(WorldManager))]
+    [RequireComponent(typeof(AudioSource))]
     public class AudioManager : MonoBehaviour
     {
         public static AudioManager Instance;
 
         private GameData playerData;
         private AudioSource camera;
+        private AudioSource source;
 
         public enum AudioType
         {
@@ -123,7 +125,11 @@ namespace DS
         #region Sounds
 
         // Global Sounds
+        [Header("Global Sounds")]
         public AudioClip menuClick;
+        public AudioClip finishSound;
+        public AudioClip menuMusic;
+        public AudioClip gameplayMusic;
 
         #endregion
 
@@ -167,6 +173,14 @@ namespace DS
 
             // Play Sound
             camera.Play();
+        }
+
+        public void PlayMusic(AudioClip clip)
+        {
+            source.clip = clip;
+            source.loop = true;
+            source.volume = GetVolume(AudioType.MUSIC);
+            source.Play();
         }
 
         public void AddMenuClick()

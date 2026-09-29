@@ -66,6 +66,7 @@ namespace DS
         #region Scene Management
         public IEnumerator LoadScene(int sceneIndex)
         {
+            Save();
             //PlayerUI.Instance.loadingScreen.SetActive(true);
             var activeScene = SceneManager.GetActiveScene();
 
@@ -82,13 +83,16 @@ namespace DS
             if (loadOperation.isDone)
             {
                 // Set Up Scene
+                Load();
             }
         
         }
 #endregion
 
         #region Save Data
-        public void Save() { SaveManager.SaveGame(playerData); }
+        public void Save() { 
+            SaveManager.SaveGame(playerData);
+        }
         public GameData Load() { return SaveManager.LoadGame(); }
         #endregion
 
@@ -103,15 +107,26 @@ namespace DS
         }
 
         private readonly WaitForSeconds returnTime = new(120);
-        public IEnumerator CompleteGame()
+        public void CompleteGame()
         {
+            // Reset World
+            spawner.gameObject.SetActive(false);
+
+            foreach (var ship in FindObjectsByType<SpaceShipManager>())
+            {
+                Destroy(ship);
+            }
+
+            // Enable PlayerUI
+            PlayerUI.Instance.CompleteGame(false);
+            PlayerUI.Instance.ShowResults();
+            AudioManager.Instance.PlayAudio(AudioManager.AudioType.MUSIC, AudioManager.Instance.finishSound);
+
+            
+            // Save Player Data
             playerData.SaveRound(playerData.currentRound);
             playerData.CheckTotalScore();
             Save();
-
-            yield return returnTime;
-
-            StartCoroutine(LoadScene(0));
         }
         #endregion
     }

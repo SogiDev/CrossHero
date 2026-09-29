@@ -1,5 +1,4 @@
 using System.Collections;
-using UnityEditor;
 using UnityEngine;
 namespace DS
 {
@@ -50,7 +49,7 @@ namespace DS
         [SerializeField] protected int baseDamage = 1;
          public float currentDamage = 2;
 
-        
+        #region Frame Data
         protected virtual void Awake()
         {
             character = GetComponent<CharacterManager>();
@@ -68,13 +67,12 @@ namespace DS
             forwardPosition = spriteRenderer.flipX ? transform.position - transform.right * attackOffset
              : transform.position + transform.right * attackOffset;
 
-            if  (FindTargetInRange() is var hit && hit != null)
-            {
-                target = hit;
-                targetPosition = target.transform.position;
-            }
+            if  (target == null) { FindTargetInRange(); }
 
-            if (target != null) { targetPosition = target.transform.position; }
+            if (target != null) { 
+                targetPosition = target.transform.position;
+                AttackTarget();
+            }
         }
 
         protected virtual void LateUpdate()
@@ -92,7 +90,7 @@ namespace DS
         {
 
         }
-
+        #endregion
         internal void UpdateStats(float damage)
         {
             baseDamage = Mathf.RoundToInt(damage);
@@ -118,20 +116,14 @@ namespace DS
         // Search For Target In Range
         protected virtual GameObject FindTargetInRange(string targetTag = null)
         {
-            if (target != null)
-            {
-                // Check if Target is In distance
-                var distance = transform.position - target.transform.position;
-                var length = distance.magnitude;
-
-                return length > GetSearchRadius() ? null : target;
-            }
+            if (IsTargetInRange(target)) { return target; } ;
 
             if (Physics2D.OverlapCircle(transform.position, GetSearchRadius(), targetMask) is var hit)
             {
                 if (hit == null) { return null; }
                 if (hit.gameObject == null) { return null; }
                 if (hit.gameObject == gameObject) { return null; }
+                if (hit.gameObject.CompareTag(tag)) { return null; }
                 if (targetTag != null && !hit.gameObject.CompareTag(targetTag)) { return null; }
                 
                 target = hit.gameObject;
@@ -139,8 +131,34 @@ namespace DS
 
             }
 
+            target = null;
             return null;
+        } 
+
+        protected bool IsTargetInRange(GameObject currentTarget = null, float additive = 0)
+        {
+            if (currentTarget != null)
+            {
+                // Check if Target is In distance
+                var distance = transform.position - currentTarget.transform.position;
+                var length = distance.magnitude;
+
+                return length <= GetSearchRadius() + additive;
+            }
+            else if (target != null)
+            {
+                // Check if Target is In distance
+                var distance = transform.position - target.transform.position;
+                var length = distance.magnitude;
+
+                return length <= GetSearchRadius() + additive;
+            }
+            return false;
+
         }
+
+        public GameObject IsTargetInRange(string targetTag = null) { return FindTargetInRange(targetTag); }
+        public bool IsTargetInRange() { return IsTargetInRange(target); }
 
         #endregion
 
@@ -148,6 +166,7 @@ namespace DS
 
         protected void AttackTarget(string targetTag = null)
         {
+
             switch (attackType)
             {
                 case AttackType.CLOSE:
@@ -200,7 +219,7 @@ namespace DS
 
             // Create Projectile
             character.isAttacking = true;
-            var clone = Instantiate(projectile, forwardPosition, Quaternion.identity, null);
+            var clone = Instantiate(projectile, transform.position, Quaternion.identity, null);
 
             if (clone.TryGetComponent<Collider2D>(out var collider))
             {
@@ -242,12 +261,23 @@ namespace DS
                 yield break;
             }
 
-            if (FindTargetInRange(targetTag))
+            if (IsTargetInRange(target))
             {
                 // Enermy Information
                 currentDamage = baseDamage * laserDamageOffset;
-                target.GetComponent<CharacterManager>().TakeDamage(currentDamage);
-                WorldManager.Instance.playerData.AddScore(score * 0.1f);
+                
+                if (target.TryGetComponent<CharacterManager>(out var entity))
+                {
+                    target.GetComponent<CharacterManager>().TakeDamage(currentDamage);
+                    WorldManager.Instance.playerData.AddScore(score * 0.1f);
+                }
+
+                if (target.TryGetComponent<Crystal>(out var crystal))
+                {
+                    crystal.health -= currentDamage;
+                    WorldManager.Instance.playerData.RemoveScore(score * 0.01f);
+                }
+                
                 character.isAttacking = true;
 
                 // Laser Object
@@ -278,10 +308,6 @@ namespace DS
 
         protected virtual void OnDrawGizmosSelected()
         {
-            Gizmos.color = Color.white;
-            float searchRange = Mathf.Max(closeAttackRange, projectileAttackRange, supportRange);
-            Gizmos.DrawWireSphere(transform.position, searchRange);
-
             // Draw Ranged Attack
             Gizmos.color = Color.green;
             Gizmos.DrawLine(transform.position, targetPosition);
@@ -293,7 +319,7 @@ namespace DS
                 Gizmos.DrawWireSphere(transform.position, closeAttackRange);
             }
 
-            if (attackType == AttackType.PROJECTILE){
+            if (attackType == AttackType.PROJECTILE || attackType == AttackType.LASER){
                 Gizmos.color = Color.blue;
                 Gizmos.DrawWireSphere(transform.position, projectileAttackRange);
             }

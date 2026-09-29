@@ -1,9 +1,9 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace DS
 {
+    [RequireComponent(typeof(CircleCollider2D))]
     public class Crystal : MonoBehaviour
     {
         public float health = 10000;
@@ -18,17 +18,10 @@ namespace DS
         {
             if (health <= 0)
             {
-                StartCoroutine(WorldManager.Instance.CompleteGame());
-                PlayerUI.Instance.CompleteGame(false);
-                PlayerUI.Instance.ShowResults();
+                WorldManager.Instance.CompleteGame();
+                Destroy(gameObject);
             }
         }
-
-        public IEnumerator Finish()
-        {
-            yield return null;
-        }
-
         internal void CreateZone()
         {
 

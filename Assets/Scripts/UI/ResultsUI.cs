@@ -19,14 +19,5 @@ namespace DS {
             waveText.text = "Waves Survived: " + playerData.currentRound.wave.ToString();
             turretText.text = "Turrets Placed: " + playerData.currentRound.turretsPlaced.ToString();
         }
-        public void Home()
-        {
-
-        }
-
-        public void Restart()
-        {
-
-        }
     }
 }

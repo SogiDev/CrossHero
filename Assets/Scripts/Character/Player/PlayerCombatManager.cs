@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 namespace DS
 {
     public class PlayerCombatManager : CharacterCombatManager
@@ -23,13 +22,6 @@ namespace DS
             base.Start();
 
             camera = FindAnyObjectByType<PlayerCamera>() is var cam ? cam : PlayerCamera.Instance; 
-            /*
-            camera = PlayerCamera.Instance;
-            if (camera == null)
-            {
-                camera = FindAnyObjectByType<PlayerCamera>();
-            }
-            */
         }
 
         // Update is called once per frame

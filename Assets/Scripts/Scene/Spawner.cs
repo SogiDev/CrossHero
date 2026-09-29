@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace DS
@@ -148,18 +149,8 @@ namespace DS
 
         private AttackType RandomType()
         {
-            int rng = Random.Range(0, 3);
-            switch (rng)
-            {
-                case (1):
-                    return AttackType.CLOSE;
-                case (2):
-                    return AttackType.PROJECTILE;
-                case (3):
-                    return AttackType.LASER;
-                default:
-                    return AttackType.SUPPORT;
-            }
+            float rng = Random.Range(0.1f, 1.0f);
+            return rng >= 0.5f ? AttackType.PROJECTILE : AttackType.LASER;
         }
 
         private void OnDrawGizmos()

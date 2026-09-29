@@ -15,16 +15,6 @@ namespace DS
         public int spentScore = 0;
         public int remainingScore = 0;
 
-        public bool SpendScore(int cost)
-        {
-            if (remainingScore < cost) { return false; }
-
-            spentScore += cost;
-            remainingScore -= cost;
-
-            return true;
-        }
-
         public int CheckTotalScore()
         {
             int demoScore = 0;
@@ -46,6 +36,7 @@ namespace DS
         {
             currentRound.RemoveScore(Mathf.RoundToInt(score));
             remainingScore -= Mathf.RoundToInt(score);
+            spentScore -= Mathf.RoundToInt(score);
         }
 
         #endregion
@@ -70,6 +61,7 @@ namespace DS
             List<RoundData> newData = new List<RoundData>(rounds);
             newData.Add(newRound);
             rounds = newData.ToArray();
+            currentRound = new RoundData();
         }
         public RoundData GetRound(int sessionID) { return rounds[sessionID]; }
 

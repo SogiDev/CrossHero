@@ -21,6 +21,6 @@ MonoBehaviour:
   maxHealth: 500
   maxEnergy: 500
   baseDamage: 40
-  baseProjectileSpeed: 1
+  baseProjectileSpeed: 5
   searchRadius: 20
   baseTimer: 1

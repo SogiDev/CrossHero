@@ -19,19 +19,18 @@ namespace DS {
 
         private void Update()
         {
-
-            if (loopPlayer)
+            if (player != null && loopPlayer)
             {
                 spawner.x = player.position.x;
                 spawner.y = 4;
                 spawner.z = player.position.z;
-            }
 
-            transform.position = new Vector3(
-                player.position.x,
-                transform.position.y,
-                player.position.z
-            );
+                transform.position = new Vector3(
+                    player.position.x,
+                    transform.position.y,
+                    player.position.z
+                );
+            }
         }
 
 

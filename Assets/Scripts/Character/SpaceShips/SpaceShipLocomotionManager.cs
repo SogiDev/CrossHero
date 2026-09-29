@@ -4,6 +4,7 @@ namespace DS
 {
     public class SpaceShipLocomotionManager : CharacterLocomotionManager
     {
+        private SpaceShipCombatManager combatManager;
         private Ray2D forwardRay;
         [SerializeField] private float slowDownRange = 20;
         public float searchRadius = 10.0f;
@@ -18,6 +19,9 @@ namespace DS
         {
             base.Start();
             rigidBody.gravityScale = 0;
+            
+            combatManager = GetComponent<SpaceShipCombatManager>();
+            //searchRadius = combatManager.GetSearchRadius();
         }
 
         // Update is called once per frame
@@ -29,13 +33,21 @@ namespace DS
 
         internal override void HandleMovement()
         {
-            moveAmount.x = 1;
-            
             if (Physics2D.OverlapCircle(transform.position, searchRadius, LayerMask.GetMask("Entity")) is var hit)
             {
-                moveAmount.x = hit.gameObject.CompareTag("Crystal") ? 0f :
-                    hit.gameObject.CompareTag("Turret") ? 0.5f :
-                    1.0f;
+                if (hit == null) { return; }
+                if (hit.gameObject == null) { return; }
+
+                moveAmount.x = hit.gameObject.CompareTag("Turret") ? 0.5f : 1.0f;
+            }
+            
+            if (combatManager.IsTargetInRange("Crystal"))
+            {
+                moveAmount.x = 0.01f;
+            }
+            else
+            {
+                moveAmount.x = 1.0f;
             }
 
             character.currentSpeed = character.isSprinting ? character.BaseSpeed * 1.5f :
@@ -50,7 +62,7 @@ namespace DS
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawRay(transform.position, forwardRay.direction);
+            Gizmos.DrawWireSphere(transform.position, searchRadius);
         }
 
     }

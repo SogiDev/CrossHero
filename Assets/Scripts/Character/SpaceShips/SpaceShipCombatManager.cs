@@ -18,34 +18,20 @@ namespace DS
         }
         protected override void Update()
         {
-            base.Update();
 
-
-            if (target == null)
+            if (crystal != null && IsTargetInRange(crystal.gameObject))
             {
-                if (FindTargetInRange())
-                {
-                    character.canMove = false;
-                    character.isCrouching = false;
-                    character.isSprinting = false;
-                }
-                else if (FindTargetInRange() is var turret && turret != null)
-                {
-                    character.canMove = true;
-                    character.isCrouching = true;
-                    character.isSprinting = false;
-                }
-                else
-                {
-                    character.canMove = true;
-                    character.isSprinting = true;
-                    character.isCrouching = false;
-                }
+                target = crystal.gameObject;
+            }
+            else
+            {
+                FindTargetInRange("Turret");
             }
 
-            if (target != null && character.canAttack)
+            if (target != null)
             {
-                AttackTarget("Turret");
+                targetPosition = target.transform.position;
+                AttackTarget();
             }
         }
     }

@@ -54,6 +54,12 @@ namespace DS
             if (infiniteHealth) { health = maxHealth;}
         }
 
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            WorldManager.Instance.CompleteGame();
+        }
+
         internal void Interact()
         {
             if (isInteracting) return;
