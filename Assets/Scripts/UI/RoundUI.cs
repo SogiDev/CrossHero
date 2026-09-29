@@ -6,7 +6,7 @@ namespace DS
     public class RoundUI : MonoBehaviour
     {
         [SerializeField] private Button roundButton;
-        [SerializeField] private Spawner spawner;
+        [SerializeField] private Spawner[] spawner;
         [SerializeField] private TMP_Text waveCounter;
         [SerializeField] private TMP_Text scoreCounter;
         [SerializeField] private TMP_Text turretCounter;
@@ -17,19 +17,19 @@ namespace DS
             if (waveCounter == null) { Debug.LogError("Null Wave Counter", gameObject); }
             if (scoreCounter == null) { Debug.LogError("Null Score Counter", gameObject); }
             if (turretCounter == null) { Debug.LogError("Null Turret Counter", gameObject); }
-            spawner = FindAnyObjectByType<Spawner>();
+            spawner = FindObjectsByType<Spawner>();
             data = WorldManager.Instance.playerData;
         }
 
         private void OnEnable()
         {
-            roundButton.onClick.AddListener(() => spawner.StartRound());
+            roundButton.onClick.AddListener(() => StartCoroutine(RoundManager.Instance.StartRound()));
             roundButton.onClick.AddListener(() => roundButton.gameObject.SetActive(false));
         }
 
         private void OnDisable()
         {
-            roundButton.onClick.RemoveListener(() => spawner.StartRound());
+            roundButton.onClick.RemoveListener(() => StartCoroutine(RoundManager.Instance.StartRound()));
         }
 
 
@@ -43,25 +43,12 @@ namespace DS
 
         }
 
-
         private void HandleRoundButton()
         {
-            
-            if (spawner.autoStart)
+            if (RoundManager.Instance != null)
             {
-                roundButton.gameObject.SetActive(false);
-                return;
+                roundButton.gameObject.SetActive(!RoundManager.Instance.isRoundActive);
             }
-
-            if (spawner.IsRoundActive)
-            {
-                roundButton.gameObject.SetActive(false);
-                return;
-            }
-            
-
-            roundButton.gameObject.SetActive(true);
-
         }
     }
 }

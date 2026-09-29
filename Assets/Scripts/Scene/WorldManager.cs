@@ -5,10 +5,12 @@ using UnityEngine.SceneManagement;
 namespace DS
 {
     [RequireComponent(typeof(AudioManager))]
+    [RequireComponent(typeof(RoundManager))]
     public class WorldManager : MonoBehaviour
     {
         public static WorldManager Instance;
         private AudioManager audioManager;
+        private RoundManager roundManager;
 
         [Header("GameData")]
         public GameData playerData;
@@ -109,16 +111,16 @@ namespace DS
         private readonly WaitForSeconds returnTime = new(120);
         public void CompleteGame()
         {
-            // Reset World
-            spawner.gameObject.SetActive(false);
-
             foreach (var ship in FindObjectsByType<SpaceShipManager>())
             {
                 Destroy(ship);
             }
+            foreach (var spawn in FindObjectsByType<Spawner>())
+            {
+                spawn.gameObject.SetActive(false);
+            }
 
             // Enable PlayerUI
-            PlayerUI.Instance.CompleteGame(false);
             PlayerUI.Instance.ShowResults();
             AudioManager.Instance.PlayAudio(AudioManager.AudioType.MUSIC, AudioManager.Instance.finishSound);
 

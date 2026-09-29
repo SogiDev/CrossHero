@@ -222,6 +222,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DS.PlayerLocomotionManager
   moveAmount: {x: 0, y: 0}
   jumpForce: 5
+  groundedDistance: 0.2
   groundLayer:
     serializedVersion: 2
     m_Bits: 64

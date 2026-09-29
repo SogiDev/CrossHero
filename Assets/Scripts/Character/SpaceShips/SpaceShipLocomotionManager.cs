@@ -8,6 +8,7 @@ namespace DS
         private Ray2D forwardRay;
         [SerializeField] private float slowDownRange = 20;
         public float searchRadius = 10.0f;
+        public Vector2 moveDirection = new (1, 0);
 
         protected override void Awake()
         {
@@ -33,6 +34,13 @@ namespace DS
 
         internal override void HandleMovement()
         {
+            moveAmount = moveDirection;
+            moveAmount *=
+                (Physics2D.OverlapCircle(transform.position, searchRadius, LayerMask.GetMask("Entity")) is var hit && hit.gameObject.CompareTag("Turret")) ? 0.5f
+                : combatManager.IsTargetInRange("Crystal") ? 0.01f
+                : 1.0f;
+
+            /*
             if (Physics2D.OverlapCircle(transform.position, searchRadius, LayerMask.GetMask("Entity")) is var hit)
             {
                 if (hit == null) { return; }
@@ -40,16 +48,15 @@ namespace DS
 
                 moveAmount.x = hit.gameObject.CompareTag("Turret") ? 0.5f : 1.0f;
             }
-            
             if (combatManager.IsTargetInRange("Crystal"))
             {
-                moveAmount.x = 0.01f;
+                moveAmount.x *= 0.01f;
             }
             else
             {
-                moveAmount.x = 1.0f;
+                moveAmount.x *= 1.0f;
             }
-
+            */
             character.currentSpeed = character.isSprinting ? character.BaseSpeed * 1.5f :
                 character.isCrouching ? character.BaseSpeed * 0.5f :
                 character.BaseSpeed;

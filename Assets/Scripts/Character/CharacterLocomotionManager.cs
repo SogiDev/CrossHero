@@ -12,8 +12,9 @@ namespace DS
 
         [Header("Status")]
         [SerializeField] protected float jumpForce = 10f;
-
+        [SerializeField] protected float groundedDistance = 0.2f;
         [SerializeField] private LayerMask groundLayer;
+        
 
         protected virtual void Awake()
         {
@@ -42,7 +43,7 @@ namespace DS
         internal void HandleGrounded()
         {
             if (!character.canMove) { return; }
-            character.isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 1.5f, LayerMask.GetMask("Environment"));
+            character.isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundedDistance, LayerMask.GetMask("Environment"));
             if (character.isGrounded) { character.isJumping = false; }
         }
         internal virtual void HandleJump()
@@ -53,6 +54,13 @@ namespace DS
 
             character.isJumping = true;
             rigidBody.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.aquamarine;
+            //Gizmos.DrawRay(transform.position, Vector2.down);
+            Gizmos.DrawLine(transform.position, transform.position + (Vector3.down * groundedDistance));
         }
     }
 }

@@ -117,10 +117,7 @@ namespace DS
             PlayerPrefs.Save();
             ChangeButtonState(autoStartButton, IsAutoActive);
 
-            if (FindAnyObjectByType<Spawner>() is var spawner && spawner != null)
-            {
-                spawner.autoStart = IsAutoActive;
-            }
+            RoundManager.Instance.autoStart = IsAutoActive;
 
         }
         private void SetInfinite() 

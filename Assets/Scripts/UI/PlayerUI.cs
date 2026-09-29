@@ -87,10 +87,5 @@ namespace DS
         {
             resultsUI.gameObject.SetActive(!resultsUI.gameObject.activeSelf);
         }
-
-        internal void CompleteGame(bool isWinner)
-        {
-
-        }
     }
 }

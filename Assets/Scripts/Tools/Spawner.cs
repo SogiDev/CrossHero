@@ -1,27 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace DS
 {
     public class Spawner : MonoBehaviour
     {
+
+        private RoundManager roundManager;
+
         [Header("Area Settings")]
         [SerializeField] private Vector2 spawnMin = new(-5, -5);
         [SerializeField] private Vector2 spawnMax = new(5, 5);
         [Range(1, 3)]
-        public float timer;
-        private bool isRoundActive = false;
-        public bool IsRoundActive => isRoundActive;
-        public bool autoStart = false;
+        public float spawnTimer;
 
         [Header("Spawned Entities")]
         [SerializeField] private bool canSpawn = true;
-        internal int entityCount = 10;
-        [SerializeField] private GameObject[] spawnedEntities;
-        public int WaveCount { get; private set; } = 0;
-        public float WaveScale { get; private set; } = 1;
+        public GameObject[] spawnedEntities { get; private set; } = new GameObject[1];
 
         [SerializeField] private Vector2 healthClamp = Vector2.one, energyClamp = Vector2.one, speedClamp = Vector2.one, damageClamp = Vector2.one;
 
@@ -29,73 +25,49 @@ namespace DS
         [SerializeField] private GameObject spaceShipPrefab;
         [SerializeField] private Sprite[] spaceShips;
         [SerializeField] private Sprite[] projectiles;
+        public Vector2 moveDirection = new (1, 0);
+
+        [Header("Round Data")]
+        private float roundCount;
+        private float roundScale;
 
         private void Start()
         {
-            WorldManager.Instance.spawner = this;
-            autoStart = PlayerPrefs.GetInt("Auto Start", 0) == 0 ? false : true;
-            WaveScale = PlayerPrefs.GetFloat("Wave Scale", 1);
+            roundManager = RoundManager.Instance;
         }
 
-        public void FixedUpdate()
+        private void FixedUpdate()
         {
             
-            if (isRoundActive)
-            {
-                if (canSpawn)
-                {
-                    StartCoroutine(SpawnEntity());
-                }
-
-                if (spawnedEntities.Length <= 0 && entityCount <= 0)
-                {
-                    isRoundActive = false;
-                }
-
-            }
-            else
-            {
-                if (autoStart)
-                {
-                    StartRound();
-                }
-            }
+            if (RoundManager.Instance.isRoundActive && canSpawn) { StartCoroutine(SpawnEntity()); }
             
             UpdateEntityList();
 
-        }
-
-        public void StartRound()        
-        {
-            if (isRoundActive) { return; }
-            isRoundActive = true;
-            entityCount = Random.Range(5, 10) * WaveCount;
-            WaveCount++;
-            WorldManager.Instance.playerData.currentRound.wave = WaveCount;
         }
         private void UpdateEntityList()
         {
             List<GameObject> list = new List<GameObject>();
 
-            for (int i = 0; i < spawnedEntities.Length; i++)
-            {
-                if (spawnedEntities[i] != null)
+                for (int i = 0; i < spawnedEntities.Length; i++)
                 {
-                    list.Add(spawnedEntities[i]);
+                    if (spawnedEntities[i] != null)
+                    {
+                        list.Add(spawnedEntities[i]);
+                    }
                 }
-            }
-            spawnedEntities = list.ToArray();
-
+                spawnedEntities = list.ToArray();
         }
 
         private IEnumerator SpawnEntity()
         {
-            if (entityCount <= 0) {
+            roundCount = RoundManager.Instance.roundCount;
+            roundScale = RoundManager.Instance.roundScale;
+            if (roundManager.entityCount <= 0) {
                 yield break;
             }
 
             canSpawn = false;
-            entityCount -= 1;
+            roundManager.entityCount -= 1;
 
             Vector3 position = new Vector2(
                 Random.Range(spawnMin.x, spawnMax.x),
@@ -119,7 +91,7 @@ namespace DS
             entity.name = "Ship " + random;
 
             // Random Stats Based On Wave
-            if (entity.TryGetComponent<CharacterManager>(out var character))
+            if (entity.TryGetComponent<SpaceShipManager>(out var character))
             {
                 var hp = Random.Range(healthClamp.x, healthClamp.y);
                 var eng = Random.Range(energyClamp.x, energyClamp.y);
@@ -128,22 +100,28 @@ namespace DS
                 int score = Mathf.RoundToInt(hp + sp + dmg + eng);
 
                 character.SetStat(
-                    hp * (WaveCount * WaveScale),
-                    eng * (WaveCount * WaveScale),
+                    hp * (roundCount * roundScale),
+                    eng * (roundCount * roundScale),
                     sp,
-                    dmg * (WaveCount * WaveScale),
+                    dmg * (roundCount * roundScale),
                     score
                 );
+
             }
 
-            if (entity.TryGetComponent<CharacterCombatManager>(out var characterCombatManager))
+            if (entity.TryGetComponent<SpaceShipCombatManager>(out var combatManager))
             {
-                characterCombatManager.projectileSprite = projectiles[Random.Range(0, projectiles.Length)];
-                characterCombatManager.attackType = RandomType();
+                combatManager.projectileSprite = projectiles[Random.Range(0, projectiles.Length)];
+                combatManager.attackType = RandomType();
             }
 
-            yield return new WaitForSeconds(timer);
-            timer = Random.Range(0.5f, 3.0f);
+            if (entity.TryGetComponent<SpaceShipLocomotionManager>(out var locomotionManager))
+            {
+                locomotionManager.moveDirection = moveDirection;
+            }
+
+            yield return new WaitForSeconds(spawnTimer);
+            spawnTimer = Random.Range(0.5f, 3.0f);
             canSpawn = true;
         }
 

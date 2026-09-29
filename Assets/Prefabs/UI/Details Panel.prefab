@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.28773582, g: 0.36252135, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -296,7 +296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 0.55114377, g: 0.3254717, b: 1, a: 0.392}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -534,7 +534,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.28773582, g: 0.36252135, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -698,7 +698,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2671131576861592909, guid: ed109bd0ce9fa664f873bae153ccce9b, type: 3}
       propertyPath: m_fontSize
-      value: 35.3
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 3115694879596079422, guid: ed109bd0ce9fa664f873bae153ccce9b, type: 3}
       propertyPath: m_Name
@@ -859,7 +859,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2671131576861592909, guid: ed109bd0ce9fa664f873bae153ccce9b, type: 3}
       propertyPath: m_fontSize
-      value: 27.4
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 3115694879596079422, guid: ed109bd0ce9fa664f873bae153ccce9b, type: 3}
       propertyPath: m_Name
@@ -1020,7 +1020,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2671131576861592909, guid: ed109bd0ce9fa664f873bae153ccce9b, type: 3}
       propertyPath: m_fontSize
-      value: 33.25
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 3115694879596079422, guid: ed109bd0ce9fa664f873bae153ccce9b, type: 3}
       propertyPath: m_Name
@@ -1358,7 +1358,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2671131576861592909, guid: ed109bd0ce9fa664f873bae153ccce9b, type: 3}
       propertyPath: m_fontSize
-      value: 35.6
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 3115694879596079422, guid: ed109bd0ce9fa664f873bae153ccce9b, type: 3}
       propertyPath: m_Name
@@ -1660,7 +1660,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2671131576861592909, guid: ed109bd0ce9fa664f873bae153ccce9b, type: 3}
       propertyPath: m_fontSize
-      value: 29.7
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 3115694879596079422, guid: ed109bd0ce9fa664f873bae153ccce9b, type: 3}
       propertyPath: m_Name
