@@ -211,6 +211,7 @@ MonoBehaviour:
   targetMask:
     serializedVersion: 2
     m_Bits: 512
+  targetTag: SpaceShip
   attackOffset: 1.5
   closeAttackTimer: 1
   laserAttackTimer: 1
@@ -241,6 +242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DS.CharacterLocomotionManager
   moveAmount: {x: 0, y: 0}
   jumpForce: 10
+  groundedDistance: 0.2
   groundLayer:
     serializedVersion: 2
     m_Bits: 64

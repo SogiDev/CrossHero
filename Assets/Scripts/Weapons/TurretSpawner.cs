@@ -32,15 +32,20 @@ namespace DS
 
             //var offsetPosition = transform.position + new Vector3(0, 1.25f + (turretPrefab.transform.localScale.y / 4));
             var offsetPosition = transform.position;
-            var clone = Instantiate(turretPrefab, offsetPosition, Quaternion.identity, gameObject.transform.parent);
+            
+            // Spawn Turret
+            var clone = Instantiate(turretPrefab, offsetPosition, Quaternion.identity, null);
             clone.transform.localScale = new Vector3(2, 2, 2);
 
-            playerData.currentRound.turretsPlaced++;
+            // Set Turret Data
             clone.GetComponent<TurretManager>().SetTurret(data);
-
-
             clone.GetComponent<TurretCombatManager>().SetTurret(data);
+            clone.GetComponent<SpriteRenderer>().flipX = FindAnyObjectByType<PlayerManager>().gameObject.GetComponent<SpriteRenderer>().flipX;
             currentTurrent = clone;
+
+
+            // Set Global Data
+            playerData.currentRound.turretsPlaced++;
             isPurchased = true;
         }
 

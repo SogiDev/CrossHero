@@ -14,6 +14,7 @@ namespace DS
 
         [Header("GameData")]
         public GameData playerData;
+        public bool completeGame = false;
 
         [SerializeField] private bool saveGame = false;
         [SerializeField] private bool loadGame = false;
@@ -106,11 +107,13 @@ namespace DS
             playerData.currentRound = new GameData.RoundData();
             defaultScore = PlayerPrefs.GetInt("Default Score", 1000);
             playerData.currentRound.AddScore(defaultScore);
+            completeGame = false;
         }
 
         private readonly WaitForSeconds returnTime = new(120);
         public void CompleteGame()
         {
+            completeGame = true;
             foreach (var ship in FindObjectsByType<SpaceShipManager>())
             {
                 Destroy(ship);

@@ -340,11 +340,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DS.SpaceShipLocomotionManager
   moveAmount: {x: 0, y: 0}
   jumpForce: 10
+  groundedDistance: 0.2
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
   slowDownRange: 20
   searchRadius: 10
+  moveDirection: {x: 1, y: 0}
 --- !u!114 &1778736735896354197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,6 +363,7 @@ MonoBehaviour:
   targetMask:
     serializedVersion: 2
     m_Bits: 512
+  targetTag: Turret
   attackOffset: 1.5
   closeAttackTimer: 1
   laserAttackTimer: 1

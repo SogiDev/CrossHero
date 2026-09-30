@@ -889,7 +889,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DS.WorldBarrier
   loopPlayer: 1
-  spawner: {x: 0, y: 10, z: 0}
+  spawner: {x: 0, y: 15, z: 0}
   spawnerSize: 2
 --- !u!61 &256085339
 BoxCollider2D:
@@ -2627,6 +2627,10 @@ PrefabInstance:
     - target: {fileID: 5546878818793807330, guid: 19e766cfe88952c4b9a58f433a1b8791, type: 3}
       propertyPath: m_Name
       value: PlayerUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 6490780601771116063, guid: 19e766cfe88952c4b9a58f433a1b8791, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1.6999512
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4662,6 +4666,10 @@ PrefabInstance:
     - target: {fileID: 3458655859139527314, guid: 56a5107249e9364448e87c04a02ce136, type: 3}
       propertyPath: m_Name
       value: Crystal
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458655859139527314, guid: 56a5107249e9364448e87c04a02ce136, type: 3}
+      propertyPath: m_TagString
+      value: Turret
       objectReference: {fileID: 0}
     - target: {fileID: 4764509970416075641, guid: 56a5107249e9364448e87c04a02ce136, type: 3}
       propertyPath: m_LocalPosition.x

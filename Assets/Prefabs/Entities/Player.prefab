@@ -254,6 +254,7 @@ MonoBehaviour:
   targetMask:
     serializedVersion: 2
     m_Bits: 256
+  targetTag: SpaceShip
   attackOffset: 1.5
   closeAttackTimer: 1
   laserAttackTimer: 1

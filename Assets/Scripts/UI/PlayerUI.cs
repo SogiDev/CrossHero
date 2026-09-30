@@ -80,7 +80,9 @@ namespace DS
         public void Restart()
         {
             WorldManager.Instance.Save();
+            WorldManager.Instance.StartGame();
             StartCoroutine(WorldManager.Instance.LoadScene(1));
+
         }
 
         public void ShowResults()

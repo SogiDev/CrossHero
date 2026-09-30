@@ -6,7 +6,6 @@ TagManager:
   tags:
   - SpawnPoint
   - Turret
-  - Crystal
   - SpaceShip
   - Entity
   layers:

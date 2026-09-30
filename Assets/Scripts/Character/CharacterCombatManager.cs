@@ -23,6 +23,7 @@ namespace DS
         protected GameObject target;
         protected Vector3 targetPosition;
         [SerializeField] protected LayerMask targetMask;
+        [SerializeField] protected string targetTag;
         protected Ray2D targetRay;
         protected Vector2 forwardPosition;
         [SerializeField] protected float attackOffset = 1.5f;
@@ -67,7 +68,18 @@ namespace DS
             forwardPosition = spriteRenderer.flipX ? transform.position - transform.right * attackOffset
              : transform.position + transform.right * attackOffset;
 
-            if  (target == null) { FindTargetInRange(); }
+
+            if  (target == null)
+            {
+                if (FindTargetInRange() is var tg)
+                {
+                    if (tg == null) return;
+                    if (IsTargetInRange(tg))
+                    {
+                        target = tg;
+                    }
+                }
+            }
 
             if (target != null) { 
                 targetPosition = target.transform.position;
@@ -114,16 +126,16 @@ namespace DS
 
         }
         // Search For Target In Range
-        protected virtual GameObject FindTargetInRange(string targetTag = null)
+        protected virtual GameObject FindTargetInRange()
         {
             if (IsTargetInRange(target)) { return target; } ;
 
             if (Physics2D.OverlapCircle(transform.position, GetSearchRadius(), targetMask) is var hit)
             {
-                if (hit == null) { return null; }
-                if (hit.gameObject == null) { return null; }
-                if (hit.gameObject == gameObject) { return null; }
-                if (hit.gameObject.CompareTag(tag)) { return null; }
+                // Check For Self or Null
+                if (hit == null || hit.gameObject == null || hit.gameObject == gameObject) { return null; }
+                
+                // Check for Target Tag
                 if (targetTag != null && !hit.gameObject.CompareTag(targetTag)) { return null; }
                 
                 target = hit.gameObject;
@@ -157,8 +169,7 @@ namespace DS
 
         }
 
-        public GameObject IsTargetInRange(string targetTag = null) { return FindTargetInRange(targetTag); }
-        public bool IsTargetInRange() { return IsTargetInRange(target); }
+        public GameObject IsTargetInRange() { return FindTargetInRange(); }
 
         #endregion
 
@@ -191,17 +202,15 @@ namespace DS
             if (!character.canAttack) yield break;
             Debug.DrawRay(forwardPosition, transform.right, Color.blue);
 
-            if (FindTargetInRange(targetTag) is var hit && hit != null)
+            if (target.TryGetComponent<CharacterManager>(out var entity))
             {
-                if (hit.TryGetComponent<CharacterManager>(out var entity))
-                {
-                    currentDamage = baseDamage;
-                    entity.TakeDamage(currentDamage);
-                    yield return new WaitForSeconds(closeAttackTimer);
-                    character.isAttacking = false;
-                    yield break;
-                }
+                currentDamage = baseDamage;
+                entity.TakeDamage(currentDamage);
+                yield return new WaitForSeconds(closeAttackTimer);
+                character.isAttacking = false;
+                yield break;
             }
+
 
             character.isAttacking = false;
             yield break;
@@ -214,8 +223,6 @@ namespace DS
             if (character.isAttacking) yield break;
             if (!character.canAttack) yield break;
             var direction = target.transform.position - new Vector3(transform.position.x, transform.position.y);
-
-            if (FindTargetInRange(targetTag) == null) { yield break; }
 
             // Create Projectile
             character.isAttacking = true;

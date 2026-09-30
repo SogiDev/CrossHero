@@ -17,6 +17,9 @@ namespace DS
 
         protected override void Update()
         {
+            base.Update();
+
+            /*
             if (target == null)
             {
                 foreach (var ship in FindObjectsByType<SpaceShipManager>())
@@ -24,13 +27,13 @@ namespace DS
                     if (ship.gameObject == null) { return; }
                     if (IsTargetInRange(ship.gameObject))
                     {
-                        
                         target = ship.gameObject;
                     }
                 }
             }
 
             if (target != null) { AttackTarget(); }
+            */
         }
 
         public void SetTurret(TurretData turretData)

@@ -52,12 +52,17 @@ namespace DS
             
             infiniteHealth = PlayerPrefs.GetInt("Infinite Health", 0) == 0 ? false : true;
             if (infiniteHealth) { health = maxHealth;}
+
+            if (health <= 0 && !WorldManager.Instance.completeGame)
+            {
+                WorldManager.Instance.CompleteGame();
+            }
+
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            WorldManager.Instance.CompleteGame();
         }
 
         internal void Interact()

@@ -25,7 +25,7 @@ namespace DS
             }
             else
             {
-                FindTargetInRange("Turret");
+                FindTargetInRange();
             }
 
             if (target != null)

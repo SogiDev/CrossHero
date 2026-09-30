@@ -20,10 +20,6 @@ namespace DS
         public int roundCount = 0;
         public float roundScale = 1;
         public int entityCount = 1;
-        public GameData.RoundData currentRoundData;
-
-        [Header("Entities")]
-        private GameObject[] spawnedEntities;
 
         private void Awake()
         {
@@ -42,7 +38,6 @@ namespace DS
 
         private void Start()
         {
-            currentRoundData = worldManager.playerData.currentRound;
             autoStart = PlayerPrefs.GetInt("Auto Start", 0) == 0 ? false : true;
             roundScale = PlayerPrefs.GetFloat("Wave Scale", 1);
             roundCount = 0;
@@ -50,7 +45,8 @@ namespace DS
 
         private void Update()
         {
-            if (isRoundActive && CheckForEntities() <= 0)
+            
+            if (canStart && isRoundActive && CheckForEntities() <= 0)
             {
                 isRoundActive = false;
             }
@@ -61,14 +57,7 @@ namespace DS
 
         private int CheckForEntities()
         {
-            // Number Of Entities Left to Spawn
-            int entities = 0;
-            foreach (var spawn in spawners)
-            {
-                entities += spawn.spawnedEntities.Length;
-            }
-
-            return entities;
+            return FindObjectsByType<SpaceShipManager>().Length;
         }
 
         public IEnumerator StartRound()
@@ -81,7 +70,7 @@ namespace DS
             roundCount++;
             entityCount = Random.Range(5, 10) * roundCount;
 
-            currentRoundData.wave = roundCount;
+            worldManager.playerData.currentRound.wave = roundCount;
             yield return new WaitForSeconds(roundTimer);
             canStart = true;
         }

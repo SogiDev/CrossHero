@@ -1,12 +1,13 @@
+using NUnit.Framework.Internal;
 using UnityEngine;
 
 namespace DS
 {
+
     public class SpaceShipLocomotionManager : CharacterLocomotionManager
     {
         private SpaceShipCombatManager combatManager;
         private Ray2D forwardRay;
-        [SerializeField] private float slowDownRange = 20;
         public float searchRadius = 10.0f;
         public Vector2 moveDirection = new (1, 0);
 
@@ -22,41 +23,18 @@ namespace DS
             rigidBody.gravityScale = 0;
             
             combatManager = GetComponent<SpaceShipCombatManager>();
-            //searchRadius = combatManager.GetSearchRadius();
-        }
+            GetComponent<SpriteRenderer>().flipX = moveDirection.x < 0;
 
-        // Update is called once per frame
-        protected override void Update()
-        {
-            forwardRay.origin = transform.position + transform.right;
-            forwardRay.direction = transform.position + transform.right * 10.0f;
+            searchRadius = combatManager.GetSearchRadius();
+
         }
 
         internal override void HandleMovement()
         {
             moveAmount = moveDirection;
-            moveAmount *=
-                (Physics2D.OverlapCircle(transform.position, searchRadius, LayerMask.GetMask("Entity")) is var hit && hit.gameObject.CompareTag("Turret")) ? 0.5f
-                : combatManager.IsTargetInRange("Crystal") ? 0.01f
-                : 1.0f;
 
-            /*
-            if (Physics2D.OverlapCircle(transform.position, searchRadius, LayerMask.GetMask("Entity")) is var hit)
-            {
-                if (hit == null) { return; }
-                if (hit.gameObject == null) { return; }
+            moveAmount *= AdjustToEntity();
 
-                moveAmount.x = hit.gameObject.CompareTag("Turret") ? 0.5f : 1.0f;
-            }
-            if (combatManager.IsTargetInRange("Crystal"))
-            {
-                moveAmount.x *= 0.01f;
-            }
-            else
-            {
-                moveAmount.x *= 1.0f;
-            }
-            */
             character.currentSpeed = character.isSprinting ? character.BaseSpeed * 1.5f :
                 character.isCrouching ? character.BaseSpeed * 0.5f :
                 character.BaseSpeed;
@@ -65,6 +43,22 @@ namespace DS
             rigidBody.linearVelocityY = 0;
         }
 
+        private float AdjustToEntity()
+        {
+            if (Physics2D.OverlapCircle(transform.position, searchRadius, LayerMask.GetMask("Entity")) is var hit)
+            {
+                if (hit.gameObject.TryGetComponent<Crystal>(out var crystal))
+                {
+                    return 0.01f;
+                }
+                else if (hit.gameObject.CompareTag("Turret"))
+                {
+                    return 0.5f;
+                }
+            }
+
+            return 1.0f;
+        }
 
         private void OnDrawGizmosSelected()
         {

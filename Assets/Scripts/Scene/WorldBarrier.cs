@@ -39,7 +39,7 @@ namespace DS {
             if (collision.collider.gameObject.CompareTag("Player"))
             {
                 var playerManager = player.gameObject.GetComponent<PlayerManager>();
-                playerManager.TakeDamage(5.0f);
+                playerManager.TakeDamage(damage);
                 player.position = spawner;
             }
         }
@@ -48,7 +48,7 @@ namespace DS {
             if (collider.gameObject.CompareTag("Player"))
             {
                 var playerManager = player.gameObject.GetComponent<PlayerManager>();
-                playerManager.TakeDamage(5.0f);
+                playerManager.TakeDamage(damage);
                 player.position = spawner;
             }
         }
@@ -56,7 +56,7 @@ namespace DS {
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.wheat;
-            Gizmos.DrawSphere(spawner, spawnerSize);
+            Gizmos.DrawWireSphere(spawner, spawnerSize);
         }
     }
 }
