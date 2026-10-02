@@ -38,6 +38,10 @@ namespace DS
             defaultScore = PlayerPrefs.GetInt("Default Score", 1000);
             waveScale = PlayerPrefs.GetFloat("Wave Scale", 1);
 
+            if (PlayerUI.Instance.eventSystem)
+            {
+                PlayerUI.Instance.eventSystem.SetSelectedGameObject(prevButton.gameObject);
+            }
             EnableAudioUI();
             EnableGameUI();
 

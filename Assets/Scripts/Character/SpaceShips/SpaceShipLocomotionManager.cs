@@ -1,4 +1,3 @@
-using NUnit.Framework.Internal;
 using UnityEngine;
 
 namespace DS
@@ -6,6 +5,7 @@ namespace DS
 
     public class SpaceShipLocomotionManager : CharacterLocomotionManager
     {
+        private SpaceShipManager manager;
         private SpaceShipCombatManager combatManager;
         private Ray2D forwardRay;
         public float searchRadius = 10.0f;
@@ -23,6 +23,7 @@ namespace DS
             rigidBody.gravityScale = 0;
             
             combatManager = GetComponent<SpaceShipCombatManager>();
+            manager = GetComponent<SpaceShipManager>();
             GetComponent<SpriteRenderer>().flipX = moveDirection.x < 0;
 
             searchRadius = combatManager.GetSearchRadius();
@@ -45,13 +46,16 @@ namespace DS
 
         private float AdjustToEntity()
         {
-            if (Physics2D.OverlapCircle(transform.position, searchRadius, LayerMask.GetMask("Entity")) is var hit)
+            if (combatManager.FindTargetInRange())
+
+
+            if (combatManager.FindTargetInRange() is var target)
             {
-                if (hit.gameObject.TryGetComponent<Crystal>(out var crystal))
+                if (target.TryGetComponent<Crystal>(out var crystal))
                 {
                     return 0.01f;
                 }
-                else if (hit.gameObject.CompareTag("Turret"))
+                else if (target.CompareTag("Turret"))
                 {
                     return 0.5f;
                 }

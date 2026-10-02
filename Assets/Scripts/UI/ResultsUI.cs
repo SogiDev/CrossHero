@@ -7,17 +7,22 @@ namespace DS {
 
         private GameData playerData;
         [SerializeField] private TMP_Text scoreText, waveText, turretText;
+        public GameObject homeButton;
 
 
         private void Start()
         {
             playerData = WorldManager.Instance.playerData;
         }
-        private void FixedUpdate()
+
+        private void OnEnable()
         {
             scoreText.text = "Total Score: " + playerData.currentRound.score.ToString();
             waveText.text = "Waves Survived: " + playerData.currentRound.wave.ToString();
             turretText.text = "Turrets Placed: " + playerData.currentRound.turretsPlaced.ToString();
+
+            PlayerUI.Instance.eventSystem.SetSelectedGameObject(homeButton);
+
         }
     }
 }

@@ -50,6 +50,7 @@ namespace DS
             if (RoundManager.Instance != null)
             {
                 roundButton.gameObject.SetActive(!RoundManager.Instance.isRoundActive);
+                PlayerUI.Instance.eventSystem.SetSelectedGameObject(roundButton.gameObject);
             }
         }
     }

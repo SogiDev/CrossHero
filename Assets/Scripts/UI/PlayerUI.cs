@@ -7,6 +7,8 @@ namespace DS
     {
 
         public static PlayerUI Instance;
+        public UnityEngine.EventSystems.EventSystem eventSystem;
+
 
         [SerializeField] internal RoundUI roundUI;
         [SerializeField] internal StoreUI storeUI;
@@ -30,6 +32,8 @@ namespace DS
             if (storeUI == null) storeUI = GetComponentInChildren<StoreUI>();
             if (turretUI == null) turretUI = GetComponentInChildren<TurretUI>();
             if (resultsUI == null) resultsUI = GetComponentInChildren<ResultsUI>();
+            if (eventSystem == null) eventSystem = GetComponentInChildren<UnityEngine.EventSystems.EventSystem>();
+
         }
 
 
@@ -41,6 +45,9 @@ namespace DS
             returnButton.onClick.AddListener(Home);
             restartButton.onClick.AddListener(Restart);
             restartButton.onClick.AddListener(() => WorldManager.Instance.StartGame());
+
+            eventSystem.SetSelectedGameObject(settingsButton.gameObject);
+
         }
 
         private void OnDisable()

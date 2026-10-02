@@ -11,6 +11,8 @@ namespace DS
         protected SpaceShipLocomotionManager spaceShipLocomotionManager;
         protected SpaceShipCombatManager spaceShipCombatManager;
 
+        public GameObject crystalTarget { get; private set; }
+
         protected override void Awake()
         {
             base.Awake();
@@ -23,6 +25,7 @@ namespace DS
         {
             base.Start();
             characterAnimationManager.animator.enabled = false;
+            crystalTarget = FindAnyObjectByType<Crystal>().gameObject;
         }
 
         protected override void FixedUpdate()

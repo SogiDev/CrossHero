@@ -1961,7 +1961,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
+  m_fontSize: 23.5
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2381,7 +2381,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 21.65
+  m_fontSize: 18
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2518,7 +2518,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RouindUI
   roundButton: {fileID: 8792222188456758575}
-  spawner: {fileID: 0}
+  spawner:
+  - {fileID: 0}
   waveCounter: {fileID: 8960296288308784617}
   scoreCounter: {fileID: 8441925461367384714}
   turretCounter: {fileID: 1582324621775214085}
@@ -3069,7 +3070,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30.5
+  m_fontSize: 23.5
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3371,7 +3372,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24.1
+  m_fontSize: 18
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3539,6 +3540,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 511475e3f7166434c898de8d69bc2e6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerUI
+  eventSystem: {fileID: 6203411592529011571}
   roundUI: {fileID: 3948054018495390564}
   storeUI: {fileID: 5798783114704117550}
   turretUI: {fileID: 6800778573928569500}
@@ -6457,6 +6459,7 @@ MonoBehaviour:
   scoreText: {fileID: 2323037451090254850}
   waveText: {fileID: 8196117034807097473}
   turretText: {fileID: 593861047470259825}
+  homeButton: {fileID: 7312529246732763615}
 --- !u!1001 &2631545997521521700
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -60,7 +60,7 @@ namespace DS
 
         protected virtual void Start()
         {
-
+            
         }
 
         protected virtual void Update()
@@ -71,10 +71,9 @@ namespace DS
 
             if  (target == null)
             {
-                if (FindTargetInRange() is var tg)
+                if (FindTargetInRange() is var tg && tg != null)
                 {
-                    if (tg == null) return;
-                    if (IsTargetInRange(tg))
+                    if (FindTargetInRange(tg))
                     {
                         target = tg;
                     }
@@ -112,23 +111,18 @@ namespace DS
 
         public float GetSearchRadius()
         {
-            switch (attackType)
+            return attackType switch
             {
-                case AttackType.CLOSE:
-                    return closeAttackRange;
-                case AttackType.PROJECTILE:
-                    return projectileAttackRange;
-                case AttackType.LASER:
-                    return projectileAttackRange;
-                default:
-                    return supportRange;
-            }
-
+                AttackType.CLOSE => closeAttackRange,
+                AttackType.PROJECTILE => projectileAttackRange,
+                AttackType.LASER => projectileAttackRange,
+                _ => supportRange,
+            };
         }
         // Search For Target In Range
-        protected virtual GameObject FindTargetInRange()
+        internal virtual GameObject FindTargetInRange()
         {
-            if (IsTargetInRange(target)) { return target; } ;
+            if (FindTargetInRange(target)) { return target; } ;
 
             if (Physics2D.OverlapCircle(transform.position, GetSearchRadius(), targetMask) is var hit)
             {
@@ -139,16 +133,18 @@ namespace DS
                 if (targetTag != null && !hit.gameObject.CompareTag(targetTag)) { return null; }
                 
                 target = hit.gameObject;
-                return target;
+                return hit.gameObject;
 
             }
 
             target = null;
             return null;
-        } 
+        }
 
-        protected bool IsTargetInRange(GameObject currentTarget = null, float additive = 0)
+        internal virtual bool FindTargetInRange(GameObject currentTarget, float additive = 0)
         {
+            if (currentTarget == null) { return false; }
+
             if (currentTarget != null)
             {
                 // Check if Target is In distance
@@ -157,16 +153,8 @@ namespace DS
 
                 return length <= GetSearchRadius() + additive;
             }
-            else if (target != null)
-            {
-                // Check if Target is In distance
-                var distance = transform.position - target.transform.position;
-                var length = distance.magnitude;
 
-                return length <= GetSearchRadius() + additive;
-            }
             return false;
-
         }
 
         public GameObject IsTargetInRange() { return FindTargetInRange(); }
@@ -175,19 +163,19 @@ namespace DS
 
         #region Attacks
 
-        protected void AttackTarget(string targetTag = null)
+        protected void AttackTarget()
         {
 
             switch (attackType)
             {
                 case AttackType.CLOSE:
-                    StartCoroutine(CloseAttack(targetTag));
+                    StartCoroutine(CloseAttack());
                     break;
                 case AttackType.LASER:
-                    StartCoroutine(LaserAttack(targetTag));
+                    StartCoroutine(LaserAttack());
                     break;
                 case AttackType.PROJECTILE:
-                    StartCoroutine(ProjectileAttack(targetTag));
+                    StartCoroutine(ProjectileAttack());
                     break;
                 case AttackType.SUPPORT:
                     StartCoroutine(Support());
@@ -196,7 +184,7 @@ namespace DS
         }
 
         // Close Combat Attack
-        internal virtual IEnumerator CloseAttack(string targetTag = null)
+        internal virtual IEnumerator CloseAttack()
         {
             if (character.isAttacking) yield break;
             if (!character.canAttack) yield break;
@@ -218,7 +206,7 @@ namespace DS
         }
 
         // Projectile Attack
-        internal virtual IEnumerator ProjectileAttack(string targetTag = null)
+        internal virtual IEnumerator ProjectileAttack()
         {
             if (character.isAttacking) yield break;
             if (!character.canAttack) yield break;
@@ -236,7 +224,7 @@ namespace DS
             // RigidBody Add Force
             if (clone.TryGetComponent<Rigidbody2D>(out var rigidbody))
             {
-                rigidbody.AddForce((direction + transform.right) * projectileSpeed, ForceMode2D.Impulse);
+                rigidbody.AddForce((direction) * projectileSpeed, ForceMode2D.Impulse);
             }
 
             if (clone.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
@@ -258,7 +246,7 @@ namespace DS
         }
 
         [SerializeField] private float laserDamageOffset = 0.5f;
-        internal virtual IEnumerator LaserAttack(string targetTag = null)
+        internal virtual IEnumerator LaserAttack()
         {
             if (character.isAttacking) yield break;
             if (!character.canAttack) yield break;
@@ -268,7 +256,7 @@ namespace DS
                 yield break;
             }
 
-            if (IsTargetInRange(target))
+            if (FindTargetInRange(target))
             {
                 // Enermy Information
                 currentDamage = baseDamage * laserDamageOffset;

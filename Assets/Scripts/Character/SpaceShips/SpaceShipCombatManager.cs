@@ -4,34 +4,37 @@ namespace DS
 {
     public class SpaceShipCombatManager : CharacterCombatManager
     {
-        private Crystal crystal;
+        private SpaceShipManager manager;
         protected override void Awake()
         {
-            character = GetComponent<SpaceShipManager>();
-            spriteRenderer = GetComponent<SpriteRenderer>();
+            manager = GetComponent<SpaceShipManager>();
+            base.Awake();
         }
 
         protected override void Start()
         {
             base.Start();
-            crystal = FindAnyObjectByType<Crystal>();
         }
         protected override void Update()
         {
-
-            if (crystal != null && IsTargetInRange(crystal.gameObject))
+            if (target == null)
             {
-                target = crystal.gameObject;
-            }
-            else
-            {
-                FindTargetInRange();
+                if (manager.crystalTarget != null && FindTargetInRange(manager.crystalTarget))
+                {
+                    target = manager.crystalTarget;
+                }
+                else
+                {
+                    FindTargetInRange();
+                }
+                return;
             }
 
             if (target != null)
             {
                 targetPosition = target.transform.position;
                 AttackTarget();
+                return;
             }
         }
     }

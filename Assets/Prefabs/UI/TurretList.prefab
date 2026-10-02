@@ -254,7 +254,7 @@ MonoBehaviour:
   contentArea: {fileID: 7645685917588901747}
   display: {fileID: 0}
   availableTurrets: []
-  scrollRect: {fileID: 0}
+  scrollRect: {fileID: 5298101472399757752}
   lockContextX: 0
   lockContextY: 1
   scrollSize: {x: 1, y: 1}
